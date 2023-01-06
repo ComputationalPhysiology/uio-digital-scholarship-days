@@ -3,11 +3,19 @@
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ComputationalPhysiology/uio-digital-scholarship-days/HEAD)
 
-## Run using Docker
+- Documentation: https://computationalphysiology.github.io/uio-digital-scholarship-days
 
-```
-docker pull ghcr.io/computationalphysiology/uio-digital-scholarship-days:v0.3.0
-```
+## Run notebooks with binder
+In this document you will see the *launch binder* badge ![Binder](https://mybinder.org/badge_logo.svg)
+If you click on this it will open the main repo in jupyterlab using Binder which will give you a notebook environment where you can run the notebooks in this repo.
+
+## Run notebooks directly from the documentation page
+If you visit the documentation at https://computationalphysiology.github.io/uio-digital-scholarship-days then you will see a rocket icon at the top of the page for the pages that contain an interactive notebook
+
+![_](figures/book-binder.png)
+
+Clicking on the binder icon will also launch the current notebook in Binder.
+
 
 ## Authors
 - Ilsbeth Gerarda Maria van Herck
