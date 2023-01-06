@@ -1,5 +1,5 @@
 gotran
 jupyter
+matplotlib
 numpy
 tqdm
-matplotlib

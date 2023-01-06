@@ -1,7 +1,7 @@
 # ORd modified by MMora (October-2016)
-# Modifications in INa. The original formulation of INa has been 
+# Modifications in INa. The original formulation of INa has been
 # optimised, according to Passini, in order to look like TT04.
-# Modifications: 
+# Modifications:
 #   1) mss,hss,jss and hssp
 #   2) gNa
 # +
@@ -20,7 +20,7 @@
 # mode="intact", isacs=0 and celltype = 0
 #
 parameters("Scales",
-scale_IKr = 1.119, 
+scale_IKr = 1.119,
 scale_IKs = 1.648,
 scale_IK1 = 1.414,
 scale_ICaL = 1.018,
@@ -33,9 +33,9 @@ parameters("mech",
 emcoupling=0,
 lmbda=1,
 dLambda=0,
-mode=1,  # 1 = "intact" and and 1 is "skinned" 
+mode=1,  # 1 = "intact" and and 1 is "skinned"
 isacs=0,
-calib=1)   
+calib=1)
 
 parameters("extracellular ionic concentrations",
 nao=140.0,
@@ -75,7 +75,7 @@ j=1,
 hsp=1,
 jp=1)
 
-states("INaL", 
+states("INaL",
 mL=0,
 hL=1,
 hLp=1)
@@ -160,25 +160,25 @@ Ahf=0.99,
 GNa=31)
 
 expressions("I_Na")
-mss=1.0/(1.0+exp((-(v+39.57+9.4))/7.5)) 
+mss=1.0/(1.0+exp((-(v+39.57+9.4))/7.5))
 tm=1.0/(6.765*exp((v+11.64)/34.77)+8.552*exp(-(v+77.42)/5.955))
-dm_dt=(mss-m)/tm  
-hss=1.0/(1+exp((v+78.5)/6.22))        
+dm_dt=(mss-m)/tm
+hss=1.0/(1+exp((v+78.5)/6.22))
 thf=1.0/(1.432e-5*exp(-(v+1.196)/6.285)+6.149*exp((v+0.5096)/20.27))
 ths=1.0/(0.009794*exp(-(v+17.95)/28.05)+0.3343*exp((v+5.730)/56.66))
 Ahs=1.0-Ahf
 dhf_dt=(hss-hf)/thf
 dhs_dt=(hss-hs)/ths
 h=Ahf*hf+Ahs*hs
-jss=hss                  
+jss=hss
 tj=2.038+1.0/(0.02136*exp(-(v+100.6)/8.281)+0.3052*exp((v+0.9941)/38.45))
-dj_dt=(jss-j)/tj     
-hssp=1.0/(1+exp((v+78.5+6.2)/6.22))    
+dj_dt=(jss-j)/tj
+hssp=1.0/(1+exp((v+78.5+6.2)/6.22))
 thsp=3.0*ths
 dhsp_dt=(hssp-hsp)/thsp
 hp=Ahf*hf+Ahs*hsp
 tjp=1.46*tj
-djp_dt=(jss-jp)/tjp                                                   
+djp_dt=(jss-jp)/tjp
 fINap=(1.0/(1.0+KmCaMK/CaMKa))
 INa=GNa*(v-ENa)*m**3.0*((1.0-fINap)*h*j+fINap*hp*jp)
 
@@ -481,7 +481,7 @@ IpCa=GpCa*cai/(0.0005+cai)
 
 
 parameters("Isac (Pueyo)--> ns + k",
-Gsac_ns=0.006, 
+Gsac_ns=0.006,
 Esac_ns=-10,
 lambda_max=1.1,
 Gsac_k=0.2882*800/210)
@@ -558,7 +558,7 @@ Bcajsr=1.0/(1.0+csqnmax*kmcsqn/(kmcsqn+cajsr)**2.0)
 dcajsr_dt=Bcajsr*(Jtr-Jrel)
 
 states("mechanics",
-XS=0,      
+XS=0,
 XW=0,
 CaTrpn=0,
 TmB=1,
@@ -578,4 +578,3 @@ dCd_dt=0
 Ttot=0
 Ta=0
 Tp=0
-

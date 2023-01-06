@@ -1,6 +1,11 @@
-from typing import Optional, Dict, NamedTuple
+from ctypes import c_char_p
+from ctypes import c_double
+from ctypes import c_int
+from typing import Dict
+from typing import NamedTuple
+from typing import Optional
+
 import numpy as np
-from ctypes import c_int, c_double, c_char_p
 
 
 class CModel:
@@ -56,10 +61,14 @@ class CModel:
         """
 
         float64_array = np.ctypeslib.ndpointer(
-            dtype=c_double, ndim=1, flags="contiguous"
+            dtype=c_double,
+            ndim=1,
+            flags="contiguous",
         )
         float64_array_2d = np.ctypeslib.ndpointer(
-            dtype=c_double, ndim=2, flags="contiguous"
+            dtype=c_double,
+            ndim=2,
+            flags="contiguous",
         )
 
         self.lib.init_state_values.restype = None  # void
@@ -127,7 +136,13 @@ class CModel:
         m = np.zeros(self.num_monitored, dtype=np.float64)
 
         self.lib.monitored_values(
-            monitored_values, states, parameter_values, u, m, t, t.size
+            monitored_values,
+            states,
+            parameter_values,
+            u,
+            m,
+            t,
+            t.size,
         )
         return monitored_values
 
@@ -139,7 +154,14 @@ class CModel:
         m = np.zeros(self.num_monitored, dtype=np.float64)
 
         self.lib.monitored_values_single(
-            monitored_values, states, parameter_values, u, m, t, t.size, index
+            monitored_values,
+            states,
+            parameter_values,
+            u,
+            m,
+            t,
+            t.size,
+            index,
         )
         return monitored_values
 
@@ -216,7 +238,9 @@ class CModel:
         return states
 
     def _get_parameter_values(
-        self, parameters: Optional[Dict[str, float]], verbose: bool = False
+        self,
+        parameters: Optional[Dict[str, float]],
+        verbose: bool = False,
     ) -> np.ndarray:
         parameter_values = self.initial_parameter_values()
         if parameters is not None:
@@ -229,7 +253,7 @@ class CModel:
                     if verbose:
                         print(
                             f"Update parameter {name} from "
-                            f"{old_value} to {new_value}"
+                            f"{old_value} to {new_value}",
                         )
         return parameter_values
 
@@ -276,7 +300,8 @@ class CModel:
             _description_
         """
         parameter_values = self._get_parameter_values(
-            parameters=parameters, verbose=verbose
+            parameters=parameters,
+            verbose=verbose,
         )
 
         if type(dt) is not float:
@@ -300,11 +325,21 @@ class CModel:
 
         if method == "FE":
             self.lib.ode_solve_forward_euler(
-                u0, parameter_values, u_values, t_values, num_steps, dt
+                u0,
+                parameter_values,
+                u_values,
+                t_values,
+                num_steps,
+                dt,
             )
         elif method == "GRL1":
             self.lib.ode_solve_rush_larsen(
-                u0, parameter_values, u_values, t_values, num_steps, dt
+                u0,
+                parameter_values,
+                u_values,
+                t_values,
+                num_steps,
+                dt,
             )
         else:
             raise ValueError(f"Invalid method {method}")

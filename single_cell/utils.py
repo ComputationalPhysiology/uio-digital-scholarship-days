@@ -1,17 +1,12 @@
 import re
-
-import sys
 import shutil
-
 import subprocess as sp
-from distutils import spawn
+import sys
 from pathlib import Path
 
-
 import numpy as np
-from gotran import load_ode
-
 from cmodel import CModel
+from gotran import load_ode
 
 HERE = Path(__file__).absolute().parent
 
@@ -22,7 +17,7 @@ MODEL_C_DIR = HERE.joinpath("c")
 def cpath(model):
     odefile = get_full_ode_path(model)
     return Path(re.sub(str(MODEL_ODE_DIR), str(MODEL_C_DIR), str(odefile))).with_suffix(
-        ".h"
+        ".h",
     )
 
 
@@ -104,15 +99,5 @@ def gotran2c(model):
             "--code.body.use_enum=1",
             "--output",
             str(cfile),
-        ]
+        ],
     )
-
-
-if __name__ == "__main__":
-    print(list_ode_models())
-    model_name = "tentusscher_panfilov_2006_M_cell"
-    print(get_full_ode_path(model_name))
-    model = load_model(model_name, rebuild=True)
-    breakpoint()
-    # gotran2c("tentusscher_panfilov_2006_M_cell")
-    # load_model("tentusscher_model_2004_M", rebuild=True)
