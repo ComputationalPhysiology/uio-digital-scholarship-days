@@ -1,5 +1,7 @@
 gotran
 jupyter
+jupyter-book
 matplotlib
 numpy
+simcardems
 tqdm
