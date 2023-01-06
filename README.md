@@ -6,7 +6,7 @@
 ## Run using Docker
 
 ```
-docker pull ghcr.io/computationalphysiology/uio-digital-scholarship-days:v0.2.0
+docker pull ghcr.io/computationalphysiology/uio-digital-scholarship-days:v0.3.0
 ```
 
 ## Authors
