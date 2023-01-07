@@ -1,4 +1,4 @@
-#include "ORdmm_Land_em_coupling.h"
+#include "tentusscher_panfilov_2006_M_cell.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>

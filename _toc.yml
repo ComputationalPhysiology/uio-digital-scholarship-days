@@ -4,9 +4,11 @@ root: README
 parts:
   - caption: Single Cell
     chapters:
+    - file: "single_cell/intro_single_cell"
     - file: "single_cell/noble"
     - file: "single_cell/ten_tusscher"
     - file: "single_cell/OHaraRudy_Land"
+    - file: "single_cell/drug_effect"
   - caption: Tissue
     chapters:
     - file: "tissue/intro"
