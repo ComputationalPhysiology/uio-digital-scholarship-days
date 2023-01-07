@@ -21,3 +21,11 @@ Clicking on the binder icon will also launch the current notebook in Binder.
 - Ilsbeth Gerarda Maria van Herck
 - Henrik Finsberg
 - Hermenegild Arevalo
+
+
+## License
+
+[![License: CC BY 4.0](https://licensebuttons.net/l/by/4.0/80x15.png)](https://creativecommons.org/licenses/by/4.0/)
+
+
+This repo is licensed using a CC-BY so you are free to use, remix, and share so long attribution is provided to the original author.
