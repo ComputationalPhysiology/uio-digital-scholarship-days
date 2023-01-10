@@ -16,6 +16,28 @@ If you visit the documentation at https://computationalphysiology.github.io/uio-
 
 Clicking on the binder icon will also launch the current notebook in Binder.
 
+## Running the notebooks locally
+To run the notebooks locally you need to have python version 3.8 or newer installed. You also need a working C compiler. Next, you can create a virtual environment
+```
+python3 -m venv venv
+```
+and activate it. On Linux/Mac you can activate the environment as follows
+```
+. venv/bin/activate
+```
+and on Windows, you can use the following command
+```
+. venv\Scripts\activate
+```
+Now you can install the requirements using the command
+```
+python3 -m pip install -r requirements.txt
+```
+Now you should be able to run the jupyter notebooks locally by starting jupyter
+```
+jupyter notebook
+```
+
 
 ## Authors
 - Ilsbeth Gerarda Maria van Herck
