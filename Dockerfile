@@ -1,5 +1,5 @@
 # Use github pages for docker image
-FROM ghcr.io/computationalphysiology/uio-digital-scholarship-days:v0.3.0
+FROM ghcr.io/computationalphysiology/uio-digital-scholarship-days:v0.4.0
 
 # Create user with a home directory
 ARG NB_USER=jovyan
