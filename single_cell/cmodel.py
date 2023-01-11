@@ -149,6 +149,20 @@ class CModel:
             c_int,  # index
         ]
 
+        advance_functions = [
+            self.lib.forward_explicit_euler,
+            self.lib.forward_rush_larsen,
+        ]
+
+        for func in advance_functions:
+            func.restype = None  # void
+            func.argtypes = [
+                float64_array,  # u
+                c_double,  # t
+                c_double,  # dt
+                float64_array,  # parameters
+            ]
+
         solve_functions = [
             self.lib.ode_solve_forward_euler,
             self.lib.ode_solve_rush_larsen,
@@ -164,6 +178,24 @@ class CModel:
                 c_int,  # num_timesteps
                 c_double,  # dt
             ]
+
+    def advance_ODEs(
+        self,
+        states: np.ndarray,
+        t: float,
+        dt: float,
+        parameters: np.ndarray,
+        scheme="GRL1",
+    ) -> np.ndarray:
+        u = states.copy()
+        if scheme == "GRL1":
+            self.lib.forward_rush_larsen(u, t, dt, parameters)
+        elif scheme == "FE":
+            self.lib.forward_explicit_euler(u, t, dt, parameters)
+        else:
+            raise ValueError(f"Unknown scheme {scheme}")
+
+        return u
 
     def monitor_single(
         self,

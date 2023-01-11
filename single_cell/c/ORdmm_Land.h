@@ -1,6 +1,6 @@
 #include <math.h>
 #include <string.h>
-// Gotran generated C/C++ code for the "ORdmm_Land_em_coupling" model
+// Gotran generated C/C++ code for the "ORdmm_Land" model
 
 enum state {
   STATE_CaMKt,
@@ -69,6 +69,30 @@ enum parameter {
   PARAM_T,
   PARAM_L,
   PARAM_rad,
+  PARAM_scale_HF_CaMKa,
+  PARAM_scale_HF_GK1,
+  PARAM_scale_HF_GNaL,
+  PARAM_scale_HF_Gncx,
+  PARAM_scale_HF_Gto,
+  PARAM_scale_HF_Jleak,
+  PARAM_scale_HF_Jrel_inf,
+  PARAM_scale_HF_Jup,
+  PARAM_scale_HF_Pnak,
+  PARAM_scale_HF_cat50_ref,
+  PARAM_scale_HF_thL,
+  PARAM_scale_drug_ICaL,
+  PARAM_scale_drug_ICab,
+  PARAM_scale_drug_IK1,
+  PARAM_scale_drug_IKb,
+  PARAM_scale_drug_IKr,
+  PARAM_scale_drug_IKs,
+  PARAM_scale_drug_INa,
+  PARAM_scale_drug_INaL,
+  PARAM_scale_drug_INab,
+  PARAM_scale_drug_IpCa,
+  PARAM_scale_drug_Isack,
+  PARAM_scale_drug_Isacns,
+  PARAM_scale_drug_Ito,
   PARAM_Ahf,
   PARAM_GNa,
   PARAM_thL,
@@ -556,6 +580,30 @@ void init_parameters_values(double* parameters)
   parameters[PARAM_T] = 310.0;
   parameters[PARAM_L] = 0.01;
   parameters[PARAM_rad] = 0.0011;
+  parameters[PARAM_scale_HF_CaMKa] = 1.0;
+  parameters[PARAM_scale_HF_GK1] = 1.0;
+  parameters[PARAM_scale_HF_GNaL] = 1.0;
+  parameters[PARAM_scale_HF_Gncx] = 1.0;
+  parameters[PARAM_scale_HF_Gto] = 1.0;
+  parameters[PARAM_scale_HF_Jleak] = 1.0;
+  parameters[PARAM_scale_HF_Jrel_inf] = 1.0;
+  parameters[PARAM_scale_HF_Jup] = 1.0;
+  parameters[PARAM_scale_HF_Pnak] = 1.0;
+  parameters[PARAM_scale_HF_cat50_ref] = 1.0;
+  parameters[PARAM_scale_HF_thL] = 1.0;
+  parameters[PARAM_scale_drug_ICaL] = 1.0;
+  parameters[PARAM_scale_drug_ICab] = 1.0;
+  parameters[PARAM_scale_drug_IK1] = 1.0;
+  parameters[PARAM_scale_drug_IKb] = 1.0;
+  parameters[PARAM_scale_drug_IKr] = 1.0;
+  parameters[PARAM_scale_drug_IKs] = 1.0;
+  parameters[PARAM_scale_drug_INa] = 1.0;
+  parameters[PARAM_scale_drug_INaL] = 1.0;
+  parameters[PARAM_scale_drug_INab] = 1.0;
+  parameters[PARAM_scale_drug_IpCa] = 1.0;
+  parameters[PARAM_scale_drug_Isack] = 1.0;
+  parameters[PARAM_scale_drug_Isacns] = 1.0;
+  parameters[PARAM_scale_drug_Ito] = 1.0;
   parameters[PARAM_Ahf] = 0.99;
   parameters[PARAM_GNa] = 31.0;
   parameters[PARAM_thL] = 200.0;
@@ -915,6 +963,102 @@ int parameter_index(const char name[])
   else if (strcmp(name, "rad")==0)
   {
     return PARAM_rad;
+  }
+  else if (strcmp(name, "scale_HF_CaMKa")==0)
+  {
+    return PARAM_scale_HF_CaMKa;
+  }
+  else if (strcmp(name, "scale_HF_GK1")==0)
+  {
+    return PARAM_scale_HF_GK1;
+  }
+  else if (strcmp(name, "scale_HF_GNaL")==0)
+  {
+    return PARAM_scale_HF_GNaL;
+  }
+  else if (strcmp(name, "scale_HF_Gncx")==0)
+  {
+    return PARAM_scale_HF_Gncx;
+  }
+  else if (strcmp(name, "scale_HF_Gto")==0)
+  {
+    return PARAM_scale_HF_Gto;
+  }
+  else if (strcmp(name, "scale_HF_Jleak")==0)
+  {
+    return PARAM_scale_HF_Jleak;
+  }
+  else if (strcmp(name, "scale_HF_Jrel_inf")==0)
+  {
+    return PARAM_scale_HF_Jrel_inf;
+  }
+  else if (strcmp(name, "scale_HF_Jup")==0)
+  {
+    return PARAM_scale_HF_Jup;
+  }
+  else if (strcmp(name, "scale_HF_Pnak")==0)
+  {
+    return PARAM_scale_HF_Pnak;
+  }
+  else if (strcmp(name, "scale_HF_cat50_ref")==0)
+  {
+    return PARAM_scale_HF_cat50_ref;
+  }
+  else if (strcmp(name, "scale_HF_thL")==0)
+  {
+    return PARAM_scale_HF_thL;
+  }
+  else if (strcmp(name, "scale_drug_ICaL")==0)
+  {
+    return PARAM_scale_drug_ICaL;
+  }
+  else if (strcmp(name, "scale_drug_ICab")==0)
+  {
+    return PARAM_scale_drug_ICab;
+  }
+  else if (strcmp(name, "scale_drug_IK1")==0)
+  {
+    return PARAM_scale_drug_IK1;
+  }
+  else if (strcmp(name, "scale_drug_IKb")==0)
+  {
+    return PARAM_scale_drug_IKb;
+  }
+  else if (strcmp(name, "scale_drug_IKr")==0)
+  {
+    return PARAM_scale_drug_IKr;
+  }
+  else if (strcmp(name, "scale_drug_IKs")==0)
+  {
+    return PARAM_scale_drug_IKs;
+  }
+  else if (strcmp(name, "scale_drug_INa")==0)
+  {
+    return PARAM_scale_drug_INa;
+  }
+  else if (strcmp(name, "scale_drug_INaL")==0)
+  {
+    return PARAM_scale_drug_INaL;
+  }
+  else if (strcmp(name, "scale_drug_INab")==0)
+  {
+    return PARAM_scale_drug_INab;
+  }
+  else if (strcmp(name, "scale_drug_IpCa")==0)
+  {
+    return PARAM_scale_drug_IpCa;
+  }
+  else if (strcmp(name, "scale_drug_Isack")==0)
+  {
+    return PARAM_scale_drug_Isack;
+  }
+  else if (strcmp(name, "scale_drug_Isacns")==0)
+  {
+    return PARAM_scale_drug_Isacns;
+  }
+  else if (strcmp(name, "scale_drug_Ito")==0)
+  {
+    return PARAM_scale_drug_Ito;
   }
   else if (strcmp(name, "Ahf")==0)
   {
@@ -2564,7 +2708,7 @@ int monitored_index(const char name[])
   return -1;
 }
 
-// Compute the right hand side of the ORdmm_Land_em_coupling ODE
+// Compute the right hand side of the ORdmm_Land ODE
 void rhs(const double *__restrict states, const double t, const double
   *__restrict parameters, double* values)
 {
@@ -2633,6 +2777,28 @@ void rhs(const double *__restrict states, const double t, const double
   const double T = parameters[PARAM_T];
   const double L = parameters[PARAM_L];
   const double rad = parameters[PARAM_rad];
+  const double scale_HF_CaMKa = parameters[PARAM_scale_HF_CaMKa];
+  const double scale_HF_GK1 = parameters[PARAM_scale_HF_GK1];
+  const double scale_HF_GNaL = parameters[PARAM_scale_HF_GNaL];
+  const double scale_HF_Gncx = parameters[PARAM_scale_HF_Gncx];
+  const double scale_HF_Gto = parameters[PARAM_scale_HF_Gto];
+  const double scale_HF_Jleak = parameters[PARAM_scale_HF_Jleak];
+  const double scale_HF_Jrel_inf = parameters[PARAM_scale_HF_Jrel_inf];
+  const double scale_HF_Jup = parameters[PARAM_scale_HF_Jup];
+  const double scale_HF_Pnak = parameters[PARAM_scale_HF_Pnak];
+  const double scale_HF_cat50_ref = parameters[PARAM_scale_HF_cat50_ref];
+  const double scale_HF_thL = parameters[PARAM_scale_HF_thL];
+  const double scale_drug_ICaL = parameters[PARAM_scale_drug_ICaL];
+  const double scale_drug_ICab = parameters[PARAM_scale_drug_ICab];
+  const double scale_drug_IK1 = parameters[PARAM_scale_drug_IK1];
+  const double scale_drug_IKb = parameters[PARAM_scale_drug_IKb];
+  const double scale_drug_IKr = parameters[PARAM_scale_drug_IKr];
+  const double scale_drug_IKs = parameters[PARAM_scale_drug_IKs];
+  const double scale_drug_INa = parameters[PARAM_scale_drug_INa];
+  const double scale_drug_INaL = parameters[PARAM_scale_drug_INaL];
+  const double scale_drug_INab = parameters[PARAM_scale_drug_INab];
+  const double scale_drug_IpCa = parameters[PARAM_scale_drug_IpCa];
+  const double scale_drug_Ito = parameters[PARAM_scale_drug_Ito];
   const double Ahf = parameters[PARAM_Ahf];
   const double GNa = parameters[PARAM_GNa];
   const double thL = parameters[PARAM_thL];
@@ -2733,7 +2899,7 @@ void rhs(const double *__restrict states, const double t, const double
 
   // Expressions for the CaMKt component
   const double CaMKb = CaMKo*(1.0 - CaMKt)/(1.0 + KmCaM/cass);
-  const double CaMKa = CaMKb + CaMKt;
+  const double CaMKa = scale_HF_CaMKa*(CaMKb + CaMKt);
   values[STATE_CaMKt] = -bCaMK*CaMKt + aCaMK*(CaMKb + CaMKt)*CaMKb;
 
   // Expressions for the reversal potentials component
@@ -2768,8 +2934,8 @@ void rhs(const double *__restrict states, const double t, const double
   const double tjp = 1.46*tj;
   values[STATE_jp] = (-jp + jss)/tjp;
   const double fINap = 1.0/(1.0 + KmCaMK/CaMKa);
-  const double INa = GNa*pow(m, 3.0)*(-ENa + v)*((1.0 - fINap)*h*j +
-    fINap*hp*jp);
+  const double INa = GNa*scale_drug_INa*pow(m, 3.0)*(-ENa + v)*((1.0 -
+    fINap)*h*j + fINap*hp*jp);
 
   // Expressions for the INaL component
   const double mLss = 1.0/(1.0 +
@@ -2777,11 +2943,11 @@ void rhs(const double *__restrict states, const double t, const double
   const double tmL = tm;
   values[STATE_mL] = (-mL + mLss)/tmL;
   const double hLss = 1.0/(1.0 + 120578.155955224*exp(0.133547008547009*v));
-  values[STATE_hL] = (-hL + hLss)/thL;
+  values[STATE_hL] = (-hL + hLss)/(scale_HF_thL*thL);
   const double hLssp = 1.0/(1.0 + 275969.290386987*exp(0.133547008547009*v));
-  const double thLp = 3.0*thL;
+  const double thLp = 3.0*scale_HF_thL*thL;
   values[STATE_hLp] = (-hLp + hLssp)/thLp;
-  const double GNaL = 0.0075*scale_INaL;
+  const double GNaL = 0.0075*scale_HF_GNaL*scale_INaL*scale_drug_INaL;
   const double fINaLp = 1.0/(1.0 + KmCaMK/CaMKa);
   const double INaL = (-ENa + v)*((1.0 - fINaLp)*hL + fINaLp*hLp)*GNaL*mL;
 
@@ -2814,7 +2980,8 @@ void rhs(const double *__restrict states, const double t, const double
   values[STATE_iSp] = (-iSp + iss)/tiSp;
   const double ip = AiF*iFp + AiS*iSp;
   const double fItop = 1.0/(1.0 + KmCaMK/CaMKa);
-  const double Ito = Gto*(-EK + v)*((1.0 - fItop)*a*i + ap*fItop*ip);
+  const double Ito = Gto*scale_HF_Gto*scale_drug_Ito*(-EK + v)*((1.0 -
+    fItop)*a*i + ap*fItop*ip);
 
   // Expressions for the ICaL ICaNa ICaK component
   const double dss = 1.0/(1.0 + 0.393985142266695*exp(-0.236406619385343*v));
@@ -2857,7 +3024,7 @@ void rhs(const double *__restrict states, const double t, const double
     0.75*exp(1.0*vfrt)*nass)*vffrt/(-1.0 + exp(1.0*vfrt));
   const double PhiCaK = 1.0*(-0.75*ko + 0.75*exp(1.0*vfrt)*kss)*vffrt/(-1.0 +
     exp(1.0*vfrt));
-  const double PCa = 0.0001*scale_ICaL;
+  const double PCa = 0.0001*scale_ICaL*scale_drug_ICaL;
   const double PCap = 1.1*PCa;
   const double PCaNa = 0.00125*PCa;
   const double PCaK = 0.0003574*PCa;
@@ -2890,7 +3057,7 @@ void rhs(const double *__restrict states, const double t, const double
   const double rkr = 1.0/((1.0 +
     2.08200908407846*exp(0.0133333333333333*v))*(1.0 +
     0.716531310573789*exp(0.0333333333333333*v)));
-  const double GKr = 0.046*scale_IKr;
+  const double GKr = 0.046*scale_IKr*scale_drug_IKr;
   const double IKr = 0.430331482911935*sqrt(ko)*(-EK + v)*GKr*rkr*xr;
 
   // Expressions for the IKs component
@@ -2904,7 +3071,7 @@ void rhs(const double *__restrict states, const double t, const double
     0.000820849986238988*exp(0.05*v));
   values[STATE_xs2] = (-xs2 + xs2ss)/txs2;
   const double KsCa = 1.0 + 0.6/(1.0 + 6.48182102606265e-7*pow(1.0/cai, 1.4));
-  const double GKs = 0.0034*scale_IKs;
+  const double GKs = 0.0034*scale_IKs*scale_drug_IKs;
   const double IKs = (-EKs + v)*GKs*KsCa*xs1*xs2;
   const double xk1ss = 1.0/(1.0 + exp((-144.59 - v - 2.5538*ko)/(3.8115 +
     1.5692*ko)));
@@ -2913,7 +3080,7 @@ void rhs(const double *__restrict states, const double t, const double
   values[STATE_xk1] = (-xk1 + xk1ss)/txk1;
   const double rk1 = 1.0/(1.0 + 69220.6322106767*exp(0.105340777414937*v -
     0.273886021278837*ko));
-  const double GK1 = 0.1908*scale_IK1;
+  const double GK1 = 0.1908*scale_HF_GK1*scale_IK1*scale_drug_IK1;
   const double IK1 = sqrt(ko)*(-EK + v)*GK1*rk1*xk1;
 
   // Expressions for the INaCa_i component
@@ -2956,7 +3123,8 @@ void rhs(const double *__restrict states, const double t, const double
   const double JncxNa_i = E3_i*k4pp_i - E2_i*k3pp_i + 3.0*E4_i*k7_i -
     3.0*E1_i*k8_i;
   const double JncxCa_i = E2_i*k2_i - E1_i*k1_i;
-  const double INaCa_i = 0.8*Gncx*(zca*JncxCa_i + zna*JncxNa_i)*allo_i;
+  const double INaCa_i = 0.8*Gncx*scale_HF_Gncx*(zca*JncxCa_i +
+    zna*JncxNa_i)*allo_i;
 
   // Expressions for the INaCa_ss component
   const double h1 = 1. + (1. + hna)*nass/kna3;
@@ -2995,7 +3163,8 @@ void rhs(const double *__restrict states, const double t, const double
   const double JncxNa_ss = E3_ss*k4pp - E2_ss*k3pp + 3.0*E4_ss*k7 -
     3.0*E1_ss*k8;
   const double JncxCa_ss = E2_ss*k2 - E1_ss*k1;
-  const double INaCa_ss = 0.2*Gncx*(zca*JncxCa_ss + zna*JncxNa_ss)*allo_ss;
+  const double INaCa_ss = 0.2*Gncx*scale_HF_Gncx*(zca*JncxCa_ss +
+    zna*JncxNa_ss)*allo_ss;
 
   // Expressions for the INaK component
   const double Knai = Knai0*exp(0.333333333333333*F*delta*v/(R*T));
@@ -3023,21 +3192,22 @@ void rhs(const double *__restrict states, const double t, const double
   const double E4 = x4/(x1 + x2 + x3 + x4);
   const double JnakNa = 3.0*E1*a3 - 3.0*E2*b3;
   const double JnakK = 2.0*E4*b1 - 2.0*E3*a1;
-  const double INaK = Pnak*(zk*JnakK + zna*JnakNa);
+  const double INaK = Pnak*scale_HF_Pnak*(zk*JnakK + zna*JnakNa);
 
   // Expressions for the IKb component
   const double xkb = 1.0/(1.0 + 2.20236345094924*exp(-0.054525627044711*v));
-  const double IKb = GKb*(-EK + v)*xkb;
+  const double IKb = GKb*scale_drug_IKb*(-EK + v)*xkb;
 
   // Expressions for the INab component
-  const double INab = PNab*(-nao + exp(vfrt)*nai)*vffrt/(-1.0 + exp(vfrt));
+  const double INab = PNab*scale_drug_INab*(-nao + exp(vfrt)*nai)*vffrt/(-1.0 +
+    exp(vfrt));
 
   // Expressions for the ICab component
-  const double ICab = 4.0*PCab*(-0.341*cao + cai*exp(2.0*vfrt))*vffrt/(-1.0 +
-    exp(2.0*vfrt));
+  const double ICab = 4.0*PCab*scale_drug_ICab*(-0.341*cao +
+    cai*exp(2.0*vfrt))*vffrt/(-1.0 + exp(2.0*vfrt));
 
   // Expressions for the IpCa component
-  const double IpCa = GpCa*cai/(0.0005 + cai);
+  const double IpCa = GpCa*scale_drug_IpCa*cai/(0.0005 + cai);
 
   // Expressions for the Isac (Pueyo)--> ns + k component
   const double Isac_P_ns = 0.;
@@ -3058,14 +3228,15 @@ void rhs(const double *__restrict states, const double t, const double
 
   // Expressions for the ryanodione receptor component
   const double a_rel = 0.5*bt;
-  const double Jrel_inf = -ICaL*a_rel/(1.0 + 25.62890625*pow(1.0/cajsr, 8.0));
+  const double Jrel_inf = -ICaL*a_rel/(1.0 +
+    25.62890625*pow(scale_HF_Jrel_inf/cajsr, 8.0));
   const double tau_rel_tmp = bt/(1.0 + 0.0123/cajsr);
   const double tau_rel = (tau_rel_tmp < 0.001 ? 0.001 : tau_rel_tmp);
   values[STATE_Jrelnp] = (-Jrelnp + Jrel_inf)/tau_rel;
   const double btp = 1.25*bt;
   const double a_relp = 0.5*btp;
-  const double Jrel_infp = -ICaL*a_relp/(1.0 + 25.62890625*pow(1.0/cajsr,
-    8.0));
+  const double Jrel_infp = -ICaL*a_relp/(1.0 +
+    25.62890625*pow(scale_HF_Jrel_inf/cajsr, 8.0));
   const double tau_relp_tmp = btp/(1.0 + 0.0123/cajsr);
   const double tau_relp = (tau_relp_tmp < 0.001 ? 0.001 : tau_relp_tmp);
   values[STATE_Jrelp] = (-Jrelp + Jrel_infp)/tau_relp;
@@ -3076,8 +3247,8 @@ void rhs(const double *__restrict states, const double t, const double
   const double Jupnp = 0.004375*cai/(0.00092 + cai);
   const double Jupp = 0.01203125*cai/(0.00075 + cai);
   const double fJupp = 1.0/(1.0 + KmCaMK/CaMKa);
-  const double Jleak = 0.0002625*cansr;
-  const double Jup = -Jleak + (1.0 - fJupp)*Jupnp + Jupp*fJupp;
+  const double Jleak = 0.0002625*scale_HF_Jleak*cansr;
+  const double Jup = -Jleak + (1.0 - fJupp)*Jupnp + scale_HF_Jup*Jupp*fJupp;
   const double Jtr = 0.01*cansr - 0.01*cajsr;
 
   // Expressions for the intracellular concentrations component
@@ -3109,7 +3280,8 @@ void rhs(const double *__restrict states, const double t, const double
     -1.) ? Zetas*(Zetas > 0.) : (-1. - Zetas)*(Zetas < -1.));
   values[STATE_XS] = kws*XW - XS*gammasu - XS*ksu;
   values[STATE_XW] = kuw*XU - kws*XW - XW*gammawu - XW*kwu;
-  const double cat50 = cat50_ref + Beta1*(-1. + lambda_min12);
+  const double cat50 = scale_HF_cat50_ref*(cat50_ref + Beta1*(-1. +
+    lambda_min12));
   values[STATE_CaTrpn] = ktrpn*(-CaTrpn + pow(1000.*cai/cat50, ntrpn)*(1. -
     CaTrpn));
   const double kb = ku*pow(Trpn50, ntm)/(1. - rs - rw*(1. - rs));
@@ -3127,7 +3299,7 @@ void rhs(const double *__restrict states, const double t, const double
     - IpCa - Isac_P_ns/3. + 2.0*INaCa_i)*Acap/(F*vmyo))*Bcai;
 }
 
-// Computes monitored expressions of the ORdmm_Land_em_coupling ODE
+// Computes monitored expressions of the ORdmm_Land ODE
 void monitor(const double *__restrict states, const double t, const double
   *__restrict parameters, double* monitored)
 {
@@ -3196,6 +3368,28 @@ void monitor(const double *__restrict states, const double t, const double
   const double T = parameters[PARAM_T];
   const double L = parameters[PARAM_L];
   const double rad = parameters[PARAM_rad];
+  const double scale_HF_CaMKa = parameters[PARAM_scale_HF_CaMKa];
+  const double scale_HF_GK1 = parameters[PARAM_scale_HF_GK1];
+  const double scale_HF_GNaL = parameters[PARAM_scale_HF_GNaL];
+  const double scale_HF_Gncx = parameters[PARAM_scale_HF_Gncx];
+  const double scale_HF_Gto = parameters[PARAM_scale_HF_Gto];
+  const double scale_HF_Jleak = parameters[PARAM_scale_HF_Jleak];
+  const double scale_HF_Jrel_inf = parameters[PARAM_scale_HF_Jrel_inf];
+  const double scale_HF_Jup = parameters[PARAM_scale_HF_Jup];
+  const double scale_HF_Pnak = parameters[PARAM_scale_HF_Pnak];
+  const double scale_HF_cat50_ref = parameters[PARAM_scale_HF_cat50_ref];
+  const double scale_HF_thL = parameters[PARAM_scale_HF_thL];
+  const double scale_drug_ICaL = parameters[PARAM_scale_drug_ICaL];
+  const double scale_drug_ICab = parameters[PARAM_scale_drug_ICab];
+  const double scale_drug_IK1 = parameters[PARAM_scale_drug_IK1];
+  const double scale_drug_IKb = parameters[PARAM_scale_drug_IKb];
+  const double scale_drug_IKr = parameters[PARAM_scale_drug_IKr];
+  const double scale_drug_IKs = parameters[PARAM_scale_drug_IKs];
+  const double scale_drug_INa = parameters[PARAM_scale_drug_INa];
+  const double scale_drug_INaL = parameters[PARAM_scale_drug_INaL];
+  const double scale_drug_INab = parameters[PARAM_scale_drug_INab];
+  const double scale_drug_IpCa = parameters[PARAM_scale_drug_IpCa];
+  const double scale_drug_Ito = parameters[PARAM_scale_drug_Ito];
   const double Ahf = parameters[PARAM_Ahf];
   const double GNa = parameters[PARAM_GNa];
   const double thL = parameters[PARAM_thL];
@@ -3300,7 +3494,7 @@ void monitor(const double *__restrict states, const double t, const double
 
   // Expressions for the CaMKt component
   monitored[MONITOR_CaMKb] = CaMKo*(1.0 - CaMKt)/(1.0 + KmCaM/cass);
-  monitored[MONITOR_CaMKa] = CaMKt + monitored[7];
+  monitored[MONITOR_CaMKa] = scale_HF_CaMKa*(CaMKt + monitored[7]);
   monitored[MONITOR_dCaMKt_dt] = -bCaMK*CaMKt + aCaMK*(CaMKt +
     monitored[7])*monitored[7];
 
@@ -3340,8 +3534,9 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_tjp] = 1.46*monitored[17];
   monitored[MONITOR_djp_dt] = (-jp + monitored[16])/monitored[21];
   monitored[MONITOR_fINap] = 1.0/(1.0 + KmCaMK/monitored[8]);
-  monitored[MONITOR_INa] = GNa*pow(m, 3.0)*(-monitored[142] + v)*((1.0 -
-    monitored[22])*j*monitored[15] + jp*monitored[20]*monitored[22]);
+  monitored[MONITOR_INa] = GNa*scale_drug_INa*pow(m, 3.0)*(-monitored[142] +
+    v)*((1.0 - monitored[22])*j*monitored[15] +
+    jp*monitored[20]*monitored[22]);
 
   // Expressions for the INaL component
   monitored[MONITOR_mLss] = 1.0/(1.0 +
@@ -3350,12 +3545,12 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_dmL_dt] = (-mL + monitored[24])/monitored[25];
   monitored[MONITOR_hLss] = 1.0/(1.0 +
     120578.155955224*exp(0.133547008547009*v));
-  monitored[MONITOR_dhL_dt] = (-hL + monitored[26])/thL;
+  monitored[MONITOR_dhL_dt] = (-hL + monitored[26])/(scale_HF_thL*thL);
   monitored[MONITOR_hLssp] = 1.0/(1.0 +
     275969.290386987*exp(0.133547008547009*v));
-  monitored[MONITOR_thLp] = 3.0*thL;
+  monitored[MONITOR_thLp] = 3.0*scale_HF_thL*thL;
   monitored[MONITOR_dhLp_dt] = (-hLp + monitored[27])/monitored[28];
-  monitored[MONITOR_GNaL] = 0.0075*scale_INaL;
+  monitored[MONITOR_GNaL] = 0.0075*scale_HF_GNaL*scale_INaL*scale_drug_INaL;
   monitored[MONITOR_fINaLp] = 1.0/(1.0 + KmCaMK/monitored[8]);
   monitored[MONITOR_INaL] = (-monitored[142] + v)*((1.0 - monitored[30])*hL +
     hLp*monitored[30])*mL*monitored[29];
@@ -3394,8 +3589,9 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_diSp_dt] = (-iSp + monitored[34])/monitored[44];
   monitored[MONITOR_ip] = iFp*monitored[37] + iSp*monitored[38];
   monitored[MONITOR_fItop] = 1.0/(1.0 + KmCaMK/monitored[8]);
-  monitored[MONITOR_Ito] = Gto*(-monitored[143] + v)*((1.0 -
-    monitored[46])*a*monitored[39] + ap*monitored[45]*monitored[46]);
+  monitored[MONITOR_Ito] = Gto*scale_HF_Gto*scale_drug_Ito*(-monitored[143] +
+    v)*((1.0 - monitored[46])*a*monitored[39] +
+    ap*monitored[45]*monitored[46]);
 
   // Expressions for the ICaL ICaNa ICaK component
   monitored[MONITOR_dss] = 1.0/(1.0 +
@@ -3443,7 +3639,7 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_PhiCaK] = 1.0*(-0.75*ko +
     0.75*exp(1.0*monitored[146])*kss)*monitored[145]/(-1.0 +
     exp(1.0*monitored[146]));
-  monitored[MONITOR_PCa] = 0.0001*scale_ICaL;
+  monitored[MONITOR_PCa] = 0.0001*scale_ICaL*scale_drug_ICaL;
   monitored[MONITOR_PCap] = 1.1*monitored[70];
   monitored[MONITOR_PCaNa] = 0.00125*monitored[70];
   monitored[MONITOR_PCaK] = 0.0003574*monitored[70];
@@ -3481,7 +3677,7 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_rkr] = 1.0/((1.0 +
     2.08200908407846*exp(0.0133333333333333*v))*(1.0 +
     0.716531310573789*exp(0.0333333333333333*v)));
-  monitored[MONITOR_GKr] = 0.046*scale_IKr;
+  monitored[MONITOR_GKr] = 0.046*scale_IKr*scale_drug_IKr;
   monitored[MONITOR_IKr] = 0.430331482911935*sqrt(ko)*(-monitored[143] +
     v)*monitored[85]*monitored[86]*monitored[87];
 
@@ -3499,7 +3695,7 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_dxs2_dt] = (-xs2 + monitored[91])/monitored[92];
   monitored[MONITOR_KsCa] = 1.0 + 0.6/(1.0 + 6.48182102606265e-7*pow(1.0/cai,
     1.4));
-  monitored[MONITOR_GKs] = 0.0034*scale_IKs;
+  monitored[MONITOR_GKs] = 0.0034*scale_IKs*scale_drug_IKs;
   monitored[MONITOR_IKs] = (-monitored[144] +
     v)*monitored[93]*monitored[94]*xs1*xs2;
   monitored[MONITOR_xk1ss] = 1.0/(1.0 + exp((-144.59 - v - 2.5538*ko)/(3.8115 +
@@ -3510,7 +3706,7 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_dxk1_dt] = (-xk1 + monitored[96])/monitored[97];
   monitored[MONITOR_rk1] = 1.0/(1.0 +
     69220.6322106767*exp(0.105340777414937*v - 0.273886021278837*ko));
-  monitored[MONITOR_GK1] = 0.1908*scale_IK1;
+  monitored[MONITOR_GK1] = 0.1908*scale_HF_GK1*scale_IK1*scale_drug_IK1;
   monitored[MONITOR_IK1] = sqrt(ko)*(-monitored[143] +
     v)*monitored[98]*monitored[99]*xk1;
 
@@ -3568,7 +3764,8 @@ void monitor(const double *__restrict states, const double t, const double
     3.0*monitored[172]*monitored[177];
   monitored[MONITOR_JncxCa_i] = monitored[162]*monitored[178] -
     monitored[161]*monitored[177];
-  monitored[MONITOR_INaCa_i] = 0.8*Gncx*(monitored[182]*monitored[183] +
+  monitored[MONITOR_INaCa_i] =
+    0.8*Gncx*scale_HF_Gncx*(monitored[182]*monitored[183] +
     zca*monitored[184])*monitored[181];
 
   // Expressions for the INaCa_ss component
@@ -3622,7 +3819,8 @@ void monitor(const double *__restrict states, const double t, const double
     3.0*monitored[209]*monitored[214];
   monitored[MONITOR_JncxCa_ss] = monitored[199]*monitored[215] -
     monitored[198]*monitored[214];
-  monitored[MONITOR_INaCa_ss] = 0.2*Gncx*(monitored[182]*monitored[219] +
+  monitored[MONITOR_INaCa_ss] =
+    0.2*Gncx*scale_HF_Gncx*(monitored[182]*monitored[219] +
     zca*monitored[220])*monitored[218];
 
   // Expressions for the INaK component
@@ -3670,25 +3868,26 @@ void monitor(const double *__restrict states, const double t, const double
     3.0*monitored[230]*monitored[238];
   monitored[MONITOR_JnakK] = 2.0*monitored[226]*monitored[240] -
     2.0*monitored[225]*monitored[239];
-  monitored[MONITOR_INaK] = Pnak*(monitored[182]*monitored[241] +
-    zk*monitored[242]);
+  monitored[MONITOR_INaK] = Pnak*scale_HF_Pnak*(monitored[182]*monitored[241]
+    + zk*monitored[242]);
 
   // Expressions for the IKb component
   monitored[MONITOR_xkb] = 1.0/(1.0 +
     2.20236345094924*exp(-0.054525627044711*v));
-  monitored[MONITOR_IKb] = GKb*(-monitored[143] + v)*monitored[244];
+  monitored[MONITOR_IKb] = GKb*scale_drug_IKb*(-monitored[143] +
+    v)*monitored[244];
 
   // Expressions for the INab component
-  monitored[MONITOR_INab] = PNab*(-nao +
+  monitored[MONITOR_INab] = PNab*scale_drug_INab*(-nao +
     exp(monitored[146])*nai)*monitored[145]/(-1.0 + exp(monitored[146]));
 
   // Expressions for the ICab component
-  monitored[MONITOR_ICab] = 4.0*PCab*(-0.341*cao +
+  monitored[MONITOR_ICab] = 4.0*PCab*scale_drug_ICab*(-0.341*cao +
     cai*exp(2.0*monitored[146]))*monitored[145]/(-1.0 +
     exp(2.0*monitored[146]));
 
   // Expressions for the IpCa component
-  monitored[MONITOR_IpCa] = GpCa*cai/(0.0005 + cai);
+  monitored[MONITOR_IpCa] = GpCa*scale_drug_IpCa*cai/(0.0005 + cai);
 
   // Expressions for the Isac (Pueyo)--> ns + k component
   monitored[MONITOR_Isac_P_ns] = 0.;
@@ -3713,7 +3912,7 @@ void monitor(const double *__restrict states, const double t, const double
   // Expressions for the ryanodione receptor component
   monitored[MONITOR_a_rel] = 0.5*bt;
   monitored[MONITOR_Jrel_inf] = -monitored[101]*monitored[77]/(1.0 +
-    25.62890625*pow(1.0/cajsr, 8.0));
+    25.62890625*pow(scale_HF_Jrel_inf/cajsr, 8.0));
   monitored[MONITOR_tau_rel_tmp] = bt/(1.0 + 0.0123/cajsr);
   monitored[MONITOR_tau_rel] = (monitored[103] < 0.001 ? 0.001 :
     monitored[103]);
@@ -3721,7 +3920,7 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_btp] = 1.25*bt;
   monitored[MONITOR_a_relp] = 0.5*monitored[105];
   monitored[MONITOR_Jrel_infp] = -monitored[106]*monitored[77]/(1.0 +
-    25.62890625*pow(1.0/cajsr, 8.0));
+    25.62890625*pow(scale_HF_Jrel_inf/cajsr, 8.0));
   monitored[MONITOR_tau_relp_tmp] = monitored[105]/(1.0 + 0.0123/cajsr);
   monitored[MONITOR_tau_relp] = (monitored[108] < 0.001 ? 0.001 :
     monitored[108]);
@@ -3734,9 +3933,10 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_Jupnp] = 0.004375*cai/(0.00092 + cai);
   monitored[MONITOR_Jupp] = 0.01203125*cai/(0.00075 + cai);
   monitored[MONITOR_fJupp] = 1.0/(1.0 + KmCaMK/monitored[8]);
-  monitored[MONITOR_Jleak] = 0.0002625*cansr;
+  monitored[MONITOR_Jleak] = 0.0002625*scale_HF_Jleak*cansr;
   monitored[MONITOR_Jup] = -monitored[258] + (1.0 -
-    monitored[257])*monitored[255] + monitored[256]*monitored[257];
+    monitored[257])*monitored[255] +
+    scale_HF_Jup*monitored[256]*monitored[257];
   monitored[MONITOR_Jtr] = 0.01*cansr - 0.01*cajsr;
 
   // Expressions for the intracellular concentrations component
@@ -3786,7 +3986,8 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_dXS_dt] = kws*XW - XS*monitored[118] - XS*monitored[129];
   monitored[MONITOR_dXW_dt] = kuw*monitored[127] - kws*XW - XW*monitored[117]
     - XW*monitored[128];
-  monitored[MONITOR_cat50] = cat50_ref + Beta1*(-1. + monitored[123]);
+  monitored[MONITOR_cat50] = scale_HF_cat50_ref*(cat50_ref + Beta1*(-1. +
+    monitored[123]));
   monitored[MONITOR_dCaTrpn_dt] = ktrpn*(-CaTrpn +
     pow(1000.*cai/monitored[130], ntrpn)*(1. - CaTrpn));
   monitored[MONITOR_kb] = ku*pow(Trpn50, ntm)/(1. - rs - rw*(1. - rs));
@@ -3801,7 +4002,7 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_eta] = (monitored[134] < 0. ? etas : etal);
   monitored[MONITOR_dCd_dt] = p_k*(-Cd + monitored[133])/monitored[135];
   monitored[MONITOR_Fd] = monitored[134]*monitored[135];
-  monitored[MONITOR_F1] = -1. + exp(p_b*monitored[133]);
+  monitored[MONITOR_F1] = expm1(p_b*monitored[133]);
   monitored[MONITOR_Tp] = p_a*(monitored[136] + monitored[137]);
   monitored[MONITOR_Ttot] = monitored[132] + monitored[138];
   monitored[MONITOR_Bcai] = 1.0/(1.0 + cmdnmax*kmcmdn*pow(kmcmdn + cai, -2.0));
@@ -3813,8 +4014,7 @@ void monitor(const double *__restrict states, const double t, const double
     2.0*monitored[185])*monitored[2]/(F*monitored[3]))*monitored[140];
 }
 
-// Compute a forward step using the explicit Euler algorithm to the
-// ORdmm_Land_em_coupling ODE
+// Compute a forward step using the explicit Euler scheme to the ORdmm_Land ODE
 void forward_explicit_euler(double *__restrict states, const double t, const
   double dt, const double *__restrict parameters)
 {
@@ -3883,6 +4083,28 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   const double T = parameters[PARAM_T];
   const double L = parameters[PARAM_L];
   const double rad = parameters[PARAM_rad];
+  const double scale_HF_CaMKa = parameters[PARAM_scale_HF_CaMKa];
+  const double scale_HF_GK1 = parameters[PARAM_scale_HF_GK1];
+  const double scale_HF_GNaL = parameters[PARAM_scale_HF_GNaL];
+  const double scale_HF_Gncx = parameters[PARAM_scale_HF_Gncx];
+  const double scale_HF_Gto = parameters[PARAM_scale_HF_Gto];
+  const double scale_HF_Jleak = parameters[PARAM_scale_HF_Jleak];
+  const double scale_HF_Jrel_inf = parameters[PARAM_scale_HF_Jrel_inf];
+  const double scale_HF_Jup = parameters[PARAM_scale_HF_Jup];
+  const double scale_HF_Pnak = parameters[PARAM_scale_HF_Pnak];
+  const double scale_HF_cat50_ref = parameters[PARAM_scale_HF_cat50_ref];
+  const double scale_HF_thL = parameters[PARAM_scale_HF_thL];
+  const double scale_drug_ICaL = parameters[PARAM_scale_drug_ICaL];
+  const double scale_drug_ICab = parameters[PARAM_scale_drug_ICab];
+  const double scale_drug_IK1 = parameters[PARAM_scale_drug_IK1];
+  const double scale_drug_IKb = parameters[PARAM_scale_drug_IKb];
+  const double scale_drug_IKr = parameters[PARAM_scale_drug_IKr];
+  const double scale_drug_IKs = parameters[PARAM_scale_drug_IKs];
+  const double scale_drug_INa = parameters[PARAM_scale_drug_INa];
+  const double scale_drug_INaL = parameters[PARAM_scale_drug_INaL];
+  const double scale_drug_INab = parameters[PARAM_scale_drug_INab];
+  const double scale_drug_IpCa = parameters[PARAM_scale_drug_IpCa];
+  const double scale_drug_Ito = parameters[PARAM_scale_drug_Ito];
   const double Ahf = parameters[PARAM_Ahf];
   const double GNa = parameters[PARAM_GNa];
   const double thL = parameters[PARAM_thL];
@@ -3983,7 +4205,7 @@ void forward_explicit_euler(double *__restrict states, const double t, const
 
   // Expressions for the CaMKt component
   const double CaMKb = CaMKo*(1.0 - CaMKt)/(1.0 + KmCaM/cass);
-  const double CaMKa = CaMKb + CaMKt;
+  const double CaMKa = scale_HF_CaMKa*(CaMKb + CaMKt);
   const double dCaMKt_dt = -bCaMK*CaMKt + aCaMK*(CaMKb + CaMKt)*CaMKb;
   states[STATE_CaMKt] = dt*dCaMKt_dt + CaMKt;
 
@@ -4025,8 +4247,8 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   const double djp_dt = (-jp + jss)/tjp;
   states[STATE_jp] = dt*djp_dt + jp;
   const double fINap = 1.0/(1.0 + KmCaMK/CaMKa);
-  const double INa = GNa*pow(m, 3.0)*(-ENa + v)*((1.0 - fINap)*h*j +
-    fINap*hp*jp);
+  const double INa = GNa*scale_drug_INa*pow(m, 3.0)*(-ENa + v)*((1.0 -
+    fINap)*h*j + fINap*hp*jp);
 
   // Expressions for the INaL component
   const double mLss = 1.0/(1.0 +
@@ -4035,13 +4257,13 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   const double dmL_dt = (-mL + mLss)/tmL;
   states[STATE_mL] = dt*dmL_dt + mL;
   const double hLss = 1.0/(1.0 + 120578.155955224*exp(0.133547008547009*v));
-  const double dhL_dt = (-hL + hLss)/thL;
+  const double dhL_dt = (-hL + hLss)/(scale_HF_thL*thL);
   states[STATE_hL] = dt*dhL_dt + hL;
   const double hLssp = 1.0/(1.0 + 275969.290386987*exp(0.133547008547009*v));
-  const double thLp = 3.0*thL;
+  const double thLp = 3.0*scale_HF_thL*thL;
   const double dhLp_dt = (-hLp + hLssp)/thLp;
   states[STATE_hLp] = dt*dhLp_dt + hLp;
-  const double GNaL = 0.0075*scale_INaL;
+  const double GNaL = 0.0075*scale_HF_GNaL*scale_INaL*scale_drug_INaL;
   const double fINaLp = 1.0/(1.0 + KmCaMK/CaMKa);
   const double INaL = (-ENa + v)*((1.0 - fINaLp)*hL + fINaLp*hLp)*GNaL*mL;
 
@@ -4080,7 +4302,8 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   states[STATE_iSp] = dt*diSp_dt + iSp;
   const double ip = AiF*iFp + AiS*iSp;
   const double fItop = 1.0/(1.0 + KmCaMK/CaMKa);
-  const double Ito = Gto*(-EK + v)*((1.0 - fItop)*a*i + ap*fItop*ip);
+  const double Ito = Gto*scale_HF_Gto*scale_drug_Ito*(-EK + v)*((1.0 -
+    fItop)*a*i + ap*fItop*ip);
 
   // Expressions for the ICaL ICaNa ICaK component
   const double dss = 1.0/(1.0 + 0.393985142266695*exp(-0.236406619385343*v));
@@ -4132,7 +4355,7 @@ void forward_explicit_euler(double *__restrict states, const double t, const
     0.75*exp(1.0*vfrt)*nass)*vffrt/(-1.0 + exp(1.0*vfrt));
   const double PhiCaK = 1.0*(-0.75*ko + 0.75*exp(1.0*vfrt)*kss)*vffrt/(-1.0 +
     exp(1.0*vfrt));
-  const double PCa = 0.0001*scale_ICaL;
+  const double PCa = 0.0001*scale_ICaL*scale_drug_ICaL;
   const double PCap = 1.1*PCa;
   const double PCaNa = 0.00125*PCa;
   const double PCaK = 0.0003574*PCa;
@@ -4167,7 +4390,7 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   const double rkr = 1.0/((1.0 +
     2.08200908407846*exp(0.0133333333333333*v))*(1.0 +
     0.716531310573789*exp(0.0333333333333333*v)));
-  const double GKr = 0.046*scale_IKr;
+  const double GKr = 0.046*scale_IKr*scale_drug_IKr;
   const double IKr = 0.430331482911935*sqrt(ko)*(-EK + v)*GKr*rkr*xr;
 
   // Expressions for the IKs component
@@ -4183,7 +4406,7 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   const double dxs2_dt = (-xs2 + xs2ss)/txs2;
   states[STATE_xs2] = dt*dxs2_dt + xs2;
   const double KsCa = 1.0 + 0.6/(1.0 + 6.48182102606265e-7*pow(1.0/cai, 1.4));
-  const double GKs = 0.0034*scale_IKs;
+  const double GKs = 0.0034*scale_IKs*scale_drug_IKs;
   const double IKs = (-EKs + v)*GKs*KsCa*xs1*xs2;
   const double xk1ss = 1.0/(1.0 + exp((-144.59 - v - 2.5538*ko)/(3.8115 +
     1.5692*ko)));
@@ -4193,7 +4416,7 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   states[STATE_xk1] = dt*dxk1_dt + xk1;
   const double rk1 = 1.0/(1.0 + 69220.6322106767*exp(0.105340777414937*v -
     0.273886021278837*ko));
-  const double GK1 = 0.1908*scale_IK1;
+  const double GK1 = 0.1908*scale_HF_GK1*scale_IK1*scale_drug_IK1;
   const double IK1 = sqrt(ko)*(-EK + v)*GK1*rk1*xk1;
 
   // Expressions for the INaCa_i component
@@ -4236,7 +4459,8 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   const double JncxNa_i = E3_i*k4pp_i - E2_i*k3pp_i + 3.0*E4_i*k7_i -
     3.0*E1_i*k8_i;
   const double JncxCa_i = E2_i*k2_i - E1_i*k1_i;
-  const double INaCa_i = 0.8*Gncx*(zca*JncxCa_i + zna*JncxNa_i)*allo_i;
+  const double INaCa_i = 0.8*Gncx*scale_HF_Gncx*(zca*JncxCa_i +
+    zna*JncxNa_i)*allo_i;
 
   // Expressions for the INaCa_ss component
   const double h1 = 1. + (1. + hna)*nass/kna3;
@@ -4275,7 +4499,8 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   const double JncxNa_ss = E3_ss*k4pp - E2_ss*k3pp + 3.0*E4_ss*k7 -
     3.0*E1_ss*k8;
   const double JncxCa_ss = E2_ss*k2 - E1_ss*k1;
-  const double INaCa_ss = 0.2*Gncx*(zca*JncxCa_ss + zna*JncxNa_ss)*allo_ss;
+  const double INaCa_ss = 0.2*Gncx*scale_HF_Gncx*(zca*JncxCa_ss +
+    zna*JncxNa_ss)*allo_ss;
 
   // Expressions for the INaK component
   const double Knai = Knai0*exp(0.333333333333333*F*delta*v/(R*T));
@@ -4303,21 +4528,22 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   const double E4 = x4/(x1 + x2 + x3 + x4);
   const double JnakNa = 3.0*E1*a3 - 3.0*E2*b3;
   const double JnakK = 2.0*E4*b1 - 2.0*E3*a1;
-  const double INaK = Pnak*(zk*JnakK + zna*JnakNa);
+  const double INaK = Pnak*scale_HF_Pnak*(zk*JnakK + zna*JnakNa);
 
   // Expressions for the IKb component
   const double xkb = 1.0/(1.0 + 2.20236345094924*exp(-0.054525627044711*v));
-  const double IKb = GKb*(-EK + v)*xkb;
+  const double IKb = GKb*scale_drug_IKb*(-EK + v)*xkb;
 
   // Expressions for the INab component
-  const double INab = PNab*(-nao + exp(vfrt)*nai)*vffrt/(-1.0 + exp(vfrt));
+  const double INab = PNab*scale_drug_INab*(-nao + exp(vfrt)*nai)*vffrt/(-1.0 +
+    exp(vfrt));
 
   // Expressions for the ICab component
-  const double ICab = 4.0*PCab*(-0.341*cao + cai*exp(2.0*vfrt))*vffrt/(-1.0 +
-    exp(2.0*vfrt));
+  const double ICab = 4.0*PCab*scale_drug_ICab*(-0.341*cao +
+    cai*exp(2.0*vfrt))*vffrt/(-1.0 + exp(2.0*vfrt));
 
   // Expressions for the IpCa component
-  const double IpCa = GpCa*cai/(0.0005 + cai);
+  const double IpCa = GpCa*scale_drug_IpCa*cai/(0.0005 + cai);
 
   // Expressions for the Isac (Pueyo)--> ns + k component
   const double Isac_P_ns = 0.;
@@ -4339,15 +4565,16 @@ void forward_explicit_euler(double *__restrict states, const double t, const
 
   // Expressions for the ryanodione receptor component
   const double a_rel = 0.5*bt;
-  const double Jrel_inf = -ICaL*a_rel/(1.0 + 25.62890625*pow(1.0/cajsr, 8.0));
+  const double Jrel_inf = -ICaL*a_rel/(1.0 +
+    25.62890625*pow(scale_HF_Jrel_inf/cajsr, 8.0));
   const double tau_rel_tmp = bt/(1.0 + 0.0123/cajsr);
   const double tau_rel = (tau_rel_tmp < 0.001 ? 0.001 : tau_rel_tmp);
   const double dJrelnp_dt = (-Jrelnp + Jrel_inf)/tau_rel;
   states[STATE_Jrelnp] = dt*dJrelnp_dt + Jrelnp;
   const double btp = 1.25*bt;
   const double a_relp = 0.5*btp;
-  const double Jrel_infp = -ICaL*a_relp/(1.0 + 25.62890625*pow(1.0/cajsr,
-    8.0));
+  const double Jrel_infp = -ICaL*a_relp/(1.0 +
+    25.62890625*pow(scale_HF_Jrel_inf/cajsr, 8.0));
   const double tau_relp_tmp = btp/(1.0 + 0.0123/cajsr);
   const double tau_relp = (tau_relp_tmp < 0.001 ? 0.001 : tau_relp_tmp);
   const double dJrelp_dt = (-Jrelp + Jrel_infp)/tau_relp;
@@ -4359,8 +4586,8 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   const double Jupnp = 0.004375*cai/(0.00092 + cai);
   const double Jupp = 0.01203125*cai/(0.00075 + cai);
   const double fJupp = 1.0/(1.0 + KmCaMK/CaMKa);
-  const double Jleak = 0.0002625*cansr;
-  const double Jup = -Jleak + (1.0 - fJupp)*Jupnp + Jupp*fJupp;
+  const double Jleak = 0.0002625*scale_HF_Jleak*cansr;
+  const double Jup = -Jleak + (1.0 - fJupp)*Jupnp + scale_HF_Jup*Jupp*fJupp;
   const double Jtr = 0.01*cansr - 0.01*cajsr;
 
   // Expressions for the intracellular concentrations component
@@ -4401,7 +4628,8 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   states[STATE_XS] = dt*dXS_dt + XS;
   const double dXW_dt = kuw*XU - kws*XW - XW*gammawu - XW*kwu;
   states[STATE_XW] = dt*dXW_dt + XW;
-  const double cat50 = cat50_ref + Beta1*(-1. + lambda_min12);
+  const double cat50 = scale_HF_cat50_ref*(cat50_ref + Beta1*(-1. +
+    lambda_min12));
   const double dCaTrpn_dt = ktrpn*(-CaTrpn + pow(1000.*cai/cat50, ntrpn)*(1.
     - CaTrpn));
   states[STATE_CaTrpn] = dt*dCaTrpn_dt + CaTrpn;
@@ -4425,8 +4653,7 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   states[STATE_cai] = dt*dcai_dt + cai;
 }
 
-// Compute a forward step using the rush larsen algorithm to the
-// ORdmm_Land_em_coupling ODE
+// Compute a forward step using the Rush-Larsen scheme to the ORdmm_Land ODE
 void forward_rush_larsen(double *__restrict states, const double t, const
   double dt, const double *__restrict parameters)
 {
@@ -4495,6 +4722,28 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double T = parameters[PARAM_T];
   const double L = parameters[PARAM_L];
   const double rad = parameters[PARAM_rad];
+  const double scale_HF_CaMKa = parameters[PARAM_scale_HF_CaMKa];
+  const double scale_HF_GK1 = parameters[PARAM_scale_HF_GK1];
+  const double scale_HF_GNaL = parameters[PARAM_scale_HF_GNaL];
+  const double scale_HF_Gncx = parameters[PARAM_scale_HF_Gncx];
+  const double scale_HF_Gto = parameters[PARAM_scale_HF_Gto];
+  const double scale_HF_Jleak = parameters[PARAM_scale_HF_Jleak];
+  const double scale_HF_Jrel_inf = parameters[PARAM_scale_HF_Jrel_inf];
+  const double scale_HF_Jup = parameters[PARAM_scale_HF_Jup];
+  const double scale_HF_Pnak = parameters[PARAM_scale_HF_Pnak];
+  const double scale_HF_cat50_ref = parameters[PARAM_scale_HF_cat50_ref];
+  const double scale_HF_thL = parameters[PARAM_scale_HF_thL];
+  const double scale_drug_ICaL = parameters[PARAM_scale_drug_ICaL];
+  const double scale_drug_ICab = parameters[PARAM_scale_drug_ICab];
+  const double scale_drug_IK1 = parameters[PARAM_scale_drug_IK1];
+  const double scale_drug_IKb = parameters[PARAM_scale_drug_IKb];
+  const double scale_drug_IKr = parameters[PARAM_scale_drug_IKr];
+  const double scale_drug_IKs = parameters[PARAM_scale_drug_IKs];
+  const double scale_drug_INa = parameters[PARAM_scale_drug_INa];
+  const double scale_drug_INaL = parameters[PARAM_scale_drug_INaL];
+  const double scale_drug_INab = parameters[PARAM_scale_drug_INab];
+  const double scale_drug_IpCa = parameters[PARAM_scale_drug_IpCa];
+  const double scale_drug_Ito = parameters[PARAM_scale_drug_Ito];
   const double Ahf = parameters[PARAM_Ahf];
   const double GNa = parameters[PARAM_GNa];
   const double thL = parameters[PARAM_thL];
@@ -4595,13 +4844,13 @@ void forward_rush_larsen(double *__restrict states, const double t, const
 
   // Expressions for the CaMKt component
   const double CaMKb = CaMKo*(1.0 - CaMKt)/(1.0 + KmCaM/cass);
-  const double CaMKa = CaMKb + CaMKt;
+  const double CaMKa = scale_HF_CaMKa*(CaMKb + CaMKt);
   const double dCaMKt_dt = -bCaMK*CaMKt + aCaMK*(CaMKb + CaMKt)*CaMKb;
   const double dCaMKb_dCaMKt = -CaMKo/(1.0 + KmCaM/cass);
   const double dCaMKt_dt_linearized = -bCaMK + aCaMK*(1. +
     dCaMKb_dCaMKt)*CaMKb + aCaMK*(CaMKb + CaMKt)*dCaMKb_dCaMKt;
-  states[STATE_CaMKt] = CaMKt + (fabs(dCaMKt_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dCaMKt_dt_linearized))*dCaMKt_dt/dCaMKt_dt_linearized :
+  states[STATE_CaMKt] = CaMKt + (fabs(dCaMKt_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dCaMKt_dt_linearized))*dCaMKt_dt/dCaMKt_dt_linearized :
     dt*dCaMKt_dt);
 
   // Expressions for the reversal potentials component
@@ -4617,8 +4866,7 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     1.93141135585369e-5*exp(-0.167926112510495*v));
   const double dm_dt = (-m + mss)/tm;
   const double dm_dt_linearized = -1./tm;
-  states[STATE_m] = (fabs(dm_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dm_dt_linearized))*dm_dt/dm_dt_linearized : dt*dm_dt) + m;
+  states[STATE_m] = (expm1(dt*dm_dt_linearized))*dm_dt/dm_dt_linearized + m;
   const double hss = 1.0/(1. + 302724.605401998*exp(0.160771704180064*v));
   const double thf = 1.0/(1.18385695828909e-5*exp(-0.159108989657916*v) +
     6.30554918581728*exp(0.0493339911198816*v));
@@ -4627,36 +4875,34 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double Ahs = 1.0 - Ahf;
   const double dhf_dt = (-hf + hss)/thf;
   const double dhf_dt_linearized = -1./thf;
-  states[STATE_hf] = (fabs(dhf_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dhf_dt_linearized))*dhf_dt/dhf_dt_linearized : dt*dhf_dt) + hf;
+  states[STATE_hf] = (expm1(dt*dhf_dt_linearized))*dhf_dt/dhf_dt_linearized +
+    hf;
   const double dhs_dt = (-hs + hss)/ths;
   const double dhs_dt_linearized = -1./ths;
-  states[STATE_hs] = (fabs(dhs_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dhs_dt_linearized))*dhs_dt/dhs_dt_linearized : dt*dhs_dt) + hs;
+  states[STATE_hs] = (expm1(dt*dhs_dt_linearized))*dhs_dt/dhs_dt_linearized +
+    hs;
   const double h = Ahf*hf + Ahs*hs;
   const double jss = hss;
   const double tj = 2.038 + 1.0/(0.313193639473877*exp(0.0260078023407022*v)
     + 1.13152820955901e-7*exp(-0.120758362516604*v));
   const double dj_dt = (-j + jss)/tj;
   const double dj_dt_linearized = -1./tj;
-  states[STATE_j] = (fabs(dj_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dj_dt_linearized))*dj_dt/dj_dt_linearized : dt*dj_dt) + j;
+  states[STATE_j] = (expm1(dt*dj_dt_linearized))*dj_dt/dj_dt_linearized + j;
   const double hssp = 1.0/(1. + 820249.092170851*exp(0.160771704180064*v));
   const double thsp = 3.0*ths;
   const double dhsp_dt = (-hsp + hssp)/thsp;
   const double dhsp_dt_linearized = -1./thsp;
-  states[STATE_hsp] = (fabs(dhsp_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dhsp_dt_linearized))*dhsp_dt/dhsp_dt_linearized : dt*dhsp_dt) +
-    hsp;
+  states[STATE_hsp] =
+    (expm1(dt*dhsp_dt_linearized))*dhsp_dt/dhsp_dt_linearized + hsp;
   const double hp = Ahf*hf + Ahs*hsp;
   const double tjp = 1.46*tj;
   const double djp_dt = (-jp + jss)/tjp;
   const double djp_dt_linearized = -1./tjp;
-  states[STATE_jp] = (fabs(djp_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*djp_dt_linearized))*djp_dt/djp_dt_linearized : dt*djp_dt) + jp;
+  states[STATE_jp] = (expm1(dt*djp_dt_linearized))*djp_dt/djp_dt_linearized +
+    jp;
   const double fINap = 1.0/(1.0 + KmCaMK/CaMKa);
-  const double INa = GNa*pow(m, 3.0)*(-ENa + v)*((1.0 - fINap)*h*j +
-    fINap*hp*jp);
+  const double INa = GNa*scale_drug_INa*pow(m, 3.0)*(-ENa + v)*((1.0 -
+    fINap)*h*j + fINap*hp*jp);
 
   // Expressions for the INaL component
   const double mLss = 1.0/(1.0 +
@@ -4664,21 +4910,20 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double tmL = tm;
   const double dmL_dt = (-mL + mLss)/tmL;
   const double dmL_dt_linearized = -1./tmL;
-  states[STATE_mL] = (fabs(dmL_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dmL_dt_linearized))*dmL_dt/dmL_dt_linearized : dt*dmL_dt) + mL;
+  states[STATE_mL] = (expm1(dt*dmL_dt_linearized))*dmL_dt/dmL_dt_linearized +
+    mL;
   const double hLss = 1.0/(1.0 + 120578.155955224*exp(0.133547008547009*v));
-  const double dhL_dt = (-hL + hLss)/thL;
-  const double dhL_dt_linearized = -1./thL;
-  states[STATE_hL] = (fabs(dhL_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dhL_dt_linearized))*dhL_dt/dhL_dt_linearized : dt*dhL_dt) + hL;
+  const double dhL_dt = (-hL + hLss)/(scale_HF_thL*thL);
+  const double dhL_dt_linearized = -1./(scale_HF_thL*thL);
+  states[STATE_hL] = (expm1(dt*dhL_dt_linearized))*dhL_dt/dhL_dt_linearized +
+    hL;
   const double hLssp = 1.0/(1.0 + 275969.290386987*exp(0.133547008547009*v));
-  const double thLp = 3.0*thL;
+  const double thLp = 3.0*scale_HF_thL*thL;
   const double dhLp_dt = (-hLp + hLssp)/thLp;
   const double dhLp_dt_linearized = -1./thLp;
-  states[STATE_hLp] = (fabs(dhLp_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dhLp_dt_linearized))*dhLp_dt/dhLp_dt_linearized : dt*dhLp_dt) +
-    hLp;
-  const double GNaL = 0.0075*scale_INaL;
+  states[STATE_hLp] =
+    (expm1(dt*dhLp_dt_linearized))*dhLp_dt/dhLp_dt_linearized + hLp;
+  const double GNaL = 0.0075*scale_HF_GNaL*scale_INaL*scale_drug_INaL;
   const double fINaLp = 1.0/(1.0 + KmCaMK/CaMKa);
   const double INaL = (-ENa + v)*((1.0 - fINaLp)*hL + fINaLp*hLp)*GNaL*mL;
 
@@ -4689,8 +4934,7 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     30.0695727273975*exp(0.0340351378763435*v)));
   const double da_dt = (-a + ass)/ta;
   const double da_dt_linearized = -1./ta;
-  states[STATE_a] = (fabs(da_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*da_dt_linearized))*da_dt/da_dt_linearized : dt*da_dt) + a;
+  states[STATE_a] = (expm1(dt*da_dt_linearized))*da_dt/da_dt_linearized + a;
   const double iss = 1.0/(1.0 + 2194.9707645383*exp(0.175100682892663*v));
   const double tiF = 4.562 + delta_epi/(0.144686984212728*exp(-0.01*v) +
     1.63008963497809*exp(0.0602772754671489*v));
@@ -4701,18 +4945,18 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double AiS = 1.0 - AiF;
   const double diF_dt = (-iF + iss)/tiF;
   const double diF_dt_linearized = -1./tiF;
-  states[STATE_iF] = (fabs(diF_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*diF_dt_linearized))*diF_dt/diF_dt_linearized : dt*diF_dt) + iF;
+  states[STATE_iF] = (expm1(dt*diF_dt_linearized))*diF_dt/diF_dt_linearized +
+    iF;
   const double diS_dt = (-iS + iss)/tiS;
   const double diS_dt_linearized = -1./tiS;
-  states[STATE_iS] = (fabs(diS_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*diS_dt_linearized))*diS_dt/diS_dt_linearized : dt*diS_dt) + iS;
+  states[STATE_iS] = (expm1(dt*diS_dt_linearized))*diS_dt/diS_dt_linearized +
+    iS;
   const double i = AiF*iF + AiS*iS;
   const double assp = 1.0/(1.0 + 5.16742846223067*exp(-0.0674763832658569*v));
   const double dap_dt = (-ap + assp)/ta;
   const double dap_dt_linearized = -1./ta;
-  states[STATE_ap] = (fabs(dap_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dap_dt_linearized))*dap_dt/dap_dt_linearized : dt*dap_dt) + ap;
+  states[STATE_ap] = (expm1(dt*dap_dt_linearized))*dap_dt/dap_dt_linearized +
+    ap;
   const double dti_develop = 1.354 +
     0.0001/(2.65912690452306e-5*exp(0.0629326620516048*v) +
     4.55417797371283e+24*exp(-4.64252553389044*v));
@@ -4721,17 +4965,16 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double tiSp = dti_develop*dti_recover*tiS;
   const double diFp_dt = (-iFp + iss)/tiFp;
   const double diFp_dt_linearized = -1./tiFp;
-  states[STATE_iFp] = (fabs(diFp_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*diFp_dt_linearized))*diFp_dt/diFp_dt_linearized : dt*diFp_dt) +
-    iFp;
+  states[STATE_iFp] =
+    (expm1(dt*diFp_dt_linearized))*diFp_dt/diFp_dt_linearized + iFp;
   const double diSp_dt = (-iSp + iss)/tiSp;
   const double diSp_dt_linearized = -1./tiSp;
-  states[STATE_iSp] = (fabs(diSp_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*diSp_dt_linearized))*diSp_dt/diSp_dt_linearized : dt*diSp_dt) +
-    iSp;
+  states[STATE_iSp] =
+    (expm1(dt*diSp_dt_linearized))*diSp_dt/diSp_dt_linearized + iSp;
   const double ip = AiF*iFp + AiS*iSp;
   const double fItop = 1.0/(1.0 + KmCaMK/CaMKa);
-  const double Ito = Gto*(-EK + v)*((1.0 - fItop)*a*i + ap*fItop*ip);
+  const double Ito = Gto*scale_HF_Gto*scale_drug_Ito*(-EK + v)*((1.0 -
+    fItop)*a*i + ap*fItop*ip);
 
   // Expressions for the ICaL ICaNa ICaK component
   const double dss = 1.0/(1.0 + 0.393985142266695*exp(-0.236406619385343*v));
@@ -4739,8 +4982,7 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     0.740818220681718*exp(-0.05*v));
   const double dd_dt = (-d + dss)/td;
   const double dd_dt_linearized = -1./td;
-  states[STATE_d] = (fabs(dd_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dd_dt_linearized))*dd_dt/dd_dt_linearized : dt*dd_dt) + d;
+  states[STATE_d] = (expm1(dt*dd_dt_linearized))*dd_dt/dd_dt_linearized + d;
   const double fss = 1.0/(1.0 + 199.860384967786*exp(0.270562770562771*v));
   const double tff = 7.0 + 1.0/(0.0332507524451879*exp(0.1*v) +
     0.000609008774564757*exp(-0.1*v));
@@ -4749,12 +4991,12 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double Afs = 1.0 - Aff;
   const double dff_dt = (-ff + fss)/tff;
   const double dff_dt_linearized = -1./tff;
-  states[STATE_ff] = (fabs(dff_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dff_dt_linearized))*dff_dt/dff_dt_linearized : dt*dff_dt) + ff;
+  states[STATE_ff] = (expm1(dt*dff_dt_linearized))*dff_dt/dff_dt_linearized +
+    ff;
   const double dfs_dt = (-fs + fss)/tfs;
   const double dfs_dt_linearized = -1./tfs;
-  states[STATE_fs] = (fabs(dfs_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dfs_dt_linearized))*dfs_dt/dfs_dt_linearized : dt*dfs_dt) + fs;
+  states[STATE_fs] = (expm1(dt*dfs_dt_linearized))*dfs_dt/dfs_dt_linearized +
+    fs;
   const double f = Aff*ff + Afs*fs;
   const double fcass = fss;
   const double tfcaf = 7.0 +
@@ -4766,40 +5008,35 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double Afcas = 1.0 - Afcaf;
   const double dfcaf_dt = (-fcaf + fcass)/tfcaf;
   const double dfcaf_dt_linearized = -1./tfcaf;
-  states[STATE_fcaf] = (fabs(dfcaf_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dfcaf_dt_linearized))*dfcaf_dt/dfcaf_dt_linearized : dt*dfcaf_dt)
-    + fcaf;
+  states[STATE_fcaf] =
+    (expm1(dt*dfcaf_dt_linearized))*dfcaf_dt/dfcaf_dt_linearized + fcaf;
   const double dfcas_dt = (-fcas + fcass)/tfcas;
   const double dfcas_dt_linearized = -1./tfcas;
-  states[STATE_fcas] = (fabs(dfcas_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dfcas_dt_linearized))*dfcas_dt/dfcas_dt_linearized : dt*dfcas_dt)
-    + fcas;
+  states[STATE_fcas] =
+    (expm1(dt*dfcas_dt_linearized))*dfcas_dt/dfcas_dt_linearized + fcas;
   const double fca = Afcaf*fcaf + Afcas*fcas;
   const double djca_dt = (-jca + fcass)/tjca;
   const double djca_dt_linearized = -1./tjca;
-  states[STATE_jca] = (fabs(djca_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*djca_dt_linearized))*djca_dt/djca_dt_linearized : dt*djca_dt) +
-    jca;
+  states[STATE_jca] =
+    (expm1(dt*djca_dt_linearized))*djca_dt/djca_dt_linearized + jca;
   const double tffp = 2.5*tff;
   const double dffp_dt = (-ffp + fss)/tffp;
   const double dffp_dt_linearized = -1./tffp;
-  states[STATE_ffp] = (fabs(dffp_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dffp_dt_linearized))*dffp_dt/dffp_dt_linearized : dt*dffp_dt) +
-    ffp;
+  states[STATE_ffp] =
+    (expm1(dt*dffp_dt_linearized))*dffp_dt/dffp_dt_linearized + ffp;
   const double fp = Aff*ffp + Afs*fs;
   const double tfcafp = 2.5*tfcaf;
   const double dfcafp_dt = (-fcafp + fcass)/tfcafp;
   const double dfcafp_dt_linearized = -1./tfcafp;
-  states[STATE_fcafp] = (fabs(dfcafp_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dfcafp_dt_linearized))*dfcafp_dt/dfcafp_dt_linearized :
-    dt*dfcafp_dt) + fcafp;
+  states[STATE_fcafp] =
+    (expm1(dt*dfcafp_dt_linearized))*dfcafp_dt/dfcafp_dt_linearized + fcafp;
   const double fcap = Afcaf*fcafp + Afcas*fcas;
   const double km2n = 1.0*jca;
   const double anca = 1.0/(pow(1.0 + Kmn/cass, 4.0) + k2n/km2n);
   const double dnca_dt = k2n*anca - km2n*nca;
   const double dnca_dt_linearized = -km2n;
-  states[STATE_nca] = (fabs(dnca_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dnca_dt_linearized))*dnca_dt/dnca_dt_linearized : dt*dnca_dt) +
+  states[STATE_nca] = (fabs(dnca_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dnca_dt_linearized))*dnca_dt/dnca_dt_linearized : dt*dnca_dt) +
     nca;
   const double PhiCaL = 4.0*(-0.341*cao + cass*exp(2.0*vfrt))*vffrt/(-1.0 +
     exp(2.0*vfrt));
@@ -4807,7 +5044,7 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     0.75*exp(1.0*vfrt)*nass)*vffrt/(-1.0 + exp(1.0*vfrt));
   const double PhiCaK = 1.0*(-0.75*ko + 0.75*exp(1.0*vfrt)*kss)*vffrt/(-1.0 +
     exp(1.0*vfrt));
-  const double PCa = 0.0001*scale_ICaL;
+  const double PCa = 0.0001*scale_ICaL*scale_drug_ICaL;
   const double PCap = 1.1*PCa;
   const double PCaNa = 0.00125*PCa;
   const double PCaK = 0.0003574*PCa;
@@ -4836,19 +5073,17 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double Axrs = 1.0 - Axrf;
   const double dxrf_dt = (-xrf + xrss)/txrf;
   const double dxrf_dt_linearized = -1./txrf;
-  states[STATE_xrf] = (fabs(dxrf_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dxrf_dt_linearized))*dxrf_dt/dxrf_dt_linearized : dt*dxrf_dt) +
-    xrf;
+  states[STATE_xrf] =
+    (expm1(dt*dxrf_dt_linearized))*dxrf_dt/dxrf_dt_linearized + xrf;
   const double dxrs_dt = (-xrs + xrss)/txrs;
   const double dxrs_dt_linearized = -1./txrs;
-  states[STATE_xrs] = (fabs(dxrs_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dxrs_dt_linearized))*dxrs_dt/dxrs_dt_linearized : dt*dxrs_dt) +
-    xrs;
+  states[STATE_xrs] =
+    (expm1(dt*dxrs_dt_linearized))*dxrs_dt/dxrs_dt_linearized + xrs;
   const double xr = Axrf*xrf + Axrs*xrs;
   const double rkr = 1.0/((1.0 +
     2.08200908407846*exp(0.0133333333333333*v))*(1.0 +
     0.716531310573789*exp(0.0333333333333333*v)));
-  const double GKr = 0.046*scale_IKr;
+  const double GKr = 0.046*scale_IKr*scale_drug_IKr;
   const double IKr = 0.430331482911935*sqrt(ko)*(-EK + v)*GKr*rkr*xr;
 
   // Expressions for the IKs component
@@ -4858,19 +5093,17 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     0.000518480908358166*exp(-0.00434782608695652*v));
   const double dxs1_dt = (-xs1 + xs1ss)/txs1;
   const double dxs1_dt_linearized = -1./txs1;
-  states[STATE_xs1] = (fabs(dxs1_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dxs1_dt_linearized))*dxs1_dt/dxs1_dt_linearized : dt*dxs1_dt) +
-    xs1;
+  states[STATE_xs1] =
+    (expm1(dt*dxs1_dt_linearized))*dxs1_dt/dxs1_dt_linearized + xs1;
   const double xs2ss = xs1ss;
   const double txs2 = 1.0/(0.00225613570106391*exp(-0.032258064516129*v) +
     0.000820849986238988*exp(0.05*v));
   const double dxs2_dt = (-xs2 + xs2ss)/txs2;
   const double dxs2_dt_linearized = -1./txs2;
-  states[STATE_xs2] = (fabs(dxs2_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dxs2_dt_linearized))*dxs2_dt/dxs2_dt_linearized : dt*dxs2_dt) +
-    xs2;
+  states[STATE_xs2] =
+    (expm1(dt*dxs2_dt_linearized))*dxs2_dt/dxs2_dt_linearized + xs2;
   const double KsCa = 1.0 + 0.6/(1.0 + 6.48182102606265e-7*pow(1.0/cai, 1.4));
-  const double GKs = 0.0034*scale_IKs;
+  const double GKs = 0.0034*scale_IKs*scale_drug_IKs;
   const double IKs = (-EKs + v)*GKs*KsCa*xs1*xs2;
   const double xk1ss = 1.0/(1.0 + exp((-144.59 - v - 2.5538*ko)/(3.8115 +
     1.5692*ko)));
@@ -4878,12 +5111,11 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     30.433647575249*exp(0.0144237703735757*v));
   const double dxk1_dt = (-xk1 + xk1ss)/txk1;
   const double dxk1_dt_linearized = -1./txk1;
-  states[STATE_xk1] = (fabs(dxk1_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dxk1_dt_linearized))*dxk1_dt/dxk1_dt_linearized : dt*dxk1_dt) +
-    xk1;
+  states[STATE_xk1] =
+    (expm1(dt*dxk1_dt_linearized))*dxk1_dt/dxk1_dt_linearized + xk1;
   const double rk1 = 1.0/(1.0 + 69220.6322106767*exp(0.105340777414937*v -
     0.273886021278837*ko));
-  const double GK1 = 0.1908*scale_IK1;
+  const double GK1 = 0.1908*scale_HF_GK1*scale_IK1*scale_drug_IK1;
   const double IK1 = sqrt(ko)*(-EK + v)*GK1*rk1*xk1;
 
   // Expressions for the INaCa_i component
@@ -4926,7 +5158,8 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double JncxNa_i = E3_i*k4pp_i - E2_i*k3pp_i + 3.0*E4_i*k7_i -
     3.0*E1_i*k8_i;
   const double JncxCa_i = E2_i*k2_i - E1_i*k1_i;
-  const double INaCa_i = 0.8*Gncx*(zca*JncxCa_i + zna*JncxNa_i)*allo_i;
+  const double INaCa_i = 0.8*Gncx*scale_HF_Gncx*(zca*JncxCa_i +
+    zna*JncxNa_i)*allo_i;
 
   // Expressions for the INaCa_ss component
   const double h1 = 1. + (1. + hna)*nass/kna3;
@@ -4965,7 +5198,8 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double JncxNa_ss = E3_ss*k4pp - E2_ss*k3pp + 3.0*E4_ss*k7 -
     3.0*E1_ss*k8;
   const double JncxCa_ss = E2_ss*k2 - E1_ss*k1;
-  const double INaCa_ss = 0.2*Gncx*(zca*JncxCa_ss + zna*JncxNa_ss)*allo_ss;
+  const double INaCa_ss = 0.2*Gncx*scale_HF_Gncx*(zca*JncxCa_ss +
+    zna*JncxNa_ss)*allo_ss;
 
   // Expressions for the INaK component
   const double Knai = Knai0*exp(0.333333333333333*F*delta*v/(R*T));
@@ -4993,21 +5227,22 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double E4 = x4/(x1 + x2 + x3 + x4);
   const double JnakNa = 3.0*E1*a3 - 3.0*E2*b3;
   const double JnakK = 2.0*E4*b1 - 2.0*E3*a1;
-  const double INaK = Pnak*(zk*JnakK + zna*JnakNa);
+  const double INaK = Pnak*scale_HF_Pnak*(zk*JnakK + zna*JnakNa);
 
   // Expressions for the IKb component
   const double xkb = 1.0/(1.0 + 2.20236345094924*exp(-0.054525627044711*v));
-  const double IKb = GKb*(-EK + v)*xkb;
+  const double IKb = GKb*scale_drug_IKb*(-EK + v)*xkb;
 
   // Expressions for the INab component
-  const double INab = PNab*(-nao + exp(vfrt)*nai)*vffrt/(-1.0 + exp(vfrt));
+  const double INab = PNab*scale_drug_INab*(-nao + exp(vfrt)*nai)*vffrt/(-1.0 +
+    exp(vfrt));
 
   // Expressions for the ICab component
-  const double ICab = 4.0*PCab*(-0.341*cao + cai*exp(2.0*vfrt))*vffrt/(-1.0 +
-    exp(2.0*vfrt));
+  const double ICab = 4.0*PCab*scale_drug_ICab*(-0.341*cao +
+    cai*exp(2.0*vfrt))*vffrt/(-1.0 + exp(2.0*vfrt));
 
   // Expressions for the IpCa component
-  const double IpCa = GpCa*cai/(0.0005 + cai);
+  const double IpCa = GpCa*scale_drug_IpCa*cai/(0.0005 + cai);
 
   // Expressions for the Isac (Pueyo)--> ns + k component
   const double Isac_P_ns = 0.;
@@ -5125,10 +5360,11 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     fca*jca*nca)*PCaNa*d + ((1.0 - nca)*fp + fcap*jca*nca)*PCaNap*d*fICaLp;
   const double dICaNa_dfca = (1.0 - fICaLp)*PCaNa*PhiCaNa*d*jca*nca;
   const double dICaNa_dfcap = PCaNap*PhiCaNa*d*fICaLp*jca*nca;
-  const double dICab_dvffrt = 4.0*PCab*(-0.341*cao + cai*exp(2.0*vfrt))/(-1.0 +
-    exp(2.0*vfrt));
-  const double dICab_dvfrt = 8.0*PCab*cai*exp(2.0*vfrt)*vffrt/(-1.0 +
-    exp(2.0*vfrt)) - 8.0*PCab*(-0.341*cao +
+  const double dICab_dvffrt = 4.0*PCab*scale_drug_ICab*(-0.341*cao +
+    cai*exp(2.0*vfrt))/(-1.0 + exp(2.0*vfrt));
+  const double dICab_dvfrt =
+    8.0*PCab*scale_drug_ICab*cai*exp(2.0*vfrt)*vffrt/(-1.0 + exp(2.0*vfrt)) -
+    8.0*PCab*scale_drug_ICab*(-0.341*cao +
     cai*exp(2.0*vfrt))*exp(2.0*vfrt)*vffrt/((-1.0 + exp(2.0*vfrt))*(-1.0 +
     exp(2.0*vfrt)));
   const double dIK1_drk1 = sqrt(ko)*(-EK + v)*GK1*xk1;
@@ -5141,8 +5377,9 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double dxkb_dv = 0.120085248143361*exp(-0.054525627044711*v)/((1.0 +
     2.20236345094924*exp(-0.054525627044711*v))*(1.0 +
     2.20236345094924*exp(-0.054525627044711*v)));
-  const double dIKb_dv = GKb*xkb + GKb*(-EK + v)*dxkb_dv;
-  const double dIKb_dxkb = GKb*(-EK + v);
+  const double dIKb_dv = GKb*scale_drug_IKb*xkb + GKb*scale_drug_IKb*(-EK +
+    v)*dxkb_dv;
+  const double dIKb_dxkb = GKb*scale_drug_IKb*(-EK + v);
   const double dIKr_drkr = 0.430331482911935*sqrt(ko)*(-EK + v)*GKr*xr;
   const double drkr_dv = -0.0238843770191263*exp(0.0333333333333333*v)/((1.0 +
     2.08200908407846*exp(0.0133333333333333*v))*((1.0 +
@@ -5159,22 +5396,28 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     v)*GKr*drkr_dv*xr;
   const double dIKr_dxr = 0.430331482911935*sqrt(ko)*(-EK + v)*GKr*rkr;
   const double dIKs_dv = GKs*KsCa*xs1*xs2;
-  const double dINa_dv = GNa*pow(m, 3.0)*((1.0 - fINap)*h*j + fINap*hp*jp);
-  const double dINaCa_i_dJncxCa_i = 0.8*Gncx*zca*allo_i;
-  const double dINaCa_i_dJncxNa_i = 0.8*Gncx*zna*allo_i;
-  const double dINaCa_ss_dJncxCa_ss = 0.2*Gncx*zca*allo_ss;
-  const double dINaCa_ss_dJncxNa_ss = 0.2*Gncx*zna*allo_ss;
+  const double dINa_dv = GNa*scale_drug_INa*pow(m, 3.0)*((1.0 - fINap)*h*j +
+    fINap*hp*jp);
+  const double dINaCa_i_dJncxCa_i = 0.8*Gncx*scale_HF_Gncx*zca*allo_i;
+  const double dINaCa_i_dJncxNa_i = 0.8*Gncx*scale_HF_Gncx*zna*allo_i;
+  const double dINaCa_ss_dJncxCa_ss = 0.2*Gncx*scale_HF_Gncx*zca*allo_ss;
+  const double dINaCa_ss_dJncxNa_ss = 0.2*Gncx*scale_HF_Gncx*zna*allo_ss;
+  const double dINaK_dJnakK = Pnak*scale_HF_Pnak*zk;
+  const double dINaK_dJnakNa = Pnak*scale_HF_Pnak*zna;
   const double dINaL_dv = ((1.0 - fINaLp)*hL + fINaLp*hLp)*GNaL*mL;
-  const double dINab_dvffrt = PNab*(-nao + exp(vfrt)*nai)/(-1.0 + exp(vfrt));
-  const double dINab_dvfrt = PNab*exp(vfrt)*nai*vffrt/(-1.0 + exp(vfrt)) -
-    PNab*(-nao + exp(vfrt)*nai)*exp(vfrt)*vffrt/((-1.0 + exp(vfrt))*(-1.0 +
-    exp(vfrt)));
-  const double dIto_di = Gto*(1.0 - fItop)*(-EK + v)*a;
-  const double dIto_dip = Gto*(-EK + v)*ap*fItop;
+  const double dINab_dvffrt = PNab*scale_drug_INab*(-nao +
+    exp(vfrt)*nai)/(-1.0 + exp(vfrt));
+  const double dINab_dvfrt = PNab*scale_drug_INab*exp(vfrt)*nai*vffrt/(-1.0 +
+    exp(vfrt)) - PNab*scale_drug_INab*(-nao +
+    exp(vfrt)*nai)*exp(vfrt)*vffrt/((-1.0 + exp(vfrt))*(-1.0 + exp(vfrt)));
+  const double dIto_di = Gto*scale_HF_Gto*scale_drug_Ito*(1.0 - fItop)*(-EK +
+    v)*a;
+  const double dIto_dip = Gto*scale_HF_Gto*scale_drug_Ito*(-EK + v)*ap*fItop;
   const double di_dAiF = -iS + iF;
   const double dip_dAiF = -iSp + iFp;
-  const double dIto_dv = Gto*((1.0 - fItop)*a*i + ap*fItop*ip) + Gto*(-EK +
-    v)*((1.0 - fItop)*(dAiF_dv*di_dAiF - dAiF_dv*iS)*a + (dAiF_dv*dip_dAiF -
+  const double dIto_dv = Gto*scale_HF_Gto*scale_drug_Ito*((1.0 - fItop)*a*i +
+    ap*fItop*ip) + Gto*scale_HF_Gto*scale_drug_Ito*(-EK + v)*((1.0 -
+    fItop)*(dAiF_dv*di_dAiF - dAiF_dv*iS)*a + (dAiF_dv*dip_dAiF -
     dAiF_dv*iSp)*ap*fItop);
   const double dx1_da1 = a2*a4 + a2*b3;
   const double dx4_da1 = a3*a4 + a4*b2 + b2*b3;
@@ -5429,11 +5672,40 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     (dAxrf_dv*dxr_dAxrf - dAxrf_dv*xrs)*dIKr_dxr - (dPhiCaK_dvffrt*dvffrt_dv
     + dPhiCaK_dvfrt*dvfrt_dv)*dICaK_dPhiCaK - (dPhiCaL_dvffrt*dvffrt_dv +
     dPhiCaL_dvfrt*dvfrt_dv)*dICaL_dPhiCaL - (dPhiCaNa_dvffrt*dvffrt_dv +
-    dPhiCaNa_dvfrt*dvfrt_dv)*dICaNa_dPhiCaNa - ((((wnaca*(dh8_dhna*dhna_dv +
-    dh7_dhna*dh8_dh7*dhna_dv) + wca*dh7_dhna*dh9_dh7*dhna_dv)*dx3_ss_dk3 +
-    wna*(dh8_dhna*dhna_dv + dh7_dhna*dh8_dh7*dhna_dv)*dx3_ss_dk8*h11 +
-    wna*(dh2_dhna*dhna_dv + dh1_dhna*dh2_dh1*dhna_dv)*h5*k1*k3)*dE3_ss_dx3_ss
-    + ((wnaca*(dh8_dhna*dhna_dv + dh7_dhna*dh8_dh7*dhna_dv) +
+    dPhiCaNa_dvfrt*dvfrt_dv)*dICaNa_dPhiCaNa -
+    (2.0*((dKnao_dv*da3_dKnao*dx3_da3 + dKnao_dv*db2_dKnao*dx3_db2)*dE4_dx3 +
+    (dKnai_dv*da1_dKnai*dx1_da1 + dKnai_dv*db4_dKnai*dx1_db4 +
+    b3*b4*dKnao_dv*db2_dKnao)*dE4_dx1 + (dKnai_dv*da1_dKnai*dx4_da1 +
+    dKnao_dv*db2_dKnao*dx4_db2 + a1*a4*dKnao_dv*da3_dKnao +
+    b2*b3*dKnai_dv*db4_dKnai)*dE4_dx4 + (dKnai_dv*db4_dKnai*dx2_db4 +
+    dKnao_dv*da3_dKnao*dx2_da3 + a2*a3*dKnai_dv*da1_dKnai +
+    b1*b4*dKnao_dv*db2_dKnao)*dE4_dx2)*b1 - 2.0*((dKnao_dv*da3_dKnao*dx3_da3 +
+    dKnao_dv*db2_dKnao*dx3_db2)*dE3_dx3 + (dKnai_dv*da1_dKnai*dx1_da1 +
+    dKnai_dv*db4_dKnai*dx1_db4 + b3*b4*dKnao_dv*db2_dKnao)*dE3_dx1 +
+    (dKnai_dv*da1_dKnai*dx4_da1 + dKnao_dv*db2_dKnao*dx4_db2 +
+    a1*a4*dKnao_dv*da3_dKnao + b2*b3*dKnai_dv*db4_dKnai)*dE3_dx4 +
+    (dKnai_dv*db4_dKnai*dx2_db4 + dKnao_dv*da3_dKnao*dx2_da3 +
+    a2*a3*dKnai_dv*da1_dKnai + b1*b4*dKnao_dv*db2_dKnao)*dE3_dx2)*a1 +
+    dJnakK_da1*dKnai_dv*da1_dKnai)*dINaK_dJnakK -
+    (3.0*((dKnao_dv*da3_dKnao*dx3_da3 + dKnao_dv*db2_dKnao*dx3_db2)*dE1_dx3 +
+    (dKnai_dv*da1_dKnai*dx1_da1 + dKnai_dv*db4_dKnai*dx1_db4 +
+    b3*b4*dKnao_dv*db2_dKnao)*dE1_dx1 + (dKnai_dv*da1_dKnai*dx4_da1 +
+    dKnao_dv*db2_dKnao*dx4_db2 + a1*a4*dKnao_dv*da3_dKnao +
+    b2*b3*dKnai_dv*db4_dKnai)*dE1_dx4 + (dKnai_dv*db4_dKnai*dx2_db4 +
+    dKnao_dv*da3_dKnao*dx2_da3 + a2*a3*dKnai_dv*da1_dKnai +
+    b1*b4*dKnao_dv*db2_dKnao)*dE1_dx2)*a3 - 3.0*((dKnao_dv*da3_dKnao*dx3_da3 +
+    dKnao_dv*db2_dKnao*dx3_db2)*dE2_dx3 + (dKnai_dv*da1_dKnai*dx1_da1 +
+    dKnai_dv*db4_dKnai*dx1_db4 + b3*b4*dKnao_dv*db2_dKnao)*dE2_dx1 +
+    (dKnai_dv*da1_dKnai*dx4_da1 + dKnao_dv*db2_dKnao*dx4_db2 +
+    a1*a4*dKnao_dv*da3_dKnao + b2*b3*dKnai_dv*db4_dKnai)*dE2_dx4 +
+    (dKnai_dv*db4_dKnai*dx2_db4 + dKnao_dv*da3_dKnao*dx2_da3 +
+    a2*a3*dKnai_dv*da1_dKnai + b1*b4*dKnao_dv*db2_dKnao)*dE2_dx2)*b3 +
+    dJnakNa_da3*dKnao_dv*da3_dKnao)*dINaK_dJnakNa -
+    ((((wnaca*(dh8_dhna*dhna_dv + dh7_dhna*dh8_dh7*dhna_dv) +
+    wca*dh7_dhna*dh9_dh7*dhna_dv)*dx3_ss_dk3 + wna*(dh8_dhna*dhna_dv +
+    dh7_dhna*dh8_dh7*dhna_dv)*dx3_ss_dk8*h11 + wna*(dh2_dhna*dhna_dv +
+    dh1_dhna*dh2_dh1*dhna_dv)*h5*k1*k3)*dE3_ss_dx3_ss +
+    ((wnaca*(dh8_dhna*dhna_dv + dh7_dhna*dh8_dh7*dhna_dv) +
     wca*dh7_dhna*dh9_dh7*dhna_dv)*dx4_ss_dk3 + (wnaca*(dh2_dhna*dhna_dv +
     dh1_dhna*dh2_dh1*dhna_dv) + dhca_dv*dk4p_ss_dhca +
     dh1_dhna*dh3_dh1*dhna_dv*dk4p_ss_dh3)*k2*k8 + wna*(dh8_dhna*dhna_dv +
@@ -5620,36 +5892,9 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     dh7_i_dhna*dh8_i_dh7_i*dhna_dv)*dJncxNa_i_dk8_i*h11_i)*dINaCa_i_dJncxNa_i
     - dICab_dvffrt*dvffrt_dv - dICab_dvfrt*dvfrt_dv - dIK1_drk1*drk1_dv -
     dIKb_dxkb*dxkb_dv - dIKr_drkr*drkr_dv - dINab_dvffrt*dvffrt_dv -
-    dINab_dvfrt*dvfrt_dv - Pnak*zk*(2.0*((dKnao_dv*da3_dKnao*dx3_da3 +
-    dKnao_dv*db2_dKnao*dx3_db2)*dE4_dx3 + (dKnai_dv*da1_dKnai*dx1_da1 +
-    dKnai_dv*db4_dKnai*dx1_db4 + b3*b4*dKnao_dv*db2_dKnao)*dE4_dx1 +
-    (dKnai_dv*da1_dKnai*dx4_da1 + dKnao_dv*db2_dKnao*dx4_db2 +
-    a1*a4*dKnao_dv*da3_dKnao + b2*b3*dKnai_dv*db4_dKnai)*dE4_dx4 +
-    (dKnai_dv*db4_dKnai*dx2_db4 + dKnao_dv*da3_dKnao*dx2_da3 +
-    a2*a3*dKnai_dv*da1_dKnai + b1*b4*dKnao_dv*db2_dKnao)*dE4_dx2)*b1 -
-    2.0*((dKnao_dv*da3_dKnao*dx3_da3 + dKnao_dv*db2_dKnao*dx3_db2)*dE3_dx3 +
-    (dKnai_dv*da1_dKnai*dx1_da1 + dKnai_dv*db4_dKnai*dx1_db4 +
-    b3*b4*dKnao_dv*db2_dKnao)*dE3_dx1 + (dKnai_dv*da1_dKnai*dx4_da1 +
-    dKnao_dv*db2_dKnao*dx4_db2 + a1*a4*dKnao_dv*da3_dKnao +
-    b2*b3*dKnai_dv*db4_dKnai)*dE3_dx4 + (dKnai_dv*db4_dKnai*dx2_db4 +
-    dKnao_dv*da3_dKnao*dx2_da3 + a2*a3*dKnai_dv*da1_dKnai +
-    b1*b4*dKnao_dv*db2_dKnao)*dE3_dx2)*a1 + dJnakK_da1*dKnai_dv*da1_dKnai) -
-    Pnak*zna*(3.0*((dKnao_dv*da3_dKnao*dx3_da3 +
-    dKnao_dv*db2_dKnao*dx3_db2)*dE1_dx3 + (dKnai_dv*da1_dKnai*dx1_da1 +
-    dKnai_dv*db4_dKnai*dx1_db4 + b3*b4*dKnao_dv*db2_dKnao)*dE1_dx1 +
-    (dKnai_dv*da1_dKnai*dx4_da1 + dKnao_dv*db2_dKnao*dx4_db2 +
-    a1*a4*dKnao_dv*da3_dKnao + b2*b3*dKnai_dv*db4_dKnai)*dE1_dx4 +
-    (dKnai_dv*db4_dKnai*dx2_db4 + dKnao_dv*da3_dKnao*dx2_da3 +
-    a2*a3*dKnai_dv*da1_dKnai + b1*b4*dKnao_dv*db2_dKnao)*dE1_dx2)*a3 -
-    3.0*((dKnao_dv*da3_dKnao*dx3_da3 + dKnao_dv*db2_dKnao*dx3_db2)*dE2_dx3 +
-    (dKnai_dv*da1_dKnai*dx1_da1 + dKnai_dv*db4_dKnai*dx1_db4 +
-    b3*b4*dKnao_dv*db2_dKnao)*dE2_dx1 + (dKnai_dv*da1_dKnai*dx4_da1 +
-    dKnao_dv*db2_dKnao*dx4_db2 + a1*a4*dKnao_dv*da3_dKnao +
-    b2*b3*dKnai_dv*db4_dKnai)*dE2_dx4 + (dKnai_dv*db4_dKnai*dx2_db4 +
-    dKnao_dv*da3_dKnao*dx2_da3 + a2*a3*dKnai_dv*da1_dKnai +
-    b1*b4*dKnao_dv*db2_dKnao)*dE2_dx2)*b3 + dJnakNa_da3*dKnao_dv*da3_dKnao);
-  states[STATE_v] = (fabs(dv_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dv_dt_linearized))*dv_dt/dv_dt_linearized : dt*dv_dt) + v;
+    dINab_dvfrt*dvfrt_dv;
+  states[STATE_v] = (fabs(dv_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dv_dt_linearized))*dv_dt/dv_dt_linearized : dt*dv_dt) + v;
 
   // Expressions for the diffusion fluxes component
   const double JdiffNa = 0.5*nass - 0.5*nai;
@@ -5658,25 +5903,25 @@ void forward_rush_larsen(double *__restrict states, const double t, const
 
   // Expressions for the ryanodione receptor component
   const double a_rel = 0.5*bt;
-  const double Jrel_inf = -ICaL*a_rel/(1.0 + 25.62890625*pow(1.0/cajsr, 8.0));
+  const double Jrel_inf = -ICaL*a_rel/(1.0 +
+    25.62890625*pow(scale_HF_Jrel_inf/cajsr, 8.0));
   const double tau_rel_tmp = bt/(1.0 + 0.0123/cajsr);
   const double tau_rel = (tau_rel_tmp < 0.001 ? 0.001 : tau_rel_tmp);
   const double dJrelnp_dt = (-Jrelnp + Jrel_inf)/tau_rel;
   const double dJrelnp_dt_linearized = -1./tau_rel;
-  states[STATE_Jrelnp] = Jrelnp + (fabs(dJrelnp_dt_linearized) > 1.0e-8 ?
-    (-1.0 + exp(dt*dJrelnp_dt_linearized))*dJrelnp_dt/dJrelnp_dt_linearized :
-    dt*dJrelnp_dt);
+  states[STATE_Jrelnp] =
+    (expm1(dt*dJrelnp_dt_linearized))*dJrelnp_dt/dJrelnp_dt_linearized +
+    Jrelnp;
   const double btp = 1.25*bt;
   const double a_relp = 0.5*btp;
-  const double Jrel_infp = -ICaL*a_relp/(1.0 + 25.62890625*pow(1.0/cajsr,
-    8.0));
+  const double Jrel_infp = -ICaL*a_relp/(1.0 +
+    25.62890625*pow(scale_HF_Jrel_inf/cajsr, 8.0));
   const double tau_relp_tmp = btp/(1.0 + 0.0123/cajsr);
   const double tau_relp = (tau_relp_tmp < 0.001 ? 0.001 : tau_relp_tmp);
   const double dJrelp_dt = (-Jrelp + Jrel_infp)/tau_relp;
   const double dJrelp_dt_linearized = -1./tau_relp;
-  states[STATE_Jrelp] = Jrelp + (fabs(dJrelp_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dJrelp_dt_linearized))*dJrelp_dt/dJrelp_dt_linearized :
-    dt*dJrelp_dt);
+  states[STATE_Jrelp] =
+    (expm1(dt*dJrelp_dt_linearized))*dJrelp_dt/dJrelp_dt_linearized + Jrelp;
   const double fJrelp = 1.0/(1.0 + KmCaMK/CaMKa);
   const double Jrel = (1.0 - fJrelp)*Jrelnp + Jrelp*fJrelp;
 
@@ -5684,17 +5929,19 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double Jupnp = 0.004375*cai/(0.00092 + cai);
   const double Jupp = 0.01203125*cai/(0.00075 + cai);
   const double fJupp = 1.0/(1.0 + KmCaMK/CaMKa);
-  const double Jleak = 0.0002625*cansr;
-  const double Jup = -Jleak + (1.0 - fJupp)*Jupnp + Jupp*fJupp;
+  const double Jleak = 0.0002625*scale_HF_Jleak*cansr;
+  const double Jup = -Jleak + (1.0 - fJupp)*Jupnp + scale_HF_Jup*Jupp*fJupp;
   const double Jtr = 0.01*cansr - 0.01*cajsr;
 
   // Expressions for the intracellular concentrations component
   const double dnai_dt = JdiffNa*vss/vmyo + (-INa - INaL - INab -
     Isac_P_ns/3. - 3.0*INaCa_i - 3.0*INaK)*Acap/(F*vmyo);
   const double dENa_dnai = -R*T/(F*nai);
-  const double dINa_dENa = -GNa*pow(m, 3.0)*((1.0 - fINap)*h*j + fINap*hp*jp);
+  const double dINa_dENa = -GNa*scale_drug_INa*pow(m, 3.0)*((1.0 - fINap)*h*j
+    + fINap*hp*jp);
   const double dINaL_dENa = -((1.0 - fINaLp)*hL + fINaLp*hLp)*GNaL*mL;
-  const double dINab_dnai = PNab*exp(vfrt)*vffrt/(-1.0 + exp(vfrt));
+  const double dINab_dnai = PNab*scale_drug_INab*exp(vfrt)*vffrt/(-1.0 +
+    exp(vfrt));
   const double dx1_db3 = a1*a2 + a2*b4 + b2*b4;
   const double dx4_db3 = a1*b2 + b2*b4;
   const double dJnakNa_db3 = -3.0*E2 + 3.0*(dE1_dx1*dx1_db3 + dE1_dx4*dx4_db3 +
@@ -5753,7 +6000,23 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     kcaon*cai*dh4_i_dnai*dh6_i_dh4_i*dx2_i_dk6_i)*dE1_i_dx2_i +
     (wnaca*(dh1_i_dnai*dh2_i_dh1_i + dh2_i_dnai) +
     dh1_i_dnai*dh3_i_dh1_i*dk4p_i_dh3_i)*dE1_i_dx4_i*k2_i*k8_i)*k1_i)*dINaCa_i_dJncxCa_i
-    - 3.0*((wna*(dh1_i_dnai*dh2_i_dh1_i + dh2_i_dnai)*h5_i +
+    - 3.0*(dJnakK_da1*da1_dnai + 2.0*((db4_dnai*dx2_db4 +
+    a2*a3*da1_dnai)*dE4_dx2 + (da1_dnai*dx1_da1 + db4_dnai*dx1_db4 +
+    dP_dnai*db3_dP*dx1_db3)*dE4_dx1 + (da1_dnai*dx4_da1 + b2*b3*db4_dnai +
+    dP_dnai*db3_dP*dx4_db3)*dE4_dx4 + b1*b2*dE4_dx3*dP_dnai*db3_dP)*b1 -
+    2.0*((db4_dnai*dx2_db4 + a2*a3*da1_dnai)*dE3_dx2 + (da1_dnai*dx1_da1 +
+    db4_dnai*dx1_db4 + dP_dnai*db3_dP*dx1_db3)*dE3_dx1 + (da1_dnai*dx4_da1 +
+    b2*b3*db4_dnai + dP_dnai*db3_dP*dx4_db3)*dE3_dx4 +
+    b1*b2*dE3_dx3*dP_dnai*db3_dP)*a1)*dINaK_dJnakK -
+    3.0*(3.0*((db4_dnai*dx2_db4 + a2*a3*da1_dnai)*dE1_dx2 + (da1_dnai*dx1_da1 +
+    db4_dnai*dx1_db4 + dP_dnai*db3_dP*dx1_db3)*dE1_dx1 + (da1_dnai*dx4_da1 +
+    b2*b3*db4_dnai + dP_dnai*db3_dP*dx4_db3)*dE1_dx4 +
+    b1*b2*dE1_dx3*dP_dnai*db3_dP)*a3 - 3.0*((db4_dnai*dx2_db4 +
+    a2*a3*da1_dnai)*dE2_dx2 + (da1_dnai*dx1_da1 + db4_dnai*dx1_db4 +
+    dP_dnai*db3_dP*dx1_db3)*dE2_dx1 + (da1_dnai*dx4_da1 + b2*b3*db4_dnai +
+    dP_dnai*db3_dP*dx4_db3)*dE2_dx4 + b1*b2*dE2_dx3*dP_dnai*db3_dP)*b3 +
+    dJnakNa_db3*dP_dnai*db3_dP)*dINaK_dJnakNa -
+    3.0*((wna*(dh1_i_dnai*dh2_i_dh1_i + dh2_i_dnai)*h5_i +
     wna*(dh4_i_dnai*dh5_i_dh4_i + dh5_i_dnai)*h2_i)*dJncxNa_i_dk7_i +
     (((wna*(dh1_i_dnai*dh2_i_dh1_i + dh2_i_dnai)*h5_i +
     wna*(dh4_i_dnai*dh5_i_dh4_i + dh5_i_dnai)*h2_i)*k1_i*k3_i +
@@ -5816,25 +6079,9 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     (wnaca*(dh1_i_dnai*dh2_i_dh1_i + dh2_i_dnai) +
     dh1_i_dnai*dh3_i_dh1_i*dk4p_i_dh3_i)*dE1_i_dx4_i*k2_i*k8_i)*k8_i +
     wnaca*(dh1_i_dnai*dh2_i_dh1_i +
-    dh2_i_dnai)*dJncxNa_i_dk4pp_i)*dINaCa_i_dJncxNa_i -
-    3.0*Pnak*zk*(dJnakK_da1*da1_dnai + 2.0*((db4_dnai*dx2_db4 +
-    a2*a3*da1_dnai)*dE4_dx2 + (da1_dnai*dx1_da1 + db4_dnai*dx1_db4 +
-    dP_dnai*db3_dP*dx1_db3)*dE4_dx1 + (da1_dnai*dx4_da1 + b2*b3*db4_dnai +
-    dP_dnai*db3_dP*dx4_db3)*dE4_dx4 + b1*b2*dE4_dx3*dP_dnai*db3_dP)*b1 -
-    2.0*((db4_dnai*dx2_db4 + a2*a3*da1_dnai)*dE3_dx2 + (da1_dnai*dx1_da1 +
-    db4_dnai*dx1_db4 + dP_dnai*db3_dP*dx1_db3)*dE3_dx1 + (da1_dnai*dx4_da1 +
-    b2*b3*db4_dnai + dP_dnai*db3_dP*dx4_db3)*dE3_dx4 +
-    b1*b2*dE3_dx3*dP_dnai*db3_dP)*a1) - 3.0*Pnak*zna*(3.0*((db4_dnai*dx2_db4 +
-    a2*a3*da1_dnai)*dE1_dx2 + (da1_dnai*dx1_da1 + db4_dnai*dx1_db4 +
-    dP_dnai*db3_dP*dx1_db3)*dE1_dx1 + (da1_dnai*dx4_da1 + b2*b3*db4_dnai +
-    dP_dnai*db3_dP*dx4_db3)*dE1_dx4 + b1*b2*dE1_dx3*dP_dnai*db3_dP)*a3 -
-    3.0*((db4_dnai*dx2_db4 + a2*a3*da1_dnai)*dE2_dx2 + (da1_dnai*dx1_da1 +
-    db4_dnai*dx1_db4 + dP_dnai*db3_dP*dx1_db3)*dE2_dx1 + (da1_dnai*dx4_da1 +
-    b2*b3*db4_dnai + dP_dnai*db3_dP*dx4_db3)*dE2_dx4 +
-    b1*b2*dE2_dx3*dP_dnai*db3_dP)*b3 +
-    dJnakNa_db3*dP_dnai*db3_dP))*Acap/(F*vmyo);
-  states[STATE_nai] = (fabs(dnai_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dnai_dt_linearized))*dnai_dt/dnai_dt_linearized : dt*dnai_dt) +
+    dh2_i_dnai)*dJncxNa_i_dk4pp_i)*dINaCa_i_dJncxNa_i)*Acap/(F*vmyo);
+  states[STATE_nai] = (fabs(dnai_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dnai_dt_linearized))*dnai_dt/dnai_dt_linearized : dt*dnai_dt) +
     nai;
   const double dnass_dt = -JdiffNa + (-ICaNa - 3.0*INaCa_ss)*Acap/(F*vss);
   const double dPhiCaNa_dnass = 0.75*exp(1.0*vfrt)*vffrt/(-1.0 +
@@ -5930,18 +6177,19 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     dh1_dnass*dh3_dh1*dk4p_ss_dh3)*dE1_ss_dx4_ss*k2*k8)*k8 +
     wnaca*(dh1_dnass*dh2_dh1 +
     dh2_dnass)*dJncxNa_ss_dk4pp)*dINaCa_ss_dJncxNa_ss)*Acap/(F*vss);
-  states[STATE_nass] = (fabs(dnass_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dnass_dt_linearized))*dnass_dt/dnass_dt_linearized : dt*dnass_dt)
-    + nass;
+  states[STATE_nass] = (fabs(dnass_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dnass_dt_linearized))*dnass_dt/dnass_dt_linearized :
+    dt*dnass_dt) + nass;
   const double dki_dt = JdiffK*vss/vmyo + (-Isac_P_k - IK1 - IKb - IKr - IKs
     - Istim - Ito - Isac_P_ns/3. + 2.0*INaK)*Acap/(F*vmyo);
   const double dEK_dki = -R*T/(F*ki);
   const double dEKs_dki = -R*T/(F*(PKNa*nai + ki));
   const double dIK1_dEK = -sqrt(ko)*GK1*rk1*xk1;
-  const double dIKb_dEK = -GKb*xkb;
+  const double dIKb_dEK = -GKb*scale_drug_IKb*xkb;
   const double dIKr_dEK = -0.430331482911935*sqrt(ko)*GKr*rkr*xr;
   const double dIKs_dEKs = -GKs*KsCa*xs1*xs2;
-  const double dIto_dEK = -Gto*((1.0 - fItop)*a*i + ap*fItop*ip);
+  const double dIto_dEK = -Gto*scale_HF_Gto*scale_drug_Ito*((1.0 - fItop)*a*i
+    + ap*fItop*ip);
   const double dP_dki = -eP/(Kxkur*((1.0 + H/Khp + nai/Knap + ki/Kxkur)*(1.0 +
     H/Khp + nai/Knap + ki/Kxkur)));
   const double da1_dki = -2.0*k1p*pow(nai/Knai, 3.0)*pow(1.0 + ki/Kki,
@@ -5953,30 +6201,30 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     3.0))*(-1.0 + pow(1.0 + ki/Kki, 2.0) + pow(1.0 + nai/Knai, 3.0))));
   const double dki_dt_linearized = -0.5*vss/vmyo + (-dEK_dki*dIK1_dEK -
     dEK_dki*dIKb_dEK - dEK_dki*dIKr_dEK - dEK_dki*dIto_dEK -
-    dEKs_dki*dIKs_dEKs + 2.0*Pnak*zk*(dJnakK_da1*da1_dki +
-    2.0*((db4_dki*dx2_db4 + a2*a3*da1_dki)*dE4_dx2 + (da1_dki*dx1_da1 +
-    db4_dki*dx1_db4 + dP_dki*db3_dP*dx1_db3)*dE4_dx1 + (da1_dki*dx4_da1 +
-    b2*b3*db4_dki + dP_dki*db3_dP*dx4_db3)*dE4_dx4 +
-    b1*b2*dE4_dx3*dP_dki*db3_dP)*b1 - 2.0*((db4_dki*dx2_db4 +
-    a2*a3*da1_dki)*dE3_dx2 + (da1_dki*dx1_da1 + db4_dki*dx1_db4 +
-    dP_dki*db3_dP*dx1_db3)*dE3_dx1 + (da1_dki*dx4_da1 + b2*b3*db4_dki +
-    dP_dki*db3_dP*dx4_db3)*dE3_dx4 + b1*b2*dE3_dx3*dP_dki*db3_dP)*a1) +
-    2.0*Pnak*zna*(3.0*((db4_dki*dx2_db4 + a2*a3*da1_dki)*dE1_dx2 +
-    (da1_dki*dx1_da1 + db4_dki*dx1_db4 + dP_dki*db3_dP*dx1_db3)*dE1_dx1 +
-    (da1_dki*dx4_da1 + b2*b3*db4_dki + dP_dki*db3_dP*dx4_db3)*dE1_dx4 +
+    dEKs_dki*dIKs_dEKs + 2.0*(dJnakK_da1*da1_dki + 2.0*((db4_dki*dx2_db4 +
+    a2*a3*da1_dki)*dE4_dx2 + (da1_dki*dx1_da1 + db4_dki*dx1_db4 +
+    dP_dki*db3_dP*dx1_db3)*dE4_dx1 + (da1_dki*dx4_da1 + b2*b3*db4_dki +
+    dP_dki*db3_dP*dx4_db3)*dE4_dx4 + b1*b2*dE4_dx3*dP_dki*db3_dP)*b1 -
+    2.0*((db4_dki*dx2_db4 + a2*a3*da1_dki)*dE3_dx2 + (da1_dki*dx1_da1 +
+    db4_dki*dx1_db4 + dP_dki*db3_dP*dx1_db3)*dE3_dx1 + (da1_dki*dx4_da1 +
+    b2*b3*db4_dki + dP_dki*db3_dP*dx4_db3)*dE3_dx4 +
+    b1*b2*dE3_dx3*dP_dki*db3_dP)*a1)*dINaK_dJnakK +
+    2.0*(3.0*((db4_dki*dx2_db4 + a2*a3*da1_dki)*dE1_dx2 + (da1_dki*dx1_da1 +
+    db4_dki*dx1_db4 + dP_dki*db3_dP*dx1_db3)*dE1_dx1 + (da1_dki*dx4_da1 +
+    b2*b3*db4_dki + dP_dki*db3_dP*dx4_db3)*dE1_dx4 +
     b1*b2*dE1_dx3*dP_dki*db3_dP)*a3 - 3.0*((db4_dki*dx2_db4 +
     a2*a3*da1_dki)*dE2_dx2 + (da1_dki*dx1_da1 + db4_dki*dx1_db4 +
     dP_dki*db3_dP*dx1_db3)*dE2_dx1 + (da1_dki*dx4_da1 + b2*b3*db4_dki +
     dP_dki*db3_dP*dx4_db3)*dE2_dx4 + b1*b2*dE2_dx3*dP_dki*db3_dP)*b3 +
-    dJnakNa_db3*dP_dki*db3_dP))*Acap/(F*vmyo);
-  states[STATE_ki] = (fabs(dki_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dki_dt_linearized))*dki_dt/dki_dt_linearized : dt*dki_dt) + ki;
+    dJnakNa_db3*dP_dki*db3_dP)*dINaK_dJnakNa)*Acap/(F*vmyo);
+  states[STATE_ki] = (fabs(dki_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dki_dt_linearized))*dki_dt/dki_dt_linearized : dt*dki_dt) + ki;
   const double dkss_dt = -JdiffK - Acap*ICaK/(F*vss);
   const double dPhiCaK_dkss = 0.75*exp(1.0*vfrt)*vffrt/(-1.0 + exp(1.0*vfrt));
   const double dkss_dt_linearized = -0.5 -
     Acap*dICaK_dPhiCaK*dPhiCaK_dkss/(F*vss);
-  states[STATE_kss] = (fabs(dkss_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dkss_dt_linearized))*dkss_dt/dkss_dt_linearized : dt*dkss_dt) +
+  states[STATE_kss] = (fabs(dkss_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dkss_dt_linearized))*dkss_dt/dkss_dt_linearized : dt*dkss_dt) +
     kss;
   const double Bcass = 1.0/(1.0 + BSLmax*KmBSL*pow(KmBSL + cass, -2.0) +
     BSRmax*KmBSR*pow(KmBSR + cass, -2.0));
@@ -5991,7 +6239,8 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     KmCaM/cass)*(1.0 + KmCaM/cass))*(cass*cass));
   const double dICaL_dfICaLp = ((1.0 - nca)*fp + fcap*jca*nca)*PCap*PhiCaL*d
     - ((1.0 - nca)*f + fca*jca*nca)*PCa*PhiCaL*d;
-  const double dINaCa_ss_dallo_ss = 0.2*Gncx*(zca*JncxCa_ss + zna*JncxNa_ss);
+  const double dINaCa_ss_dallo_ss = 0.2*Gncx*scale_HF_Gncx*(zca*JncxCa_ss +
+    zna*JncxNa_ss);
   const double dJrel_dfJrelp = -Jrelnp + Jrelp;
   const double dPhiCaL_dcass = 4.0*exp(2.0*vfrt)*vffrt/(-1.0 + exp(2.0*vfrt));
   const double dallo_ss_dcass = 2.0*pow(KmCaAct/cass, 2.0)/(((1.0 +
@@ -6016,16 +6265,18 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     kcaon*dE1_ss_dx3_ss*dx3_ss_dk6*h6 +
     kcaon*dE1_ss_dx1_ss*h6*k2*k4)*k8)*dINaCa_ss_dJncxNa_ss +
     2.0*dINaCa_ss_dallo_ss*dallo_ss_dcass -
-    dCaMKb_dcass*dICaL_dfICaLp*dfICaLp_dCaMKa)*Acap/(F*vss) +
-    dCaMKb_dcass*dJrel_dfJrelp*dfJrelp_dCaMKa*vjsr/vss)*Bcass + (-Jdiff +
-    Jrel*vjsr/vss + 0.5*(-ICaL + 2.0*INaCa_ss)*Acap/(F*vss))*dBcass_dcass;
-  states[STATE_cass] = (fabs(dcass_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dcass_dt_linearized))*dcass_dt/dcass_dt_linearized : dt*dcass_dt)
-    + cass;
+    scale_HF_CaMKa*dCaMKb_dcass*dICaL_dfICaLp*dfICaLp_dCaMKa)*Acap/(F*vss) +
+    scale_HF_CaMKa*dCaMKb_dcass*dJrel_dfJrelp*dfJrelp_dCaMKa*vjsr/vss)*Bcass
+    + (-Jdiff + Jrel*vjsr/vss + 0.5*(-ICaL +
+    2.0*INaCa_ss)*Acap/(F*vss))*dBcass_dcass;
+  states[STATE_cass] = (fabs(dcass_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dcass_dt_linearized))*dcass_dt/dcass_dt_linearized :
+    dt*dcass_dt) + cass;
   const double dcansr_dt = -Jtr*vjsr/vnsr + Jup;
-  const double dcansr_dt_linearized = -0.0002625 - 0.01*vjsr/vnsr;
-  states[STATE_cansr] = (fabs(dcansr_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dcansr_dt_linearized))*dcansr_dt/dcansr_dt_linearized :
+  const double dcansr_dt_linearized = -0.0002625*scale_HF_Jleak -
+    0.01*vjsr/vnsr;
+  states[STATE_cansr] = (fabs(dcansr_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dcansr_dt_linearized))*dcansr_dt/dcansr_dt_linearized :
     dt*dcansr_dt) + cansr;
   const double Bcajsr = 1.0/(1.0 + csqnmax*kmcsqn*pow(kmcsqn + cajsr, -2.0));
   const double dcajsr_dt = (-Jrel + Jtr)*Bcajsr;
@@ -6034,8 +6285,8 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     csqnmax*kmcsqn*pow(kmcsqn + cajsr, -2.0)));
   const double dcajsr_dt_linearized = -0.01*Bcajsr + (-Jrel +
     Jtr)*dBcajsr_dcajsr;
-  states[STATE_cajsr] = (fabs(dcajsr_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dcajsr_dt_linearized))*dcajsr_dt/dcajsr_dt_linearized :
+  states[STATE_cajsr] = (fabs(dcajsr_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dcajsr_dt_linearized))*dcajsr_dt/dcajsr_dt_linearized :
     dt*dcajsr_dt) + cajsr;
 
   // Expressions for the mechanics component
@@ -6052,45 +6303,46 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     -1.) ? Zetas*(Zetas > 0.) : (-1. - Zetas)*(Zetas < -1.));
   const double dXS_dt = kws*XW - XS*gammasu - XS*ksu;
   const double dXS_dt_linearized = -gammasu - ksu;
-  states[STATE_XS] = (fabs(dXS_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dXS_dt_linearized))*dXS_dt/dXS_dt_linearized : dt*dXS_dt) + XS;
+  states[STATE_XS] = (fabs(dXS_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dXS_dt_linearized))*dXS_dt/dXS_dt_linearized : dt*dXS_dt) + XS;
   const double dXW_dt = kuw*XU - kws*XW - XW*gammawu - XW*kwu;
   const double dXW_dt_linearized = -kuw - kws - gammawu - kwu;
-  states[STATE_XW] = (fabs(dXW_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dXW_dt_linearized))*dXW_dt/dXW_dt_linearized : dt*dXW_dt) + XW;
-  const double cat50 = cat50_ref + Beta1*(-1. + lambda_min12);
+  states[STATE_XW] = (fabs(dXW_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dXW_dt_linearized))*dXW_dt/dXW_dt_linearized : dt*dXW_dt) + XW;
+  const double cat50 = scale_HF_cat50_ref*(cat50_ref + Beta1*(-1. +
+    lambda_min12));
   const double dCaTrpn_dt = ktrpn*(-CaTrpn + pow(1000.*cai/cat50, ntrpn)*(1.
     - CaTrpn));
   const double dCaTrpn_dt_linearized = ktrpn*(-1. - pow(1000.*cai/cat50,
     ntrpn));
   states[STATE_CaTrpn] = CaTrpn + (fabs(dCaTrpn_dt_linearized) > 1.0e-8 ?
-    (-1.0 + exp(dt*dCaTrpn_dt_linearized))*dCaTrpn_dt/dCaTrpn_dt_linearized :
+    (expm1(dt*dCaTrpn_dt_linearized))*dCaTrpn_dt/dCaTrpn_dt_linearized :
     dt*dCaTrpn_dt);
   const double kb = ku*pow(Trpn50, ntm)/(1. - rs - rw*(1. - rs));
   const double dTmB_dt = (pow(CaTrpn, -ntm/2.) < 100. ? pow(CaTrpn, -ntm/2.)
     : 100.)*XU*kb - ku*pow(CaTrpn, ntm/2.)*TmB;
   const double dTmB_dt_linearized = -ku*pow(CaTrpn, ntm/2.) - (pow(CaTrpn,
     -ntm/2.) < 100. ? pow(CaTrpn, -ntm/2.) : 100.)*kb;
-  states[STATE_TmB] = (fabs(dTmB_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dTmB_dt_linearized))*dTmB_dt/dTmB_dt_linearized : dt*dTmB_dt) +
+  states[STATE_TmB] = (fabs(dTmB_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dTmB_dt_linearized))*dTmB_dt/dTmB_dt_linearized : dt*dTmB_dt) +
     TmB;
   const double dZetas_dt = dLambda*As - Zetas*cs;
   const double dZetas_dt_linearized = -cs;
-  states[STATE_Zetas] = (fabs(dZetas_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dZetas_dt_linearized))*dZetas_dt/dZetas_dt_linearized :
+  states[STATE_Zetas] = (fabs(dZetas_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dZetas_dt_linearized))*dZetas_dt/dZetas_dt_linearized :
     dt*dZetas_dt) + Zetas;
   const double dZetaw_dt = dLambda*Aw - Zetaw*cw;
   const double dZetaw_dt_linearized = -cw;
-  states[STATE_Zetaw] = (fabs(dZetaw_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dZetaw_dt_linearized))*dZetaw_dt/dZetaw_dt_linearized :
+  states[STATE_Zetaw] = (fabs(dZetaw_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dZetaw_dt_linearized))*dZetaw_dt/dZetaw_dt_linearized :
     dt*dZetaw_dt) + Zetaw;
   const double C = -1. + lambda_min12;
   const double dCd = -Cd + C;
   const double eta = (dCd < 0. ? etas : etal);
   const double dCd_dt = p_k*(-Cd + C)/eta;
   const double dCd_dt_linearized = -p_k/eta;
-  states[STATE_Cd] = Cd + (fabs(dCd_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dCd_dt_linearized))*dCd_dt/dCd_dt_linearized : dt*dCd_dt);
+  states[STATE_Cd] = Cd + (fabs(dCd_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dCd_dt_linearized))*dCd_dt/dCd_dt_linearized : dt*dCd_dt);
   const double Bcai = 1.0/(1.0 + cmdnmax*kmcmdn*pow(kmcmdn + cai, -2.0));
   const double J_TRPN = trpnmax*dCaTrpn_dt;
   const double dcai_dt = (-J_TRPN + Jdiff*vss/vmyo - Jup*vnsr/vmyo +
@@ -6098,11 +6350,12 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double dBcai_dcai = 2.0*cmdnmax*kmcmdn*pow(kmcmdn + cai, -3.0)/((1.0 +
     cmdnmax*kmcmdn*pow(kmcmdn + cai, -2.0))*(1.0 + cmdnmax*kmcmdn*pow(kmcmdn
     + cai, -2.0)));
-  const double dICab_dcai = 4.0*PCab*exp(2.0*vfrt)*vffrt/(-1.0 +
-    exp(2.0*vfrt));
-  const double dINaCa_i_dallo_i = 0.8*Gncx*(zca*JncxCa_i + zna*JncxNa_i);
-  const double dIpCa_dcai = GpCa/(0.0005 + cai) - GpCa*cai/((0.0005 +
-    cai)*(0.0005 + cai));
+  const double dICab_dcai =
+    4.0*PCab*scale_drug_ICab*exp(2.0*vfrt)*vffrt/(-1.0 + exp(2.0*vfrt));
+  const double dINaCa_i_dallo_i = 0.8*Gncx*scale_HF_Gncx*(zca*JncxCa_i +
+    zna*JncxNa_i);
+  const double dIpCa_dcai = GpCa*scale_drug_IpCa/(0.0005 + cai) -
+    GpCa*scale_drug_IpCa*cai/((0.0005 + cai)*(0.0005 + cai));
   const double dJup_dJupnp = 1.0 - fJupp;
   const double dJupnp_dcai = 0.004375/(0.00092 + cai) -
     0.004375*cai/((0.00092 + cai)*(0.00092 + cai));
@@ -6111,8 +6364,8 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double dallo_i_dcai = 2.0*pow(KmCaAct/cai, 2.0)/(((1.0 +
     pow(KmCaAct/cai, 2.0))*(1.0 + pow(KmCaAct/cai, 2.0)))*cai);
   const double dcai_dt_linearized = (-5.0*vss/vmyo - (dJup_dJupnp*dJupnp_dcai
-    + dJupp_dcai*fJupp)*vnsr/vmyo + 0.5*(-dICab_dcai - dIpCa_dcai +
-    2.0*((kcaon*dE2_i_dx2_i*dx2_i_dk6_i*h6_i +
+    + scale_HF_Jup*dJupp_dcai*fJupp)*vnsr/vmyo + 0.5*(-dICab_dcai -
+    dIpCa_dcai + 2.0*((kcaon*dE2_i_dx2_i*dx2_i_dk6_i*h6_i +
     kcaon*dE2_i_dx3_i*dx3_i_dk6_i*h6_i +
     kcaon*dE2_i_dx1_i*h6_i*k2_i*k4_i)*k2_i -
     (kcaon*dE1_i_dx2_i*dx2_i_dk6_i*h6_i + kcaon*dE1_i_dx3_i*dx3_i_dk6_i*h6_i
@@ -6131,7 +6384,7 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     2.0*dINaCa_i_dallo_i*dallo_i_dcai)*Acap/(F*vmyo))*Bcai + (-J_TRPN +
     Jdiff*vss/vmyo - Jup*vnsr/vmyo + 0.5*(-ICab - IpCa - Isac_P_ns/3. +
     2.0*INaCa_i)*Acap/(F*vmyo))*dBcai_dcai;
-  states[STATE_cai] = (fabs(dcai_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dcai_dt_linearized))*dcai_dt/dcai_dt_linearized : dt*dcai_dt) +
+  states[STATE_cai] = (fabs(dcai_dt_linearized) > 1.0e-8 ?
+    (expm1(dt*dcai_dt_linearized))*dcai_dt/dcai_dt_linearized : dt*dcai_dt) +
     cai;
 }

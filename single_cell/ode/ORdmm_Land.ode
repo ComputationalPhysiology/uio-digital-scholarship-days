@@ -19,6 +19,11 @@
 # In this version we fix mech.emcoupling=1,
 # mode="intact", isacs=0 and celltype = 0
 #
+#
+# Modifications by Ilse (January 2023)
+#   Add scaling facotrs for heart failure and drugs
+#
+
 parameters("Scales",
 scale_IKr = 1.119,
 scale_IKs = 1.648,
@@ -61,6 +66,39 @@ vmyo=0.68*vcell
 vnsr=0.0552*vcell
 vjsr=0.0048*vcell
 vss=0.02*vcell
+
+
+##############################
+## Scaling factors for heart failure
+parameters("scaling factors HF",
+scale_HF_CaMKa=1.0,
+scale_HF_Jrel_inf=1.0,
+scale_HF_Jleak=1.0,
+scale_HF_Jup=1.0,
+scale_HF_GNaL=1.0,
+scale_HF_GK1=1.0,
+scale_HF_thL=1.0,
+scale_HF_Gto=1.0,
+scale_HF_Gncx=1.0,
+scale_HF_Pnak=1.0,
+scale_HF_cat50_ref=1.0)
+
+##############################
+## Scaling factors for drug effects
+parameters("scaling factors drug",
+scale_drug_INa=1.0,
+scale_drug_INaL=1.0,
+scale_drug_Ito=1.0,
+scale_drug_ICaL=1.0,
+scale_drug_IKr=1.0,
+scale_drug_IKs=1.0,
+scale_drug_IK1=1.0,
+scale_drug_IKb=1.0,
+scale_drug_INab=1.0,
+scale_drug_ICab=1.0,
+scale_drug_IpCa=1.0,
+scale_drug_Isacns=1.0,
+scale_drug_Isack=1.0)
 
 ######## EP states
 states("CaMKt",
@@ -139,7 +177,6 @@ Zetaw=0,
 Cd=0)
 
 
-
 ##############################
 
 parameters("CaMK constants",
@@ -151,7 +188,7 @@ KmCaM=0.0015)
 
 expressions("CaMKt")
 CaMKb=CaMKo*(1.0-CaMKt)/(1.0+KmCaM/cass)
-CaMKa=CaMKb+CaMKt
+CaMKa=(CaMKb+CaMKt)*scale_HF_CaMKa
 dCaMKt_dt=aCaMK*CaMKb*(CaMKb+CaMKt)-bCaMK*CaMKt
 
 parameters("reversal potentials",
@@ -189,7 +226,7 @@ hp=Ahf*hf+Ahs*hsp
 tjp=1.46*tj
 djp_dt=(jss-jp)/tjp
 fINap=(1.0/(1.0+KmCaMK/CaMKa))
-INa=GNa*(v-ENa)*m**3.0*((1.0-fINap)*h*j+fINap*hp*jp)
+INa=GNa*scale_drug_INa*(v-ENa)*m**3.0*((1.0-fINap)*h*j+fINap*hp*jp)
 
 parameters("INaL",
 thL=200.0)
@@ -199,11 +236,11 @@ mLss=1.0/(1.0+exp((-(v+42.85))/5.264))
 tmL=tm
 dmL_dt=(mLss-mL)/tmL
 hLss=1.0/(1.0+exp((v+87.61)/7.488))
-dhL_dt=(hLss-hL)/thL
+dhL_dt=(hLss-hL)/(thL*scale_HF_thL)
 hLssp=1.0/(1.0+exp((v+93.81)/7.488))
-thLp=3.0*thL
+thLp=3.0*thL*scale_HF_thL
 dhLp_dt=(hLssp-hLp)/thLp
-GNaL=0.0075*scale_INaL
+GNaL=0.0075*scale_INaL*scale_drug_INaL*scale_HF_GNaL
 fINaLp=(1.0/(1.0+KmCaMK/CaMKa))
 INaL=GNaL*(v-ENa)*mL*((1.0-fINaLp)*hL+fINaLp*hLp)
 
@@ -233,7 +270,7 @@ diFp_dt=(iss-iFp)/tiFp
 diSp_dt=(iss-iSp)/tiSp
 ip=AiF*iFp+AiS*iSp
 fItop=(1.0/(1.0+KmCaMK/CaMKa))
-Ito=Gto*(v-EK)*((1.0-fItop)*a*i+fItop*ap*ip)
+Ito=Gto*scale_drug_Ito*scale_HF_Gto*(v-EK)*((1.0-fItop)*a*i+fItop*ap*ip)
 
 
 parameters("ICaL ICaNa ICaK",
@@ -275,7 +312,7 @@ dnca_dt=anca*k2n-nca*km2n
 PhiCaL=4.0*vffrt*(cass*exp(2.0*vfrt)-0.341*cao)/(exp(2.0*vfrt)-1.0)
 PhiCaNa=1.0*vffrt*(0.75*nass*exp(1.0*vfrt)-0.75*nao)/(exp(1.0*vfrt)-1.0)
 PhiCaK=1.0*vffrt*(0.75*kss*exp(1.0*vfrt)-0.75*ko)/(exp(1.0*vfrt)-1.0)
-PCa=0.0001*scale_ICaL
+PCa=0.0001*scale_ICaL*scale_drug_ICaL
 PCap=1.1*PCa
 PCaNa=0.00125*PCa
 PCaK=3.574e-4*PCa
@@ -296,7 +333,7 @@ dxrf_dt=(xrss-xrf)/txrf
 dxrs_dt=(xrss-xrs)/txrs
 xr=Axrf*xrf+Axrs*xrs
 rkr=1.0/(1.0+exp((v+55.0)/75.0))*1.0/(1.0+exp((v-10.0)/30.0))
-GKr=0.046*scale_IKr
+GKr=0.046*scale_IKr*scale_drug_IKr
 IKr=GKr*sqrt(ko/5.4)*xr*rkr*(v-EK)
 
 expressions("IKs")
@@ -307,13 +344,13 @@ xs2ss=xs1ss
 txs2=1.0/(0.01*exp((v-50.0)/20.0)+0.0193*exp((-(v+66.54))/31.0))
 dxs2_dt=(xs2ss-xs2)/txs2
 KsCa=1.0+0.6/(1.0+(3.8e-5/cai)**1.4)
-GKs=0.0034*scale_IKs
+GKs=0.0034*scale_IKs*scale_drug_IKs
 IKs=GKs*KsCa*xs1*xs2*(v-EKs)
 xk1ss=1.0/(1.0+exp(-(v+2.5538*ko+144.59)/(1.5692*ko+3.8115)))
 txk1=122.2/(exp((-(v+127.2))/20.36)+exp((v+236.8)/69.33))
 dxk1_dt=(xk1ss-xk1)/txk1
 rk1=1.0/(1.0+exp((v+105.8-2.6*ko)/9.493))
-GK1=0.1908*scale_IK1
+GK1=0.1908*scale_IK1*scale_drug_IK1*scale_HF_GK1
 IK1=GK1*sqrt(ko)*rk1*xk1*(v-EK)
 
 
@@ -371,7 +408,7 @@ allo_i=1.0/(1.0+(KmCaAct/cai)**2.0)
 zna=1.0
 JncxNa_i=3.0*(E4_i*k7_i-E1_i*k8_i)+E3_i*k4pp_i-E2_i*k3pp_i
 JncxCa_i=E2_i*k2_i-E1_i*k1_i
-INaCa_i=0.8*Gncx*allo_i*(zna*JncxNa_i+zca*JncxCa_i)
+INaCa_i=0.8*Gncx*scale_HF_Gncx*allo_i*(zna*JncxNa_i+zca*JncxCa_i)
 
 expressions("INaCa_ss")
 h1=1+nass/kna3*(1+hna)
@@ -409,7 +446,7 @@ E4_ss=x4_ss/(x1_ss+x2_ss+x3_ss+x4_ss)
 allo_ss=1.0/(1.0+(KmCaAct/cass)**2.0)
 JncxNa_ss=3.0*(E4_ss*k7-E1_ss*k8)+E3_ss*k4pp-E2_ss*k3pp
 JncxCa_ss=E2_ss*k2-E1_ss*k1
-INaCa_ss=0.2*Gncx*allo_ss*(zna*JncxNa_ss+zca*JncxCa_ss)
+INaCa_ss=0.2*Gncx*scale_HF_Gncx*allo_ss*(zna*JncxNa_ss+zca*JncxCa_ss)
 
 
 parameters("INaK",
@@ -459,7 +496,7 @@ E3=x3/(x1+x2+x3+x4)
 E4=x4/(x1+x2+x3+x4)
 JnakNa=3.0*(E1*a3-E2*b3)
 JnakK=2.0*(E4*b1-E3*a1)
-INaK=Pnak*(zna*JnakNa+zk*JnakK)
+INaK=Pnak*scale_HF_Pnak*(zna*JnakNa+zk*JnakK)
 
 
 parameters("IKb",
@@ -467,26 +504,26 @@ GKb=0.003)
 
 expressions("IKb")
 xkb=1.0/(1.0+exp(-(v-14.48)/18.34))
-IKb=GKb*xkb*(v-EK)
+IKb=GKb*scale_drug_IKb*xkb*(v-EK)
 
 parameters("INab",
 PNab=3.75e-10)
 
 expressions("INab")
-INab=PNab*vffrt*(nai*exp(vfrt)-nao)/(exp(vfrt)-1.0)
+INab=PNab*scale_drug_INab*vffrt*(nai*exp(vfrt)-nao)/(exp(vfrt)-1.0)
 
 
 parameters("ICab",
 PCab=2.5e-8)
 
 expressions("ICab")
-ICab=PCab*4.0*vffrt*(cai*exp(2.0*vfrt)-0.341*cao)/(exp(2.0*vfrt)-1.0)
+ICab=PCab*scale_drug_ICab*4.0*vffrt*(cai*exp(2.0*vfrt)-0.341*cao)/(exp(2.0*vfrt)-1.0)
 
 parameters("IpCa",
 GpCa=0.0005)
 
 expressions("IpCa")
-IpCa=GpCa*cai/(0.0005+cai)
+IpCa=GpCa*scale_drug_IpCa*cai/(0.0005+cai)
 
 
 parameters("Isac (Pueyo)--> ns + k",
@@ -519,13 +556,13 @@ bt=4.75)
 
 expressions("ryanodione receptor")
 a_rel=0.5*bt
-Jrel_inf=a_rel*(-ICaL)/(1.0+(1.5/cajsr)**8.0)
+Jrel_inf=a_rel*(-ICaL)/(1.0+(1.5*scale_HF_Jrel_inf/cajsr)**8.0)
 tau_rel_tmp=bt/(1.0+0.0123/cajsr)
 tau_rel=Conditional(Lt(tau_rel_tmp, 0.001), 0.001, tau_rel_tmp)
 dJrelnp_dt=(Jrel_inf-Jrelnp)/tau_rel
 btp=1.25*bt
 a_relp=0.5*btp
-Jrel_infp=a_relp*(-ICaL)/(1.0+(1.5/cajsr)**8.0)
+Jrel_infp=a_relp*(-ICaL)/(1.0+(1.5*scale_HF_Jrel_inf/cajsr)**8.0)
 tau_relp_tmp=btp/(1.0+0.0123/cajsr)
 tau_relp=Conditional(Lt(tau_relp_tmp, 0.001), 0.001, tau_relp_tmp)
 dJrelp_dt=(Jrel_infp-Jrelp)/tau_relp
@@ -536,8 +573,8 @@ expressions("calcium buffers")
 Jupnp=0.004375*cai/(cai+0.00092)
 Jupp=2.75*0.004375*cai/(cai+0.00092-0.00017)
 fJupp=(1.0/(1.0+KmCaMK/CaMKa))
-Jleak=0.0039375*cansr/15.0
-Jup=(1.0-fJupp)*Jupnp+fJupp*Jupp-Jleak
+Jleak=0.0039375*cansr*scale_HF_Jleak/15.0
+Jup=(1.0-fJupp)*Jupnp+fJupp*Jupp*scale_HF_Jup-Jleak
 Jtr=(cansr-cajsr)/100.0
 
 parameters("calcium buffers",
@@ -613,7 +650,7 @@ gammawu = gammaw*abs(Zetaw)
 gammasu  = gammas*Conditional(Gt(Gt(Zetas,0)*Zetas, Lt(Zetas, -1)*(-Zetas-1)), Gt(Zetas,0)*Zetas, Lt(Zetas, -1)*(-Zetas-1))
 dXS_dt = kws*XW - ksu*XS - gammasu*XS
 dXW_dt = kuw*XU - kwu*XW - kws*XW - gammawu*XW
-cat50 = (cat50_ref+Beta1*(lambda_min12-1))
+cat50 = (cat50_ref+Beta1*(lambda_min12-1))*scale_HF_cat50_ref
 dCaTrpn_dt = ktrpn*(((cai*1000/cat50)**ntrpn)*(1-CaTrpn)-CaTrpn)
 kb = ku*Trpn50**ntm/(1-rs-(1-rs)*rw)
 dTmB_dt = kb*Conditional(Lt(CaTrpn**(-ntm/2), 100), CaTrpn**(-ntm/2), 100)*XU-ku*CaTrpn**(ntm/2)*TmB
