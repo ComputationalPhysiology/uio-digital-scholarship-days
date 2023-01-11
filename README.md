@@ -33,6 +33,10 @@ Now you can install the requirements using the command
 ```
 python3 -m pip install -r requirements.txt
 ```
+You should also make sure to install `jupyterlab`
+```
+python3 -m pip install jupyterlab
+```
 Now you should be able to run the jupyter notebooks locally by starting jupyter lab
 ```
 jupyter-lab
