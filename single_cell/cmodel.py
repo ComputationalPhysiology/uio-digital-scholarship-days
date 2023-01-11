@@ -2,6 +2,7 @@ from ctypes import c_char_p
 from ctypes import c_double
 from ctypes import c_int
 from typing import Dict
+from typing import List
 from typing import NamedTuple
 from typing import Optional
 
@@ -29,28 +30,64 @@ class CModel:
             "monitored values"
         )
 
-    def default_parameters(self):
+    def parameter_values_to_dict(
+        self,
+        parameter_values: np.ndarray,
+    ) -> Dict[str, float]:
+        """Convert the parameter values using the ordered from the C library
+        to a dictionary with parameter names as keys and the values as values"""
         names = self.parameter_names
-        p = self.initial_parameter_values()
-        values = [p[self.parameter_index(name)] for name in names]
+        values = [parameter_values[self.parameter_index(name)] for name in names]
         return dict(zip(names, values))
 
-    def default_inital_states(self):
+    def state_values_to_dict(self, state_values: np.ndarray) -> Dict[str, float]:
+        """Convert the state values using the ordered from the C library
+        to a dictionary with state names as keys and the values as values"""
         names = self.state_names
-        s = self.initial_state_values()
-        values = [s[self.state_index(name)] for name in names]
+        values = [state_values[self.state_index(name)] for name in names]
         return dict(zip(names, values))
+
+    def parameter_dict_to_array(self, parameter_dict: Dict[str, float]) -> np.ndarray:
+        """Convert the a dictionary of parameters to an array of values
+        with the correct order.
+        """
+        values = self.initial_parameter_values()
+        for name, value in parameter_dict.items():
+            values[self.parameter_index(name)] = value
+        return values
+
+    def state_dict_to_array(self, state_dict: Dict[str, float]) -> np.ndarray:
+        """Convert the a dictionary of states to an array of values
+        with the correct order.
+        """
+        values = self.initial_state_values()
+        for name, value in state_dict.items():
+            values[self.state_index(name)] = value
+        return values
+
+    def default_parameters(self) -> Dict[str, float]:
+        """Return the default parameter as a dictionary where the
+        keys are the parameter names and the values"""
+        return self.parameter_values_to_dict(self.initial_parameter_values())
+
+    def default_initial_states(self) -> Dict[str, float]:
+        """Return the default initial as a dictionary where the
+        keys are the parameter names and the values"""
+        return self.state_values_to_dict(self.initial_state_values())
 
     @property
-    def parameter_names(self):
+    def parameter_names(self) -> List[str]:
+        """List of parameters names"""
         return self.ode.parameter_symbols
 
     @property
-    def state_names(self):
+    def state_names(self) -> List[str]:
+        """List of state names"""
         return self.ode.state_symbols
 
     @property
-    def monitor_names(self):
+    def monitor_names(self) -> List[str]:
+        """List of monitor names"""
         return [
             expr.name for expr in self.ode.intermediates + self.ode.state_expressions
         ]
@@ -128,25 +165,31 @@ class CModel:
                 c_double,  # dt
             ]
 
-    def monitor(self, states, t, parameters=None):
+    def monitor_single(
+        self,
+        name: str,
+        states: np.ndarray,
+        t: np.ndarray,
+        parameters: Optional[Dict[str, float]] = None,
+    ) -> np.ndarray:
+        """Return a single monitored value
 
-        parameter_values = self._get_parameter_values(parameters=parameters)
-        u = np.zeros(self.num_states, dtype=np.float64)
-        monitored_values = np.zeros((t.size, self.num_monitored), dtype=np.float64)
-        m = np.zeros(self.num_monitored, dtype=np.float64)
+        Parameters
+        ----------
+        name : str
+            Name of monitored value
+        states : np.ndarray
+            The states
+        t : np.ndarray
+            The time steps
+        parameters : Dict[str, float], optional
+            Dictionary with initial parameters, by default None
 
-        self.lib.monitored_values(
-            monitored_values,
-            states,
-            parameter_values,
-            u,
-            m,
-            t,
-            t.size,
-        )
-        return monitored_values
-
-    def monitor_single(self, name: str, states, t, parameters=None):
+        Returns
+        -------
+        np.ndarray
+            The values of the monitor
+        """
         index = self.monitor_index(name)
         parameter_values = self._get_parameter_values(parameters=parameters)
         u = np.zeros(self.num_states, dtype=np.float64)
@@ -228,11 +271,13 @@ class CModel:
         return self.lib.monitored_index(monitor_name_bytestring)
 
     def initial_parameter_values(self) -> np.ndarray:
+        """Return the default parameters as a numpy array"""
         parameters = np.zeros(self.num_parameters, dtype=np.float64)
         self.lib.init_parameters_values(parameters)
         return parameters
 
     def initial_state_values(self) -> np.ndarray:
+        """Return the default initial states as a numpy array"""
         states = np.zeros(self.num_states, dtype=np.float64)
         self.lib.init_state_values(states)
         return states
@@ -281,23 +326,18 @@ class CModel:
         num_steps : Optional[int], optional
             Number of steps to use, by default None
         method : str, optional
-            _description_, by default "GRL1"
+            Scheme for solving the ODE. Options are
+            'GRL1' (first order generalized Rush Larsen) or
+            'FE' (forward euler), by default "GRL1"
         u0 : Optional[np.ndarray], optional
-            _description_, by default None
+            Initial state variables. If none is provided then
+            the default states will be used, by default None.
         parameters : Optional[Dict[str, float]], optional
-            _description_, by default None
+            Parameter for the model. If none is provided then
+            the default parameters will be used, by default None.
         verbose : bool, optional
-            _description_, by default False
+            Print more output, by default False
 
-        Returns
-        -------
-        _type_
-            _description_
-
-        Raises
-        ------
-        ValueError
-            _description_
         """
         parameter_values = self._get_parameter_values(
             parameters=parameters,
@@ -344,13 +384,23 @@ class CModel:
         else:
             raise ValueError(f"Invalid method {method}")
 
-        return Solution(time=t_values, u=u_values, model=self)
+        return Solution(
+            time=t_values,
+            u=u_values,
+            parameter_values=parameter_values,
+            model=self,
+        )
 
 
 class Solution(NamedTuple):
     time: np.ndarray
     u: np.ndarray
+    parameter_values: np.ndarray
     model: CModel
+
+    @property
+    def parameters(self):
+        return self.model.parameter_values_to_dict(self.parameter_values)
 
     def keys(self):
         return self.model.state_names
@@ -359,7 +409,12 @@ class Solution(NamedTuple):
         return self.model.monitor_names
 
     def monitored(self, name):
-        return self.model.monitor_single(name, self.u, self.time)
+        return self.model.monitor_single(
+            name,
+            self.u,
+            self.time,
+            parameters=self.parameters,
+        )
 
     def __getitem__(self, name):
         if name not in self.keys():
