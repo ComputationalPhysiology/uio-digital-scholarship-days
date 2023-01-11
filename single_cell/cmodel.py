@@ -259,6 +259,8 @@ class CModel:
 
         """
         assert isinstance(state_name, str)
+        if state_name not in self.state_names:
+            raise ValueError(f"Invalid state name {state_name!r}")
 
         state_name_bytestring = state_name.encode()
         return self.lib.state_index(state_name_bytestring)
@@ -278,6 +280,8 @@ class CModel:
 
         """
         assert isinstance(parameter_name, str)
+        if parameter_name not in self.parameter_names:
+            raise ValueError(f"Invalid parameter name {parameter_name!r}")
 
         parameter_name_bytestring = parameter_name.encode()
         return self.lib.parameter_index(parameter_name_bytestring)
@@ -298,6 +302,8 @@ class CModel:
 
         """
         assert isinstance(monitor_name, str)
+        if monitor_name not in self.monitor_names:
+            raise ValueError(f"Invalid monitor name {monitor_name!r}")
 
         monitor_name_bytestring = monitor_name.encode()
         return self.lib.monitored_index(monitor_name_bytestring)
