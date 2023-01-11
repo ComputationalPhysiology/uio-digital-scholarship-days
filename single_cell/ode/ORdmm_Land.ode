@@ -10,13 +10,13 @@
 #
 # Land 2017(mechanical model)- Introduced by MMora (Jan2020)
 #   Tension
-#   Changes in Cai; effect of troponin
+#   Changes in Cai effect of troponin
 # +
 #
 # Isacs
 #
 #
-# In this version we fix mech.emcoupling=0,
+# In this version we fix mech.emcoupling=1,
 # mode="intact", isacs=0 and celltype = 0
 #
 parameters("Scales",
@@ -29,13 +29,13 @@ scale_INaL = 2.274)
 parameters("settings",
 celltype=0)
 
-parameters("mech",
-emcoupling=0,
-lmbda=1,
-dLambda=0,
-mode=1,  # 1 = "intact" and and 1 is "skinned"
-isacs=0,
-calib=1)
+#parameters("mech",
+#emcoupling=1,
+#lmbda=1,
+#dLambda=0,
+#mode=1,  # 1 = "intact" and and 1 is "skinned"
+#isacs=0,
+#calib=1)
 
 parameters("extracellular ionic concentrations",
 nao=140.0,
@@ -124,10 +124,19 @@ nai=7,
 nass=7,
 ki=145,
 kss=145,
-cai=0.0001,
 cass=0.0001,
 cansr=1.2,
 cajsr=1.2)
+
+states("mechanics",
+cai=0.0001,
+XS=0,
+XW=0,
+CaTrpn=0,
+TmB=1,
+Zetas=0,
+Zetaw=0,
+Cd=0)
 
 
 
@@ -548,33 +557,77 @@ dnai_dt=-(INa+INaL+3.0*INaCa_i+3.0*INaK+INab+Isac_P_ns/3)*Acap/(F*vmyo)+JdiffNa*
 dnass_dt=-(ICaNa+3.0*INaCa_ss)*Acap/(F*vss)-JdiffNa
 dki_dt=-(Ito+IKr+IKs+IK1+IKb+Isac_P_k+Isac_P_ns/3+Istim-2.0*INaK)*Acap/(F*vmyo)+JdiffK*vss/vmyo
 dkss_dt=-(ICaK)*Acap/(F*vss)-JdiffK
-Bcai=1.0/(1.0+cmdnmax*kmcmdn/(kmcmdn+cai)**2.0+trpnmax*kmtrpn/(kmtrpn+cai)**2.0)
-#dcai_dt=Bcai*(-(IpCa+ICab-2.0*INaCa_i+Isac_P_ns/3)*Acap/(2.0*F*vmyo)-Jup*vnsr/vmyo+Jdiff*vss/vmyo)
-dcai_dt=Bcai*(-(IpCa+ICab-2.0*INaCa_i+Isac_P_ns/3)*Acap/(2.0*F*vmyo)-Jup*vnsr/vmyo+Jdiff*vss/vmyo)
 Bcass=1.0/(1.0+BSRmax*KmBSR/(KmBSR+cass)**2.0+BSLmax*KmBSL/(KmBSL+cass)**2.0)
 dcass_dt=Bcass*(-(ICaL-2.0*INaCa_ss)*Acap/(2.0*F*vss)+Jrel*vjsr/vss-Jdiff)
 dcansr_dt=Jup-Jtr*vjsr/vnsr
 Bcajsr=1.0/(1.0+csqnmax*kmcsqn/(kmcsqn+cajsr)**2.0)
 dcajsr_dt=Bcajsr*(Jtr-Jrel)
 
-states("mechanics",
-XS=0,
-XW=0,
-CaTrpn=0,
-TmB=1,
-Zetas=0,
-Zetaw=0,
-Cd=0)
 
+parameters("mechanics",
+emcoupling=1,
+lmbda=1,
+dLambda=0,
+mode=1,  # 1 = "intact" and and 1 is "skinned"
+isacs=0,
+calib=1,
+ktrpn = 0.1,
+ntrpn = 2,
+Trpn50 = 0.35,
+rw = 0.5,
+rs = 0.25,
+gammas = 0.0085,
+gammaw = 0.615,
+phi = 2.23,
+Tot_A = 25,
+Beta0 = 2.3,
+Beta1 = -2.4,
+cat50_ref = 0.805,
+Tref = 120,
+kuw = 0.182,
+kws = 0.012,
+ku=0.04,
+ntm=2.4,
+p_a = 2.1,
+p_b = 9.1,
+p_k = 7,
+etal = 200,
+etas = 20)
 
 expressions("mechanics")
-dXS_dt=0
-dXW_dt=0
-dCaTrpn_dt=0
-dTmB_dt=0
-dZetas_dt=0
-dZetaw_dt=0
-dCd_dt=0
-Ttot=0
-Ta=0
-Tp=0
+XS_max = Conditional(Gt(XS, 0), XS, 0)
+XW_max = Conditional(Gt(XW, 0), XW, 0)
+CaTrpn_max = Conditional(Gt(CaTrpn, 0), CaTrpn, 0)
+kwu = kuw*(1/rw-1)-kws
+ksu = kws*rw*(1/rs-1)
+Aw = Tot_A*rs/((1-rs)*rw+rs)
+As = Aw
+cw = phi*kuw*((1-rs)*(1-rw))/((1-rs)*rw)
+cs = phi*kws*((1-rs)*rw)/rs
+lambda_min12 = Conditional(Lt(lmbda, 1.2), lmbda, 1.2)
+lambda_min087 = Conditional(Lt(lambda_min12, 0.87), lambda_min12, 0.87)
+h_lambda_prima = 1+Beta0*(lambda_min12+lambda_min087-1.87)
+h_lambda = Conditional(Gt(h_lambda_prima, 0), h_lambda_prima, 0)
+XU = (1-TmB)-XS-XW
+gammawu = gammaw*abs(Zetaw)
+gammasu  = gammas*Conditional(Gt(Gt(Zetas,0)*Zetas, Lt(Zetas, -1)*(-Zetas-1)), Gt(Zetas,0)*Zetas, Lt(Zetas, -1)*(-Zetas-1))
+dXS_dt = kws*XW - ksu*XS - gammasu*XS
+dXW_dt = kuw*XU - kwu*XW - kws*XW - gammawu*XW
+cat50 = (cat50_ref+Beta1*(lambda_min12-1))
+dCaTrpn_dt = ktrpn*(((cai*1000/cat50)**ntrpn)*(1-CaTrpn)-CaTrpn)
+kb = ku*Trpn50**ntm/(1-rs-(1-rs)*rw)
+dTmB_dt = kb*Conditional(Lt(CaTrpn**(-ntm/2), 100), CaTrpn**(-ntm/2), 100)*XU-ku*CaTrpn**(ntm/2)*TmB
+dZetas_dt = As*dLambda - cs*Zetas
+dZetaw_dt = Aw*dLambda - cw*Zetaw
+Ta = h_lambda*(Tref/rs)*(XS*(Zetas+1) + XW*Zetaw)
+C = lambda_min12 - 1
+dCd = C - Cd
+eta = Conditional(Lt(dCd, 0), etas, etal)
+dCd_dt = p_k * (C - Cd) / eta
+Fd = eta * dCd
+F1 = (exp( p_b * C) - 1)
+Tp = p_a * (F1 + Fd)
+Ttot = Ta + Tp
+Bcai=1.0/(1.0+cmdnmax*kmcmdn/(kmcmdn+cai)**2.0)
+J_TRPN = dCaTrpn_dt*trpnmax
+dcai_dt=Bcai*(-(IpCa+ICab-2.0*INaCa_i+Isac_P_ns/3)*Acap/(2.0*F*vmyo)-Jup*vnsr/vmyo+Jdiff*vss/vmyo - J_TRPN)

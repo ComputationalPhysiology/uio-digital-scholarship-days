@@ -1,6 +1,6 @@
 #include <math.h>
 #include <string.h>
-// Gotran generated C/C++ code for the "ORdmm_Land" model
+// Gotran generated C/C++ code for the "ORdmm_Land_em_coupling" model
 
 enum state {
   STATE_CaMKt,
@@ -40,7 +40,6 @@ enum state {
   STATE_nass,
   STATE_ki,
   STATE_kss,
-  STATE_cai,
   STATE_cass,
   STATE_cansr,
   STATE_cajsr,
@@ -51,6 +50,7 @@ enum state {
   STATE_Zetas,
   STATE_Zetaw,
   STATE_Cd,
+  STATE_cai,
   NUM_STATES,
 };
 
@@ -61,12 +61,6 @@ enum parameter {
   PARAM_scale_IKs,
   PARAM_scale_INaL,
   PARAM_celltype,
-  PARAM_calib,
-  PARAM_dLambda,
-  PARAM_emcoupling,
-  PARAM_isacs,
-  PARAM_lmbda,
-  PARAM_mode,
   PARAM_cao,
   PARAM_ko,
   PARAM_nao,
@@ -86,6 +80,34 @@ enum parameter {
   PARAM_tjca,
   PARAM_zca,
   PARAM_bt,
+  PARAM_Beta0,
+  PARAM_Beta1,
+  PARAM_Tot_A,
+  PARAM_Tref,
+  PARAM_Trpn50,
+  PARAM_calib,
+  PARAM_cat50_ref,
+  PARAM_dLambda,
+  PARAM_emcoupling,
+  PARAM_etal,
+  PARAM_etas,
+  PARAM_gammas,
+  PARAM_gammaw,
+  PARAM_isacs,
+  PARAM_ktrpn,
+  PARAM_ku,
+  PARAM_kuw,
+  PARAM_kws,
+  PARAM_lmbda,
+  PARAM_mode,
+  PARAM_ntm,
+  PARAM_ntrpn,
+  PARAM_p_a,
+  PARAM_p_b,
+  PARAM_p_k,
+  PARAM_phi,
+  PARAM_rs,
+  PARAM_rw,
   PARAM_CaMKo,
   PARAM_KmCaM,
   PARAM_KmCaMK,
@@ -264,9 +286,36 @@ enum monitored {
   MONITOR_tau_relp,
   MONITOR_fJrelp,
   MONITOR_Jrel,
-  MONITOR_Bcai,
   MONITOR_Bcass,
   MONITOR_Bcajsr,
+  MONITOR_XS_max,
+  MONITOR_XW_max,
+  MONITOR_CaTrpn_max,
+  MONITOR_kwu,
+  MONITOR_ksu,
+  MONITOR_Aw,
+  MONITOR_As,
+  MONITOR_cw,
+  MONITOR_cs,
+  MONITOR_lambda_min12,
+  MONITOR_lambda_min087,
+  MONITOR_h_lambda_prima,
+  MONITOR_h_lambda,
+  MONITOR_XU,
+  MONITOR_gammawu,
+  MONITOR_gammasu,
+  MONITOR_cat50,
+  MONITOR_kb,
+  MONITOR_Ta,
+  MONITOR_C,
+  MONITOR_dCd,
+  MONITOR_eta,
+  MONITOR_Fd,
+  MONITOR_F1,
+  MONITOR_Tp,
+  MONITOR_Ttot,
+  MONITOR_Bcai,
+  MONITOR_J_TRPN,
   MONITOR_ENa,
   MONITOR_EK,
   MONITOR_EKs,
@@ -386,9 +435,6 @@ enum monitored {
   MONITOR_Jleak,
   MONITOR_Jup,
   MONITOR_Jtr,
-  MONITOR_Ttot,
-  MONITOR_Ta,
-  MONITOR_Tp,
   MONITOR_dCaMKt_dt,
   MONITOR_dm_dt,
   MONITOR_dhf_dt,
@@ -426,7 +472,6 @@ enum monitored {
   MONITOR_dnass_dt,
   MONITOR_dki_dt,
   MONITOR_dkss_dt,
-  MONITOR_dcai_dt,
   MONITOR_dcass_dt,
   MONITOR_dcansr_dt,
   MONITOR_dcajsr_dt,
@@ -437,6 +482,7 @@ enum monitored {
   MONITOR_dZetas_dt,
   MONITOR_dZetaw_dt,
   MONITOR_dCd_dt,
+  MONITOR_dcai_dt,
   NUM_MONITORED,
 };
 
@@ -480,7 +526,6 @@ void init_state_values(double* states)
   states[STATE_nass] = 7.0;
   states[STATE_ki] = 145.0;
   states[STATE_kss] = 145.0;
-  states[STATE_cai] = 0.0001;
   states[STATE_cass] = 0.0001;
   states[STATE_cansr] = 1.2;
   states[STATE_cajsr] = 1.2;
@@ -491,6 +536,7 @@ void init_state_values(double* states)
   states[STATE_Zetas] = 0.0;
   states[STATE_Zetaw] = 0.0;
   states[STATE_Cd] = 0.0;
+  states[STATE_cai] = 0.0001;
 }
 
 // Default parameter values
@@ -502,12 +548,6 @@ void init_parameters_values(double* parameters)
   parameters[PARAM_scale_IKs] = 1.648;
   parameters[PARAM_scale_INaL] = 2.274;
   parameters[PARAM_celltype] = 0.0;
-  parameters[PARAM_calib] = 1.0;
-  parameters[PARAM_dLambda] = 0.0;
-  parameters[PARAM_emcoupling] = 0.0;
-  parameters[PARAM_isacs] = 0.0;
-  parameters[PARAM_lmbda] = 1.0;
-  parameters[PARAM_mode] = 1.0;
   parameters[PARAM_cao] = 1.8;
   parameters[PARAM_ko] = 5.4;
   parameters[PARAM_nao] = 140.0;
@@ -527,6 +567,34 @@ void init_parameters_values(double* parameters)
   parameters[PARAM_tjca] = 75.0;
   parameters[PARAM_zca] = 2.0;
   parameters[PARAM_bt] = 4.75;
+  parameters[PARAM_Beta0] = 2.3;
+  parameters[PARAM_Beta1] = -2.4;
+  parameters[PARAM_Tot_A] = 25.0;
+  parameters[PARAM_Tref] = 120.0;
+  parameters[PARAM_Trpn50] = 0.35;
+  parameters[PARAM_calib] = 1.0;
+  parameters[PARAM_cat50_ref] = 0.805;
+  parameters[PARAM_dLambda] = 0.0;
+  parameters[PARAM_emcoupling] = 1.0;
+  parameters[PARAM_etal] = 200.0;
+  parameters[PARAM_etas] = 20.0;
+  parameters[PARAM_gammas] = 0.0085;
+  parameters[PARAM_gammaw] = 0.615;
+  parameters[PARAM_isacs] = 0.0;
+  parameters[PARAM_ktrpn] = 0.1;
+  parameters[PARAM_ku] = 0.04;
+  parameters[PARAM_kuw] = 0.182;
+  parameters[PARAM_kws] = 0.012;
+  parameters[PARAM_lmbda] = 1.0;
+  parameters[PARAM_mode] = 1.0;
+  parameters[PARAM_ntm] = 2.4;
+  parameters[PARAM_ntrpn] = 2.0;
+  parameters[PARAM_p_a] = 2.1;
+  parameters[PARAM_p_b] = 9.1;
+  parameters[PARAM_p_k] = 7.0;
+  parameters[PARAM_phi] = 2.23;
+  parameters[PARAM_rs] = 0.25;
+  parameters[PARAM_rw] = 0.5;
   parameters[PARAM_CaMKo] = 0.05;
   parameters[PARAM_KmCaM] = 0.0015;
   parameters[PARAM_KmCaMK] = 0.15;
@@ -742,10 +810,6 @@ int state_index(const char name[])
   {
     return STATE_kss;
   }
-  else if (strcmp(name, "cai")==0)
-  {
-    return STATE_cai;
-  }
   else if (strcmp(name, "cass")==0)
   {
     return STATE_cass;
@@ -786,6 +850,10 @@ int state_index(const char name[])
   {
     return STATE_Cd;
   }
+  else if (strcmp(name, "cai")==0)
+  {
+    return STATE_cai;
+  }
   return -1;
 }
 
@@ -815,30 +883,6 @@ int parameter_index(const char name[])
   else if (strcmp(name, "celltype")==0)
   {
     return PARAM_celltype;
-  }
-  else if (strcmp(name, "calib")==0)
-  {
-    return PARAM_calib;
-  }
-  else if (strcmp(name, "dLambda")==0)
-  {
-    return PARAM_dLambda;
-  }
-  else if (strcmp(name, "emcoupling")==0)
-  {
-    return PARAM_emcoupling;
-  }
-  else if (strcmp(name, "isacs")==0)
-  {
-    return PARAM_isacs;
-  }
-  else if (strcmp(name, "lmbda")==0)
-  {
-    return PARAM_lmbda;
-  }
-  else if (strcmp(name, "mode")==0)
-  {
-    return PARAM_mode;
   }
   else if (strcmp(name, "cao")==0)
   {
@@ -915,6 +959,118 @@ int parameter_index(const char name[])
   else if (strcmp(name, "bt")==0)
   {
     return PARAM_bt;
+  }
+  else if (strcmp(name, "Beta0")==0)
+  {
+    return PARAM_Beta0;
+  }
+  else if (strcmp(name, "Beta1")==0)
+  {
+    return PARAM_Beta1;
+  }
+  else if (strcmp(name, "Tot_A")==0)
+  {
+    return PARAM_Tot_A;
+  }
+  else if (strcmp(name, "Tref")==0)
+  {
+    return PARAM_Tref;
+  }
+  else if (strcmp(name, "Trpn50")==0)
+  {
+    return PARAM_Trpn50;
+  }
+  else if (strcmp(name, "calib")==0)
+  {
+    return PARAM_calib;
+  }
+  else if (strcmp(name, "cat50_ref")==0)
+  {
+    return PARAM_cat50_ref;
+  }
+  else if (strcmp(name, "dLambda")==0)
+  {
+    return PARAM_dLambda;
+  }
+  else if (strcmp(name, "emcoupling")==0)
+  {
+    return PARAM_emcoupling;
+  }
+  else if (strcmp(name, "etal")==0)
+  {
+    return PARAM_etal;
+  }
+  else if (strcmp(name, "etas")==0)
+  {
+    return PARAM_etas;
+  }
+  else if (strcmp(name, "gammas")==0)
+  {
+    return PARAM_gammas;
+  }
+  else if (strcmp(name, "gammaw")==0)
+  {
+    return PARAM_gammaw;
+  }
+  else if (strcmp(name, "isacs")==0)
+  {
+    return PARAM_isacs;
+  }
+  else if (strcmp(name, "ktrpn")==0)
+  {
+    return PARAM_ktrpn;
+  }
+  else if (strcmp(name, "ku")==0)
+  {
+    return PARAM_ku;
+  }
+  else if (strcmp(name, "kuw")==0)
+  {
+    return PARAM_kuw;
+  }
+  else if (strcmp(name, "kws")==0)
+  {
+    return PARAM_kws;
+  }
+  else if (strcmp(name, "lmbda")==0)
+  {
+    return PARAM_lmbda;
+  }
+  else if (strcmp(name, "mode")==0)
+  {
+    return PARAM_mode;
+  }
+  else if (strcmp(name, "ntm")==0)
+  {
+    return PARAM_ntm;
+  }
+  else if (strcmp(name, "ntrpn")==0)
+  {
+    return PARAM_ntrpn;
+  }
+  else if (strcmp(name, "p_a")==0)
+  {
+    return PARAM_p_a;
+  }
+  else if (strcmp(name, "p_b")==0)
+  {
+    return PARAM_p_b;
+  }
+  else if (strcmp(name, "p_k")==0)
+  {
+    return PARAM_p_k;
+  }
+  else if (strcmp(name, "phi")==0)
+  {
+    return PARAM_phi;
+  }
+  else if (strcmp(name, "rs")==0)
+  {
+    return PARAM_rs;
+  }
+  else if (strcmp(name, "rw")==0)
+  {
+    return PARAM_rw;
   }
   else if (strcmp(name, "CaMKo")==0)
   {
@@ -1617,10 +1773,6 @@ int monitored_index(const char name[])
   {
     return MONITOR_Jrel;
   }
-  else if (strcmp(name, "Bcai")==0)
-  {
-    return MONITOR_Bcai;
-  }
   else if (strcmp(name, "Bcass")==0)
   {
     return MONITOR_Bcass;
@@ -1628,6 +1780,118 @@ int monitored_index(const char name[])
   else if (strcmp(name, "Bcajsr")==0)
   {
     return MONITOR_Bcajsr;
+  }
+  else if (strcmp(name, "XS_max")==0)
+  {
+    return MONITOR_XS_max;
+  }
+  else if (strcmp(name, "XW_max")==0)
+  {
+    return MONITOR_XW_max;
+  }
+  else if (strcmp(name, "CaTrpn_max")==0)
+  {
+    return MONITOR_CaTrpn_max;
+  }
+  else if (strcmp(name, "kwu")==0)
+  {
+    return MONITOR_kwu;
+  }
+  else if (strcmp(name, "ksu")==0)
+  {
+    return MONITOR_ksu;
+  }
+  else if (strcmp(name, "Aw")==0)
+  {
+    return MONITOR_Aw;
+  }
+  else if (strcmp(name, "As")==0)
+  {
+    return MONITOR_As;
+  }
+  else if (strcmp(name, "cw")==0)
+  {
+    return MONITOR_cw;
+  }
+  else if (strcmp(name, "cs")==0)
+  {
+    return MONITOR_cs;
+  }
+  else if (strcmp(name, "lambda_min12")==0)
+  {
+    return MONITOR_lambda_min12;
+  }
+  else if (strcmp(name, "lambda_min087")==0)
+  {
+    return MONITOR_lambda_min087;
+  }
+  else if (strcmp(name, "h_lambda_prima")==0)
+  {
+    return MONITOR_h_lambda_prima;
+  }
+  else if (strcmp(name, "h_lambda")==0)
+  {
+    return MONITOR_h_lambda;
+  }
+  else if (strcmp(name, "XU")==0)
+  {
+    return MONITOR_XU;
+  }
+  else if (strcmp(name, "gammawu")==0)
+  {
+    return MONITOR_gammawu;
+  }
+  else if (strcmp(name, "gammasu")==0)
+  {
+    return MONITOR_gammasu;
+  }
+  else if (strcmp(name, "cat50")==0)
+  {
+    return MONITOR_cat50;
+  }
+  else if (strcmp(name, "kb")==0)
+  {
+    return MONITOR_kb;
+  }
+  else if (strcmp(name, "Ta")==0)
+  {
+    return MONITOR_Ta;
+  }
+  else if (strcmp(name, "C")==0)
+  {
+    return MONITOR_C;
+  }
+  else if (strcmp(name, "dCd")==0)
+  {
+    return MONITOR_dCd;
+  }
+  else if (strcmp(name, "eta")==0)
+  {
+    return MONITOR_eta;
+  }
+  else if (strcmp(name, "Fd")==0)
+  {
+    return MONITOR_Fd;
+  }
+  else if (strcmp(name, "F1")==0)
+  {
+    return MONITOR_F1;
+  }
+  else if (strcmp(name, "Tp")==0)
+  {
+    return MONITOR_Tp;
+  }
+  else if (strcmp(name, "Ttot")==0)
+  {
+    return MONITOR_Ttot;
+  }
+  else if (strcmp(name, "Bcai")==0)
+  {
+    return MONITOR_Bcai;
+  }
+  else if (strcmp(name, "J_TRPN")==0)
+  {
+    return MONITOR_J_TRPN;
   }
   else if (strcmp(name, "ENa")==0)
   {
@@ -2105,18 +2369,6 @@ int monitored_index(const char name[])
   {
     return MONITOR_Jtr;
   }
-  else if (strcmp(name, "Ttot")==0)
-  {
-    return MONITOR_Ttot;
-  }
-  else if (strcmp(name, "Ta")==0)
-  {
-    return MONITOR_Ta;
-  }
-  else if (strcmp(name, "Tp")==0)
-  {
-    return MONITOR_Tp;
-  }
   else if (strcmp(name, "dCaMKt_dt")==0)
   {
     return MONITOR_dCaMKt_dt;
@@ -2265,10 +2517,6 @@ int monitored_index(const char name[])
   {
     return MONITOR_dkss_dt;
   }
-  else if (strcmp(name, "dcai_dt")==0)
-  {
-    return MONITOR_dcai_dt;
-  }
   else if (strcmp(name, "dcass_dt")==0)
   {
     return MONITOR_dcass_dt;
@@ -2309,10 +2557,14 @@ int monitored_index(const char name[])
   {
     return MONITOR_dCd_dt;
   }
+  else if (strcmp(name, "dcai_dt")==0)
+  {
+    return MONITOR_dcai_dt;
+  }
   return -1;
 }
 
-// Compute the right hand side of the ORdmm_Land ODE
+// Compute the right hand side of the ORdmm_Land_em_coupling ODE
 void rhs(const double *__restrict states, const double t, const double
   *__restrict parameters, double* values)
 {
@@ -2355,10 +2607,17 @@ void rhs(const double *__restrict states, const double t, const double
   const double nass = states[STATE_nass];
   const double ki = states[STATE_ki];
   const double kss = states[STATE_kss];
-  const double cai = states[STATE_cai];
   const double cass = states[STATE_cass];
   const double cansr = states[STATE_cansr];
   const double cajsr = states[STATE_cajsr];
+  const double XS = states[STATE_XS];
+  const double XW = states[STATE_XW];
+  const double CaTrpn = states[STATE_CaTrpn];
+  const double TmB = states[STATE_TmB];
+  const double Zetas = states[STATE_Zetas];
+  const double Zetaw = states[STATE_Zetaw];
+  const double Cd = states[STATE_Cd];
+  const double cai = states[STATE_cai];
 
   // Assign parameters
   const double scale_ICaL = parameters[PARAM_scale_ICaL];
@@ -2385,6 +2644,26 @@ void rhs(const double *__restrict states, const double t, const double
   const double tjca = parameters[PARAM_tjca];
   const double zca = parameters[PARAM_zca];
   const double bt = parameters[PARAM_bt];
+  const double Beta1 = parameters[PARAM_Beta1];
+  const double Tot_A = parameters[PARAM_Tot_A];
+  const double Trpn50 = parameters[PARAM_Trpn50];
+  const double cat50_ref = parameters[PARAM_cat50_ref];
+  const double dLambda = parameters[PARAM_dLambda];
+  const double etal = parameters[PARAM_etal];
+  const double etas = parameters[PARAM_etas];
+  const double gammas = parameters[PARAM_gammas];
+  const double gammaw = parameters[PARAM_gammaw];
+  const double ktrpn = parameters[PARAM_ktrpn];
+  const double ku = parameters[PARAM_ku];
+  const double kuw = parameters[PARAM_kuw];
+  const double kws = parameters[PARAM_kws];
+  const double lmbda = parameters[PARAM_lmbda];
+  const double ntm = parameters[PARAM_ntm];
+  const double ntrpn = parameters[PARAM_ntrpn];
+  const double p_k = parameters[PARAM_p_k];
+  const double phi = parameters[PARAM_phi];
+  const double rs = parameters[PARAM_rs];
+  const double rw = parameters[PARAM_rw];
   const double CaMKo = parameters[PARAM_CaMKo];
   const double KmCaM = parameters[PARAM_KmCaM];
   const double KmCaMK = parameters[PARAM_KmCaMK];
@@ -2441,7 +2720,6 @@ void rhs(const double *__restrict states, const double t, const double
   const double csqnmax = parameters[PARAM_csqnmax];
   const double kmcmdn = parameters[PARAM_kmcmdn];
   const double kmcsqn = parameters[PARAM_kmcsqn];
-  const double kmtrpn = parameters[PARAM_kmtrpn];
   const double trpnmax = parameters[PARAM_trpnmax];
 
   // Expressions for the cell geometry component
@@ -2809,10 +3087,6 @@ void rhs(const double *__restrict states, const double t, const double
   values[STATE_ki] = JdiffK*vss/vmyo + (-Isac_P_k - IK1 - IKb - IKr - IKs -
     Istim - Ito - Isac_P_ns/3. + 2.0*INaK)*Acap/(F*vmyo);
   values[STATE_kss] = -JdiffK - Acap*ICaK/(F*vss);
-  const double Bcai = 1.0/(1.0 + cmdnmax*kmcmdn*pow(kmcmdn + cai, -2.0) +
-    kmtrpn*trpnmax*pow(kmtrpn + cai, -2.0));
-  values[STATE_cai] = (Jdiff*vss/vmyo - Jup*vnsr/vmyo + 0.5*(-ICab - IpCa -
-    Isac_P_ns/3. + 2.0*INaCa_i)*Acap/(F*vmyo))*Bcai;
   const double Bcass = 1.0/(1.0 + BSLmax*KmBSL*pow(KmBSL + cass, -2.0) +
     BSRmax*KmBSR*pow(KmBSR + cass, -2.0));
   values[STATE_cass] = (-Jdiff + Jrel*vjsr/vss + 0.5*(-ICaL +
@@ -2822,16 +3096,38 @@ void rhs(const double *__restrict states, const double t, const double
   values[STATE_cajsr] = (-Jrel + Jtr)*Bcajsr;
 
   // Expressions for the mechanics component
-  values[STATE_XS] = 0.;
-  values[STATE_XW] = 0.;
-  values[STATE_CaTrpn] = 0.;
-  values[STATE_TmB] = 0.;
-  values[STATE_Zetas] = 0.;
-  values[STATE_Zetaw] = 0.;
-  values[STATE_Cd] = 0.;
+  const double kwu = -kws + kuw*(-1. + 1.0/rw);
+  const double ksu = kws*rw*(-1. + 1.0/rs);
+  const double Aw = Tot_A*rs/(rs + rw*(1. - rs));
+  const double As = Aw;
+  const double cw = kuw*phi*(1. - rw)/rw;
+  const double cs = kws*phi*rw*(1. - rs)/rs;
+  const double lambda_min12 = (lmbda < 1.2 ? lmbda : 1.2);
+  const double XU = 1. - TmB - XS - XW;
+  const double gammawu = gammaw*fabs(Zetaw);
+  const double gammasu = gammas*(Zetas*(Zetas > 0.) > (-1. - Zetas)*(Zetas <
+    -1.) ? Zetas*(Zetas > 0.) : (-1. - Zetas)*(Zetas < -1.));
+  values[STATE_XS] = kws*XW - XS*gammasu - XS*ksu;
+  values[STATE_XW] = kuw*XU - kws*XW - XW*gammawu - XW*kwu;
+  const double cat50 = cat50_ref + Beta1*(-1. + lambda_min12);
+  values[STATE_CaTrpn] = ktrpn*(-CaTrpn + pow(1000.*cai/cat50, ntrpn)*(1. -
+    CaTrpn));
+  const double kb = ku*pow(Trpn50, ntm)/(1. - rs - rw*(1. - rs));
+  values[STATE_TmB] = (pow(CaTrpn, -ntm/2.) < 100. ? pow(CaTrpn, -ntm/2.) :
+    100.)*XU*kb - ku*pow(CaTrpn, ntm/2.)*TmB;
+  values[STATE_Zetas] = dLambda*As - Zetas*cs;
+  values[STATE_Zetaw] = dLambda*Aw - Zetaw*cw;
+  const double C = -1. + lambda_min12;
+  const double dCd = -Cd + C;
+  const double eta = (dCd < 0. ? etas : etal);
+  values[STATE_Cd] = p_k*(-Cd + C)/eta;
+  const double Bcai = 1.0/(1.0 + cmdnmax*kmcmdn*pow(kmcmdn + cai, -2.0));
+  const double J_TRPN = trpnmax*values[42];
+  values[STATE_cai] = (-J_TRPN + Jdiff*vss/vmyo - Jup*vnsr/vmyo + 0.5*(-ICab
+    - IpCa - Isac_P_ns/3. + 2.0*INaCa_i)*Acap/(F*vmyo))*Bcai;
 }
 
-// Computes monitored expressions of the ORdmm_Land ODE
+// Computes monitored expressions of the ORdmm_Land_em_coupling ODE
 void monitor(const double *__restrict states, const double t, const double
   *__restrict parameters, double* monitored)
 {
@@ -2874,10 +3170,17 @@ void monitor(const double *__restrict states, const double t, const double
   const double nass = states[STATE_nass];
   const double ki = states[STATE_ki];
   const double kss = states[STATE_kss];
-  const double cai = states[STATE_cai];
   const double cass = states[STATE_cass];
   const double cansr = states[STATE_cansr];
   const double cajsr = states[STATE_cajsr];
+  const double XS = states[STATE_XS];
+  const double XW = states[STATE_XW];
+  const double CaTrpn = states[STATE_CaTrpn];
+  const double TmB = states[STATE_TmB];
+  const double Zetas = states[STATE_Zetas];
+  const double Zetaw = states[STATE_Zetaw];
+  const double Cd = states[STATE_Cd];
+  const double cai = states[STATE_cai];
 
   // Assign parameters
   const double scale_ICaL = parameters[PARAM_scale_ICaL];
@@ -2904,6 +3207,30 @@ void monitor(const double *__restrict states, const double t, const double
   const double tjca = parameters[PARAM_tjca];
   const double zca = parameters[PARAM_zca];
   const double bt = parameters[PARAM_bt];
+  const double Beta0 = parameters[PARAM_Beta0];
+  const double Beta1 = parameters[PARAM_Beta1];
+  const double Tot_A = parameters[PARAM_Tot_A];
+  const double Tref = parameters[PARAM_Tref];
+  const double Trpn50 = parameters[PARAM_Trpn50];
+  const double cat50_ref = parameters[PARAM_cat50_ref];
+  const double dLambda = parameters[PARAM_dLambda];
+  const double etal = parameters[PARAM_etal];
+  const double etas = parameters[PARAM_etas];
+  const double gammas = parameters[PARAM_gammas];
+  const double gammaw = parameters[PARAM_gammaw];
+  const double ktrpn = parameters[PARAM_ktrpn];
+  const double ku = parameters[PARAM_ku];
+  const double kuw = parameters[PARAM_kuw];
+  const double kws = parameters[PARAM_kws];
+  const double lmbda = parameters[PARAM_lmbda];
+  const double ntm = parameters[PARAM_ntm];
+  const double ntrpn = parameters[PARAM_ntrpn];
+  const double p_a = parameters[PARAM_p_a];
+  const double p_b = parameters[PARAM_p_b];
+  const double p_k = parameters[PARAM_p_k];
+  const double phi = parameters[PARAM_phi];
+  const double rs = parameters[PARAM_rs];
+  const double rw = parameters[PARAM_rw];
   const double CaMKo = parameters[PARAM_CaMKo];
   const double KmCaM = parameters[PARAM_KmCaM];
   const double KmCaMK = parameters[PARAM_KmCaMK];
@@ -2960,7 +3287,6 @@ void monitor(const double *__restrict states, const double t, const double
   const double csqnmax = parameters[PARAM_csqnmax];
   const double kmcmdn = parameters[PARAM_kmcmdn];
   const double kmcsqn = parameters[PARAM_kmcsqn];
-  const double kmtrpn = parameters[PARAM_kmtrpn];
   const double trpnmax = parameters[PARAM_trpnmax];
 
   // Expressions for the cell geometry component
@@ -3014,7 +3340,7 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_tjp] = 1.46*monitored[17];
   monitored[MONITOR_djp_dt] = (-jp + monitored[16])/monitored[21];
   monitored[MONITOR_fINap] = 1.0/(1.0 + KmCaMK/monitored[8]);
-  monitored[MONITOR_INa] = GNa*pow(m, 3.0)*(-monitored[115] + v)*((1.0 -
+  monitored[MONITOR_INa] = GNa*pow(m, 3.0)*(-monitored[142] + v)*((1.0 -
     monitored[22])*j*monitored[15] + jp*monitored[20]*monitored[22]);
 
   // Expressions for the INaL component
@@ -3031,7 +3357,7 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_dhLp_dt] = (-hLp + monitored[27])/monitored[28];
   monitored[MONITOR_GNaL] = 0.0075*scale_INaL;
   monitored[MONITOR_fINaLp] = 1.0/(1.0 + KmCaMK/monitored[8]);
-  monitored[MONITOR_INaL] = (-monitored[115] + v)*((1.0 - monitored[30])*hL +
+  monitored[MONITOR_INaL] = (-monitored[142] + v)*((1.0 - monitored[30])*hL +
     hLp*monitored[30])*mL*monitored[29];
 
   // Expressions for the Ito component
@@ -3068,7 +3394,7 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_diSp_dt] = (-iSp + monitored[34])/monitored[44];
   monitored[MONITOR_ip] = iFp*monitored[37] + iSp*monitored[38];
   monitored[MONITOR_fItop] = 1.0/(1.0 + KmCaMK/monitored[8]);
-  monitored[MONITOR_Ito] = Gto*(-monitored[116] + v)*((1.0 -
+  monitored[MONITOR_Ito] = Gto*(-monitored[143] + v)*((1.0 -
     monitored[46])*a*monitored[39] + ap*monitored[45]*monitored[46]);
 
   // Expressions for the ICaL ICaNa ICaK component
@@ -3109,14 +3435,14 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_anca] = 1.0/(pow(1.0 + Kmn/cass, 4.0) + k2n/monitored[65]);
   monitored[MONITOR_dnca_dt] = k2n*monitored[66] - monitored[65]*nca;
   monitored[MONITOR_PhiCaL] = 4.0*(-0.341*cao +
-    cass*exp(2.0*monitored[119]))*monitored[118]/(-1.0 +
-    exp(2.0*monitored[119]));
+    cass*exp(2.0*monitored[146]))*monitored[145]/(-1.0 +
+    exp(2.0*monitored[146]));
   monitored[MONITOR_PhiCaNa] = 1.0*(-0.75*nao +
-    0.75*exp(1.0*monitored[119])*nass)*monitored[118]/(-1.0 +
-    exp(1.0*monitored[119]));
+    0.75*exp(1.0*monitored[146])*nass)*monitored[145]/(-1.0 +
+    exp(1.0*monitored[146]));
   monitored[MONITOR_PhiCaK] = 1.0*(-0.75*ko +
-    0.75*exp(1.0*monitored[119])*kss)*monitored[118]/(-1.0 +
-    exp(1.0*monitored[119]));
+    0.75*exp(1.0*monitored[146])*kss)*monitored[145]/(-1.0 +
+    exp(1.0*monitored[146]));
   monitored[MONITOR_PCa] = 0.0001*scale_ICaL;
   monitored[MONITOR_PCap] = 1.1*monitored[70];
   monitored[MONITOR_PCaNa] = 0.00125*monitored[70];
@@ -3156,7 +3482,7 @@ void monitor(const double *__restrict states, const double t, const double
     2.08200908407846*exp(0.0133333333333333*v))*(1.0 +
     0.716531310573789*exp(0.0333333333333333*v)));
   monitored[MONITOR_GKr] = 0.046*scale_IKr;
-  monitored[MONITOR_IKr] = 0.430331482911935*sqrt(ko)*(-monitored[116] +
+  monitored[MONITOR_IKr] = 0.430331482911935*sqrt(ko)*(-monitored[143] +
     v)*monitored[85]*monitored[86]*monitored[87];
 
   // Expressions for the IKs component
@@ -3174,7 +3500,7 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_KsCa] = 1.0 + 0.6/(1.0 + 6.48182102606265e-7*pow(1.0/cai,
     1.4));
   monitored[MONITOR_GKs] = 0.0034*scale_IKs;
-  monitored[MONITOR_IKs] = (-monitored[117] +
+  monitored[MONITOR_IKs] = (-monitored[144] +
     v)*monitored[93]*monitored[94]*xs1*xs2;
   monitored[MONITOR_xk1ss] = 1.0/(1.0 + exp((-144.59 - v - 2.5538*ko)/(3.8115 +
     1.5692*ko)));
@@ -3185,181 +3511,181 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_rk1] = 1.0/(1.0 +
     69220.6322106767*exp(0.105340777414937*v - 0.273886021278837*ko));
   monitored[MONITOR_GK1] = 0.1908*scale_IK1;
-  monitored[MONITOR_IK1] = sqrt(ko)*(-monitored[116] +
+  monitored[MONITOR_IK1] = sqrt(ko)*(-monitored[143] +
     v)*monitored[98]*monitored[99]*xk1;
 
   // Expressions for the INaCa_i component
   monitored[MONITOR_hca] = exp(F*qca*v/(R*T));
   monitored[MONITOR_hna] = exp(F*qna*v/(R*T));
-  monitored[MONITOR_h1_i] = 1. + (1. + monitored[121])*nai/kna3;
-  monitored[MONITOR_h2_i] = monitored[121]*nai/(kna3*monitored[122]);
-  monitored[MONITOR_h3_i] = 1.0/monitored[122];
+  monitored[MONITOR_h1_i] = 1. + (1. + monitored[148])*nai/kna3;
+  monitored[MONITOR_h2_i] = monitored[148]*nai/(kna3*monitored[149]);
+  monitored[MONITOR_h3_i] = 1.0/monitored[149];
   monitored[MONITOR_h4_i] = 1.0 + (1. + nai/kna2)*nai/kna1;
-  monitored[MONITOR_h5_i] = (nai*nai)/(kna1*kna2*monitored[125]);
-  monitored[MONITOR_h6_i] = 1.0/monitored[125];
-  monitored[MONITOR_h7_i] = 1.0 + nao*(1.0 + 1.0/monitored[121])/kna3;
-  monitored[MONITOR_h8_i] = nao/(kna3*monitored[121]*monitored[128]);
-  monitored[MONITOR_h9_i] = 1.0/monitored[128];
+  monitored[MONITOR_h5_i] = (nai*nai)/(kna1*kna2*monitored[152]);
+  monitored[MONITOR_h6_i] = 1.0/monitored[152];
+  monitored[MONITOR_h7_i] = 1.0 + nao*(1.0 + 1.0/monitored[148])/kna3;
+  monitored[MONITOR_h8_i] = nao/(kna3*monitored[148]*monitored[155]);
+  monitored[MONITOR_h9_i] = 1.0/monitored[155];
   monitored[MONITOR_h10_i] = 1.0 + kasymm + nao*(1.0 + nao/kna2)/kna1;
-  monitored[MONITOR_h11_i] = (nao*nao)/(kna1*kna2*monitored[131]);
-  monitored[MONITOR_h12_i] = 1.0/monitored[131];
-  monitored[MONITOR_k1_i] = cao*kcaon*monitored[133];
+  monitored[MONITOR_h11_i] = (nao*nao)/(kna1*kna2*monitored[158]);
+  monitored[MONITOR_h12_i] = 1.0/monitored[158];
+  monitored[MONITOR_k1_i] = cao*kcaon*monitored[160];
   monitored[MONITOR_k2_i] = kcaoff;
-  monitored[MONITOR_k3p_i] = wca*monitored[130];
-  monitored[MONITOR_k3pp_i] = wnaca*monitored[129];
-  monitored[MONITOR_k3_i] = monitored[136] + monitored[137];
-  monitored[MONITOR_k4p_i] = wca*monitored[124]/monitored[120];
-  monitored[MONITOR_k4pp_i] = wnaca*monitored[123];
-  monitored[MONITOR_k4_i] = monitored[139] + monitored[140];
+  monitored[MONITOR_k3p_i] = wca*monitored[157];
+  monitored[MONITOR_k3pp_i] = wnaca*monitored[156];
+  monitored[MONITOR_k3_i] = monitored[163] + monitored[164];
+  monitored[MONITOR_k4p_i] = wca*monitored[151]/monitored[147];
+  monitored[MONITOR_k4pp_i] = wnaca*monitored[150];
+  monitored[MONITOR_k4_i] = monitored[166] + monitored[167];
   monitored[MONITOR_k5_i] = kcaoff;
-  monitored[MONITOR_k6_i] = kcaon*cai*monitored[127];
-  monitored[MONITOR_k7_i] = wna*monitored[123]*monitored[126];
-  monitored[MONITOR_k8_i] = wna*monitored[129]*monitored[132];
-  monitored[MONITOR_x1_i] = (monitored[135] +
-    monitored[138])*monitored[142]*monitored[144] + (monitored[143] +
-    monitored[144])*monitored[135]*monitored[141];
-  monitored[MONITOR_x2_i] = (monitored[134] +
-    monitored[145])*monitored[141]*monitored[143] + (monitored[141] +
-    monitored[142])*monitored[134]*monitored[144];
-  monitored[MONITOR_x3_i] = (monitored[135] +
-    monitored[138])*monitored[143]*monitored[145] + (monitored[143] +
-    monitored[144])*monitored[134]*monitored[138];
-  monitored[MONITOR_x4_i] = (monitored[134] +
-    monitored[145])*monitored[138]*monitored[142] + (monitored[141] +
-    monitored[142])*monitored[135]*monitored[145];
-  monitored[MONITOR_E1_i] = monitored[146]/(monitored[146] + monitored[147] +
-    monitored[148] + monitored[149]);
-  monitored[MONITOR_E2_i] = monitored[147]/(monitored[146] + monitored[147] +
-    monitored[148] + monitored[149]);
-  monitored[MONITOR_E3_i] = monitored[148]/(monitored[146] + monitored[147] +
-    monitored[148] + monitored[149]);
-  monitored[MONITOR_E4_i] = monitored[149]/(monitored[146] + monitored[147] +
-    monitored[148] + monitored[149]);
+  monitored[MONITOR_k6_i] = kcaon*cai*monitored[154];
+  monitored[MONITOR_k7_i] = wna*monitored[150]*monitored[153];
+  monitored[MONITOR_k8_i] = wna*monitored[156]*monitored[159];
+  monitored[MONITOR_x1_i] = (monitored[162] +
+    monitored[165])*monitored[169]*monitored[171] + (monitored[170] +
+    monitored[171])*monitored[162]*monitored[168];
+  monitored[MONITOR_x2_i] = (monitored[161] +
+    monitored[172])*monitored[168]*monitored[170] + (monitored[168] +
+    monitored[169])*monitored[161]*monitored[171];
+  monitored[MONITOR_x3_i] = (monitored[162] +
+    monitored[165])*monitored[170]*monitored[172] + (monitored[170] +
+    monitored[171])*monitored[161]*monitored[165];
+  monitored[MONITOR_x4_i] = (monitored[161] +
+    monitored[172])*monitored[165]*monitored[169] + (monitored[168] +
+    monitored[169])*monitored[162]*monitored[172];
+  monitored[MONITOR_E1_i] = monitored[173]/(monitored[173] + monitored[174] +
+    monitored[175] + monitored[176]);
+  monitored[MONITOR_E2_i] = monitored[174]/(monitored[173] + monitored[174] +
+    monitored[175] + monitored[176]);
+  monitored[MONITOR_E3_i] = monitored[175]/(monitored[173] + monitored[174] +
+    monitored[175] + monitored[176]);
+  monitored[MONITOR_E4_i] = monitored[176]/(monitored[173] + monitored[174] +
+    monitored[175] + monitored[176]);
   monitored[MONITOR_allo_i] = 1.0/(1.0 + pow(KmCaAct/cai, 2.0));
   monitored[MONITOR_zna] = 1.00000000000000;
-  monitored[MONITOR_JncxNa_i] = monitored[140]*monitored[152] -
-    monitored[137]*monitored[151] + 3.0*monitored[144]*monitored[153] -
-    3.0*monitored[145]*monitored[150];
-  monitored[MONITOR_JncxCa_i] = monitored[135]*monitored[151] -
-    monitored[134]*monitored[150];
-  monitored[MONITOR_INaCa_i] = 0.8*Gncx*(monitored[155]*monitored[156] +
-    zca*monitored[157])*monitored[154];
+  monitored[MONITOR_JncxNa_i] = monitored[167]*monitored[179] -
+    monitored[164]*monitored[178] + 3.0*monitored[171]*monitored[180] -
+    3.0*monitored[172]*monitored[177];
+  monitored[MONITOR_JncxCa_i] = monitored[162]*monitored[178] -
+    monitored[161]*monitored[177];
+  monitored[MONITOR_INaCa_i] = 0.8*Gncx*(monitored[182]*monitored[183] +
+    zca*monitored[184])*monitored[181];
 
   // Expressions for the INaCa_ss component
-  monitored[MONITOR_h1] = 1. + (1. + monitored[121])*nass/kna3;
-  monitored[MONITOR_h2] = monitored[121]*nass/(kna3*monitored[159]);
-  monitored[MONITOR_h3] = 1.0/monitored[159];
+  monitored[MONITOR_h1] = 1. + (1. + monitored[148])*nass/kna3;
+  monitored[MONITOR_h2] = monitored[148]*nass/(kna3*monitored[186]);
+  monitored[MONITOR_h3] = 1.0/monitored[186];
   monitored[MONITOR_h4] = 1.0 + (1. + nass/kna2)*nass/kna1;
-  monitored[MONITOR_h5] = (nass*nass)/(kna1*kna2*monitored[162]);
-  monitored[MONITOR_h6] = 1.0/monitored[162];
-  monitored[MONITOR_h7] = 1.0 + nao*(1.0 + 1.0/monitored[121])/kna3;
-  monitored[MONITOR_h8] = nao/(kna3*monitored[121]*monitored[165]);
-  monitored[MONITOR_h9] = 1.0/monitored[165];
+  monitored[MONITOR_h5] = (nass*nass)/(kna1*kna2*monitored[189]);
+  monitored[MONITOR_h6] = 1.0/monitored[189];
+  monitored[MONITOR_h7] = 1.0 + nao*(1.0 + 1.0/monitored[148])/kna3;
+  monitored[MONITOR_h8] = nao/(kna3*monitored[148]*monitored[192]);
+  monitored[MONITOR_h9] = 1.0/monitored[192];
   monitored[MONITOR_h10] = 1.0 + kasymm + nao*(1. + nao/kna2)/kna1;
-  monitored[MONITOR_h11] = (nao*nao)/(kna1*kna2*monitored[168]);
-  monitored[MONITOR_h12] = 1.0/monitored[168];
-  monitored[MONITOR_k1] = cao*kcaon*monitored[170];
+  monitored[MONITOR_h11] = (nao*nao)/(kna1*kna2*monitored[195]);
+  monitored[MONITOR_h12] = 1.0/monitored[195];
+  monitored[MONITOR_k1] = cao*kcaon*monitored[197];
   monitored[MONITOR_k2] = kcaoff;
-  monitored[MONITOR_k3p_ss] = wca*monitored[167];
-  monitored[MONITOR_k3pp] = wnaca*monitored[166];
-  monitored[MONITOR_k3] = monitored[173] + monitored[174];
-  monitored[MONITOR_k4p_ss] = wca*monitored[161]/monitored[120];
-  monitored[MONITOR_k4pp] = wnaca*monitored[160];
-  monitored[MONITOR_k4] = monitored[176] + monitored[177];
+  monitored[MONITOR_k3p_ss] = wca*monitored[194];
+  monitored[MONITOR_k3pp] = wnaca*monitored[193];
+  monitored[MONITOR_k3] = monitored[200] + monitored[201];
+  monitored[MONITOR_k4p_ss] = wca*monitored[188]/monitored[147];
+  monitored[MONITOR_k4pp] = wnaca*monitored[187];
+  monitored[MONITOR_k4] = monitored[203] + monitored[204];
   monitored[MONITOR_k5] = kcaoff;
-  monitored[MONITOR_k6] = kcaon*cass*monitored[164];
-  monitored[MONITOR_k7] = wna*monitored[160]*monitored[163];
-  monitored[MONITOR_k8] = wna*monitored[166]*monitored[169];
-  monitored[MONITOR_x1_ss] = (monitored[172] +
-    monitored[175])*monitored[179]*monitored[181] + (monitored[180] +
-    monitored[181])*monitored[172]*monitored[178];
-  monitored[MONITOR_x2_ss] = (monitored[171] +
-    monitored[182])*monitored[178]*monitored[180] + (monitored[178] +
-    monitored[179])*monitored[171]*monitored[181];
-  monitored[MONITOR_x3_ss] = (monitored[172] +
-    monitored[175])*monitored[180]*monitored[182] + (monitored[180] +
-    monitored[181])*monitored[171]*monitored[175];
-  monitored[MONITOR_x4_ss] = (monitored[171] +
-    monitored[182])*monitored[175]*monitored[179] + (monitored[178] +
-    monitored[179])*monitored[172]*monitored[182];
-  monitored[MONITOR_E1_ss] = monitored[183]/(monitored[183] + monitored[184]
-    + monitored[185] + monitored[186]);
-  monitored[MONITOR_E2_ss] = monitored[184]/(monitored[183] + monitored[184]
-    + monitored[185] + monitored[186]);
-  monitored[MONITOR_E3_ss] = monitored[185]/(monitored[183] + monitored[184]
-    + monitored[185] + monitored[186]);
-  monitored[MONITOR_E4_ss] = monitored[186]/(monitored[183] + monitored[184]
-    + monitored[185] + monitored[186]);
+  monitored[MONITOR_k6] = kcaon*cass*monitored[191];
+  monitored[MONITOR_k7] = wna*monitored[187]*monitored[190];
+  monitored[MONITOR_k8] = wna*monitored[193]*monitored[196];
+  monitored[MONITOR_x1_ss] = (monitored[199] +
+    monitored[202])*monitored[206]*monitored[208] + (monitored[207] +
+    monitored[208])*monitored[199]*monitored[205];
+  monitored[MONITOR_x2_ss] = (monitored[198] +
+    monitored[209])*monitored[205]*monitored[207] + (monitored[205] +
+    monitored[206])*monitored[198]*monitored[208];
+  monitored[MONITOR_x3_ss] = (monitored[199] +
+    monitored[202])*monitored[207]*monitored[209] + (monitored[207] +
+    monitored[208])*monitored[198]*monitored[202];
+  monitored[MONITOR_x4_ss] = (monitored[198] +
+    monitored[209])*monitored[202]*monitored[206] + (monitored[205] +
+    monitored[206])*monitored[199]*monitored[209];
+  monitored[MONITOR_E1_ss] = monitored[210]/(monitored[210] + monitored[211]
+    + monitored[212] + monitored[213]);
+  monitored[MONITOR_E2_ss] = monitored[211]/(monitored[210] + monitored[211]
+    + monitored[212] + monitored[213]);
+  monitored[MONITOR_E3_ss] = monitored[212]/(monitored[210] + monitored[211]
+    + monitored[212] + monitored[213]);
+  monitored[MONITOR_E4_ss] = monitored[213]/(monitored[210] + monitored[211]
+    + monitored[212] + monitored[213]);
   monitored[MONITOR_allo_ss] = 1.0/(1.0 + pow(KmCaAct/cass, 2.0));
-  monitored[MONITOR_JncxNa_ss] = monitored[177]*monitored[189] -
-    monitored[174]*monitored[188] + 3.0*monitored[181]*monitored[190] -
-    3.0*monitored[182]*monitored[187];
-  monitored[MONITOR_JncxCa_ss] = monitored[172]*monitored[188] -
-    monitored[171]*monitored[187];
-  monitored[MONITOR_INaCa_ss] = 0.2*Gncx*(monitored[155]*monitored[192] +
-    zca*monitored[193])*monitored[191];
+  monitored[MONITOR_JncxNa_ss] = monitored[204]*monitored[216] -
+    monitored[201]*monitored[215] + 3.0*monitored[208]*monitored[217] -
+    3.0*monitored[209]*monitored[214];
+  monitored[MONITOR_JncxCa_ss] = monitored[199]*monitored[215] -
+    monitored[198]*monitored[214];
+  monitored[MONITOR_INaCa_ss] = 0.2*Gncx*(monitored[182]*monitored[219] +
+    zca*monitored[220])*monitored[218];
 
   // Expressions for the INaK component
   monitored[MONITOR_Knai] = Knai0*exp(0.333333333333333*F*delta*v/(R*T));
   monitored[MONITOR_Knao] = Knao0*exp(0.333333333333333*F*(1.0 -
     delta)*v/(R*T));
   monitored[MONITOR_P] = eP/(1.0 + H/Khp + nai/Knap + ki/Kxkur);
-  monitored[MONITOR_a1] = k1p*pow(nai/monitored[195], 3.0)/(-1.0 + pow(1.0 +
-    ki/Kki, 2.0) + pow(1.0 + nai/monitored[195], 3.0));
+  monitored[MONITOR_a1] = k1p*pow(nai/monitored[222], 3.0)/(-1.0 + pow(1.0 +
+    ki/Kki, 2.0) + pow(1.0 + nai/monitored[222], 3.0));
   monitored[MONITOR_b1] = MgADP*k1m;
   monitored[MONITOR_a2] = k2p;
-  monitored[MONITOR_b2] = k2m*pow(nao/monitored[196], 3.0)/(-1.0 + pow(1.0 +
-    ko/Kko, 2.0) + pow(1.0 + nao/monitored[196], 3.0));
+  monitored[MONITOR_b2] = k2m*pow(nao/monitored[223], 3.0)/(-1.0 + pow(1.0 +
+    ko/Kko, 2.0) + pow(1.0 + nao/monitored[223], 3.0));
   monitored[MONITOR_a3] = k3p*pow(ko/Kko, 2.0)/(-1.0 + pow(1.0 + ko/Kko, 2.0)
-    + pow(1.0 + nao/monitored[196], 3.0));
-  monitored[MONITOR_b3] = H*k3m*monitored[197]/(1.0 + MgATP/Kmgatp);
+    + pow(1.0 + nao/monitored[223], 3.0));
+  monitored[MONITOR_b3] = H*k3m*monitored[224]/(1.0 + MgATP/Kmgatp);
   monitored[MONITOR_a4] = MgATP*k4p/(Kmgatp*(1.0 + MgATP/Kmgatp));
   monitored[MONITOR_b4] = k4m*pow(ki/Kki, 2.0)/(-1.0 + pow(1.0 + ki/Kki, 2.0)
-    + pow(1.0 + nai/monitored[195], 3.0));
-  monitored[MONITOR_x1] = monitored[198]*monitored[200]*monitored[203] +
-    monitored[198]*monitored[200]*monitored[204] +
-    monitored[200]*monitored[203]*monitored[205] +
-    monitored[201]*monitored[203]*monitored[205];
-  monitored[MONITOR_x2] = monitored[198]*monitored[200]*monitored[202] +
-    monitored[199]*monitored[201]*monitored[205] +
-    monitored[199]*monitored[202]*monitored[205] +
-    monitored[200]*monitored[202]*monitored[205];
-  monitored[MONITOR_x3] = monitored[199]*monitored[201]*monitored[203] +
-    monitored[199]*monitored[201]*monitored[204] +
-    monitored[199]*monitored[202]*monitored[204] +
-    monitored[200]*monitored[202]*monitored[204];
-  monitored[MONITOR_x4] = monitored[198]*monitored[201]*monitored[203] +
-    monitored[198]*monitored[201]*monitored[204] +
-    monitored[198]*monitored[202]*monitored[204] +
-    monitored[201]*monitored[203]*monitored[205];
-  monitored[MONITOR_E1] = monitored[206]/(monitored[206] + monitored[207] +
-    monitored[208] + monitored[209]);
-  monitored[MONITOR_E2] = monitored[207]/(monitored[206] + monitored[207] +
-    monitored[208] + monitored[209]);
-  monitored[MONITOR_E3] = monitored[208]/(monitored[206] + monitored[207] +
-    monitored[208] + monitored[209]);
-  monitored[MONITOR_E4] = monitored[209]/(monitored[206] + monitored[207] +
-    monitored[208] + monitored[209]);
-  monitored[MONITOR_JnakNa] = 3.0*monitored[202]*monitored[210] -
-    3.0*monitored[203]*monitored[211];
-  monitored[MONITOR_JnakK] = 2.0*monitored[199]*monitored[213] -
-    2.0*monitored[198]*monitored[212];
-  monitored[MONITOR_INaK] = Pnak*(monitored[155]*monitored[214] +
-    zk*monitored[215]);
+    + pow(1.0 + nai/monitored[222], 3.0));
+  monitored[MONITOR_x1] = monitored[225]*monitored[227]*monitored[230] +
+    monitored[225]*monitored[227]*monitored[231] +
+    monitored[227]*monitored[230]*monitored[232] +
+    monitored[228]*monitored[230]*monitored[232];
+  monitored[MONITOR_x2] = monitored[225]*monitored[227]*monitored[229] +
+    monitored[226]*monitored[228]*monitored[232] +
+    monitored[226]*monitored[229]*monitored[232] +
+    monitored[227]*monitored[229]*monitored[232];
+  monitored[MONITOR_x3] = monitored[226]*monitored[228]*monitored[230] +
+    monitored[226]*monitored[228]*monitored[231] +
+    monitored[226]*monitored[229]*monitored[231] +
+    monitored[227]*monitored[229]*monitored[231];
+  monitored[MONITOR_x4] = monitored[225]*monitored[228]*monitored[230] +
+    monitored[225]*monitored[228]*monitored[231] +
+    monitored[225]*monitored[229]*monitored[231] +
+    monitored[228]*monitored[230]*monitored[232];
+  monitored[MONITOR_E1] = monitored[233]/(monitored[233] + monitored[234] +
+    monitored[235] + monitored[236]);
+  monitored[MONITOR_E2] = monitored[234]/(monitored[233] + monitored[234] +
+    monitored[235] + monitored[236]);
+  monitored[MONITOR_E3] = monitored[235]/(monitored[233] + monitored[234] +
+    monitored[235] + monitored[236]);
+  monitored[MONITOR_E4] = monitored[236]/(monitored[233] + monitored[234] +
+    monitored[235] + monitored[236]);
+  monitored[MONITOR_JnakNa] = 3.0*monitored[229]*monitored[237] -
+    3.0*monitored[230]*monitored[238];
+  monitored[MONITOR_JnakK] = 2.0*monitored[226]*monitored[240] -
+    2.0*monitored[225]*monitored[239];
+  monitored[MONITOR_INaK] = Pnak*(monitored[182]*monitored[241] +
+    zk*monitored[242]);
 
   // Expressions for the IKb component
   monitored[MONITOR_xkb] = 1.0/(1.0 +
     2.20236345094924*exp(-0.054525627044711*v));
-  monitored[MONITOR_IKb] = GKb*(-monitored[116] + v)*monitored[217];
+  monitored[MONITOR_IKb] = GKb*(-monitored[143] + v)*monitored[244];
 
   // Expressions for the INab component
   monitored[MONITOR_INab] = PNab*(-nao +
-    exp(monitored[119])*nai)*monitored[118]/(-1.0 + exp(monitored[119]));
+    exp(monitored[146])*nai)*monitored[145]/(-1.0 + exp(monitored[146]));
 
   // Expressions for the ICab component
   monitored[MONITOR_ICab] = 4.0*PCab*(-0.341*cao +
-    cai*exp(2.0*monitored[119]))*monitored[118]/(-1.0 +
-    exp(2.0*monitored[119]));
+    cai*exp(2.0*monitored[146]))*monitored[145]/(-1.0 +
+    exp(2.0*monitored[146]));
 
   // Expressions for the IpCa component
   monitored[MONITOR_IpCa] = GpCa*cai/(0.0005 + cai);
@@ -3372,10 +3698,10 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_Istim] = amp*(t <= duration);
 
   // Expressions for the membrane potential component
-  monitored[MONITOR_dv_dt] = -monitored[222] - monitored[223] -
-    monitored[100] - monitored[158] - monitored[194] - monitored[216] -
-    monitored[218] - monitored[219] - monitored[220] - monitored[221] -
-    monitored[224] - monitored[23] - monitored[31] - monitored[47] -
+  monitored[MONITOR_dv_dt] = -monitored[249] - monitored[250] -
+    monitored[100] - monitored[185] - monitored[221] - monitored[23] -
+    monitored[243] - monitored[245] - monitored[246] - monitored[247] -
+    monitored[248] - monitored[251] - monitored[31] - monitored[47] -
     monitored[77] - monitored[78] - monitored[79] - monitored[88] -
     monitored[95];
 
@@ -3409,55 +3735,86 @@ void monitor(const double *__restrict states, const double t, const double
   monitored[MONITOR_Jupp] = 0.01203125*cai/(0.00075 + cai);
   monitored[MONITOR_fJupp] = 1.0/(1.0 + KmCaMK/monitored[8]);
   monitored[MONITOR_Jleak] = 0.0002625*cansr;
-  monitored[MONITOR_Jup] = -monitored[231] + (1.0 -
-    monitored[230])*monitored[228] + monitored[229]*monitored[230];
+  monitored[MONITOR_Jup] = -monitored[258] + (1.0 -
+    monitored[257])*monitored[255] + monitored[256]*monitored[257];
   monitored[MONITOR_Jtr] = 0.01*cansr - 0.01*cajsr;
 
   // Expressions for the intracellular concentrations component
-  monitored[MONITOR_dnai_dt] = monitored[225]*monitored[6]/monitored[3] +
-    (-monitored[219] - monitored[23] - monitored[31] - monitored[222]/3. -
-    3.0*monitored[158] - 3.0*monitored[216])*monitored[2]/(F*monitored[3]);
-  monitored[MONITOR_dnass_dt] = -monitored[225] + (-monitored[78] -
-    3.0*monitored[194])*monitored[2]/(F*monitored[6]);
-  monitored[MONITOR_dki_dt] = monitored[226]*monitored[6]/monitored[3] +
-    (-monitored[223] - monitored[100] - monitored[218] - monitored[224] -
-    monitored[47] - monitored[88] - monitored[95] - monitored[222]/3. +
-    2.0*monitored[216])*monitored[2]/(F*monitored[3]);
-  monitored[MONITOR_dkss_dt] = -monitored[226] -
+  monitored[MONITOR_dnai_dt] = monitored[252]*monitored[6]/monitored[3] +
+    (-monitored[23] - monitored[246] - monitored[31] - monitored[249]/3. -
+    3.0*monitored[185] - 3.0*monitored[243])*monitored[2]/(F*monitored[3]);
+  monitored[MONITOR_dnass_dt] = -monitored[252] + (-monitored[78] -
+    3.0*monitored[221])*monitored[2]/(F*monitored[6]);
+  monitored[MONITOR_dki_dt] = monitored[253]*monitored[6]/monitored[3] +
+    (-monitored[250] - monitored[100] - monitored[245] - monitored[251] -
+    monitored[47] - monitored[88] - monitored[95] - monitored[249]/3. +
+    2.0*monitored[243])*monitored[2]/(F*monitored[3]);
+  monitored[MONITOR_dkss_dt] = -monitored[253] -
     monitored[2]*monitored[79]/(F*monitored[6]);
-  monitored[MONITOR_Bcai] = 1.0/(1.0 + cmdnmax*kmcmdn*pow(kmcmdn + cai, -2.0)
-    + kmtrpn*trpnmax*pow(kmtrpn + cai, -2.0));
-  monitored[MONITOR_dcai_dt] = (monitored[227]*monitored[6]/monitored[3] -
-    monitored[232]*monitored[4]/monitored[3] + 0.5*(-monitored[220] -
-    monitored[221] - monitored[222]/3. +
-    2.0*monitored[158])*monitored[2]/(F*monitored[3]))*monitored[112];
   monitored[MONITOR_Bcass] = 1.0/(1.0 + BSLmax*KmBSL*pow(KmBSL + cass, -2.0)
     + BSRmax*KmBSR*pow(KmBSR + cass, -2.0));
-  monitored[MONITOR_dcass_dt] = (-monitored[227] +
+  monitored[MONITOR_dcass_dt] = (-monitored[254] +
     monitored[111]*monitored[5]/monitored[6] + 0.5*(-monitored[77] +
-    2.0*monitored[194])*monitored[2]/(F*monitored[6]))*monitored[113];
-  monitored[MONITOR_dcansr_dt] = -monitored[233]*monitored[5]/monitored[4] +
-    monitored[232];
+    2.0*monitored[221])*monitored[2]/(F*monitored[6]))*monitored[112];
+  monitored[MONITOR_dcansr_dt] = -monitored[260]*monitored[5]/monitored[4] +
+    monitored[259];
   monitored[MONITOR_Bcajsr] = 1.0/(1.0 + csqnmax*kmcsqn*pow(kmcsqn + cajsr,
     -2.0));
   monitored[MONITOR_dcajsr_dt] = (-monitored[111] +
-    monitored[233])*monitored[114];
+    monitored[260])*monitored[113];
 
   // Expressions for the mechanics component
-  monitored[MONITOR_dXS_dt] = 0.;
-  monitored[MONITOR_dXW_dt] = 0.;
-  monitored[MONITOR_dCaTrpn_dt] = 0.;
-  monitored[MONITOR_dTmB_dt] = 0.;
-  monitored[MONITOR_dZetas_dt] = 0.;
-  monitored[MONITOR_dZetaw_dt] = 0.;
-  monitored[MONITOR_dCd_dt] = 0.;
-  monitored[MONITOR_Ttot] = 0.;
-  monitored[MONITOR_Ta] = 0.;
-  monitored[MONITOR_Tp] = 0.;
+  monitored[MONITOR_XS_max] = (XS > 0. ? XS : 0.);
+  monitored[MONITOR_XW_max] = (XW > 0. ? XW : 0.);
+  monitored[MONITOR_CaTrpn_max] = (CaTrpn > 0. ? CaTrpn : 0.);
+  monitored[MONITOR_kwu] = -kws + kuw*(-1. + 1.0/rw);
+  monitored[MONITOR_ksu] = kws*rw*(-1. + 1.0/rs);
+  monitored[MONITOR_Aw] = Tot_A*rs/(rs + rw*(1. - rs));
+  monitored[MONITOR_As] = monitored[119];
+  monitored[MONITOR_cw] = kuw*phi*(1. - rw)/rw;
+  monitored[MONITOR_cs] = kws*phi*rw*(1. - rs)/rs;
+  monitored[MONITOR_lambda_min12] = (lmbda < 1.2 ? lmbda : 1.2);
+  monitored[MONITOR_lambda_min087] = (monitored[123] < 0.87 ? monitored[123]
+    : 0.87);
+  monitored[MONITOR_h_lambda_prima] = 1. + Beta0*(-1.87 + monitored[123] +
+    monitored[124]);
+  monitored[MONITOR_h_lambda] = (monitored[125] > 0. ? monitored[125] : 0.);
+  monitored[MONITOR_XU] = 1. - TmB - XS - XW;
+  monitored[MONITOR_gammawu] = gammaw*fabs(Zetaw);
+  monitored[MONITOR_gammasu] = gammas*(Zetas*(Zetas > 0.) > (-1. -
+    Zetas)*(Zetas < -1.) ? Zetas*(Zetas > 0.) : (-1. - Zetas)*(Zetas < -1.));
+  monitored[MONITOR_dXS_dt] = kws*XW - XS*monitored[118] - XS*monitored[129];
+  monitored[MONITOR_dXW_dt] = kuw*monitored[127] - kws*XW - XW*monitored[117]
+    - XW*monitored[128];
+  monitored[MONITOR_cat50] = cat50_ref + Beta1*(-1. + monitored[123]);
+  monitored[MONITOR_dCaTrpn_dt] = ktrpn*(-CaTrpn +
+    pow(1000.*cai/monitored[130], ntrpn)*(1. - CaTrpn));
+  monitored[MONITOR_kb] = ku*pow(Trpn50, ntm)/(1. - rs - rw*(1. - rs));
+  monitored[MONITOR_dTmB_dt] = (pow(CaTrpn, -ntm/2.) < 100. ? pow(CaTrpn,
+    -ntm/2.) : 100.)*monitored[127]*monitored[131] - ku*pow(CaTrpn,
+    ntm/2.)*TmB;
+  monitored[MONITOR_dZetas_dt] = dLambda*monitored[120] - Zetas*monitored[122];
+  monitored[MONITOR_dZetaw_dt] = dLambda*monitored[119] - Zetaw*monitored[121];
+  monitored[MONITOR_Ta] = Tref*((1. + Zetas)*XS + XW*Zetaw)*monitored[126]/rs;
+  monitored[MONITOR_C] = -1. + monitored[123];
+  monitored[MONITOR_dCd] = -Cd + monitored[133];
+  monitored[MONITOR_eta] = (monitored[134] < 0. ? etas : etal);
+  monitored[MONITOR_dCd_dt] = p_k*(-Cd + monitored[133])/monitored[135];
+  monitored[MONITOR_Fd] = monitored[134]*monitored[135];
+  monitored[MONITOR_F1] = -1. + exp(p_b*monitored[133]);
+  monitored[MONITOR_Tp] = p_a*(monitored[136] + monitored[137]);
+  monitored[MONITOR_Ttot] = monitored[132] + monitored[138];
+  monitored[MONITOR_Bcai] = 1.0/(1.0 + cmdnmax*kmcmdn*pow(kmcmdn + cai, -2.0));
+  monitored[MONITOR_J_TRPN] = trpnmax*monitored[303];
+  monitored[MONITOR_dcai_dt] = (-monitored[141] +
+    monitored[254]*monitored[6]/monitored[3] -
+    monitored[259]*monitored[4]/monitored[3] + 0.5*(-monitored[247] -
+    monitored[248] - monitored[249]/3. +
+    2.0*monitored[185])*monitored[2]/(F*monitored[3]))*monitored[140];
 }
 
 // Compute a forward step using the explicit Euler algorithm to the
-// ORdmm_Land ODE
+// ORdmm_Land_em_coupling ODE
 void forward_explicit_euler(double *__restrict states, const double t, const
   double dt, const double *__restrict parameters)
 {
@@ -3500,7 +3857,6 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   const double nass = states[STATE_nass];
   const double ki = states[STATE_ki];
   const double kss = states[STATE_kss];
-  const double cai = states[STATE_cai];
   const double cass = states[STATE_cass];
   const double cansr = states[STATE_cansr];
   const double cajsr = states[STATE_cajsr];
@@ -3511,6 +3867,7 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   const double Zetas = states[STATE_Zetas];
   const double Zetaw = states[STATE_Zetaw];
   const double Cd = states[STATE_Cd];
+  const double cai = states[STATE_cai];
 
   // Assign parameters
   const double scale_ICaL = parameters[PARAM_scale_ICaL];
@@ -3537,6 +3894,26 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   const double tjca = parameters[PARAM_tjca];
   const double zca = parameters[PARAM_zca];
   const double bt = parameters[PARAM_bt];
+  const double Beta1 = parameters[PARAM_Beta1];
+  const double Tot_A = parameters[PARAM_Tot_A];
+  const double Trpn50 = parameters[PARAM_Trpn50];
+  const double cat50_ref = parameters[PARAM_cat50_ref];
+  const double dLambda = parameters[PARAM_dLambda];
+  const double etal = parameters[PARAM_etal];
+  const double etas = parameters[PARAM_etas];
+  const double gammas = parameters[PARAM_gammas];
+  const double gammaw = parameters[PARAM_gammaw];
+  const double ktrpn = parameters[PARAM_ktrpn];
+  const double ku = parameters[PARAM_ku];
+  const double kuw = parameters[PARAM_kuw];
+  const double kws = parameters[PARAM_kws];
+  const double lmbda = parameters[PARAM_lmbda];
+  const double ntm = parameters[PARAM_ntm];
+  const double ntrpn = parameters[PARAM_ntrpn];
+  const double p_k = parameters[PARAM_p_k];
+  const double phi = parameters[PARAM_phi];
+  const double rs = parameters[PARAM_rs];
+  const double rw = parameters[PARAM_rw];
   const double CaMKo = parameters[PARAM_CaMKo];
   const double KmCaM = parameters[PARAM_KmCaM];
   const double KmCaMK = parameters[PARAM_KmCaMK];
@@ -3593,7 +3970,6 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   const double csqnmax = parameters[PARAM_csqnmax];
   const double kmcmdn = parameters[PARAM_kmcmdn];
   const double kmcsqn = parameters[PARAM_kmcsqn];
-  const double kmtrpn = parameters[PARAM_kmtrpn];
   const double trpnmax = parameters[PARAM_trpnmax];
 
   // Expressions for the cell geometry component
@@ -3998,11 +4374,6 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   states[STATE_ki] = dt*dki_dt + ki;
   const double dkss_dt = -JdiffK - Acap*ICaK/(F*vss);
   states[STATE_kss] = dt*dkss_dt + kss;
-  const double Bcai = 1.0/(1.0 + cmdnmax*kmcmdn*pow(kmcmdn + cai, -2.0) +
-    kmtrpn*trpnmax*pow(kmtrpn + cai, -2.0));
-  const double dcai_dt = (Jdiff*vss/vmyo - Jup*vnsr/vmyo + 0.5*(-ICab - IpCa
-    - Isac_P_ns/3. + 2.0*INaCa_i)*Acap/(F*vmyo))*Bcai;
-  states[STATE_cai] = dt*dcai_dt + cai;
   const double Bcass = 1.0/(1.0 + BSLmax*KmBSL*pow(KmBSL + cass, -2.0) +
     BSRmax*KmBSR*pow(KmBSR + cass, -2.0));
   const double dcass_dt = (-Jdiff + Jrel*vjsr/vss + 0.5*(-ICaL +
@@ -4015,23 +4386,47 @@ void forward_explicit_euler(double *__restrict states, const double t, const
   states[STATE_cajsr] = dt*dcajsr_dt + cajsr;
 
   // Expressions for the mechanics component
-  const double dXS_dt = 0.;
+  const double kwu = -kws + kuw*(-1. + 1.0/rw);
+  const double ksu = kws*rw*(-1. + 1.0/rs);
+  const double Aw = Tot_A*rs/(rs + rw*(1. - rs));
+  const double As = Aw;
+  const double cw = kuw*phi*(1. - rw)/rw;
+  const double cs = kws*phi*rw*(1. - rs)/rs;
+  const double lambda_min12 = (lmbda < 1.2 ? lmbda : 1.2);
+  const double XU = 1. - TmB - XS - XW;
+  const double gammawu = gammaw*fabs(Zetaw);
+  const double gammasu = gammas*(Zetas*(Zetas > 0.) > (-1. - Zetas)*(Zetas <
+    -1.) ? Zetas*(Zetas > 0.) : (-1. - Zetas)*(Zetas < -1.));
+  const double dXS_dt = kws*XW - XS*gammasu - XS*ksu;
   states[STATE_XS] = dt*dXS_dt + XS;
-  const double dXW_dt = 0.;
+  const double dXW_dt = kuw*XU - kws*XW - XW*gammawu - XW*kwu;
   states[STATE_XW] = dt*dXW_dt + XW;
-  const double dCaTrpn_dt = 0.;
+  const double cat50 = cat50_ref + Beta1*(-1. + lambda_min12);
+  const double dCaTrpn_dt = ktrpn*(-CaTrpn + pow(1000.*cai/cat50, ntrpn)*(1.
+    - CaTrpn));
   states[STATE_CaTrpn] = dt*dCaTrpn_dt + CaTrpn;
-  const double dTmB_dt = 0.;
+  const double kb = ku*pow(Trpn50, ntm)/(1. - rs - rw*(1. - rs));
+  const double dTmB_dt = (pow(CaTrpn, -ntm/2.) < 100. ? pow(CaTrpn, -ntm/2.)
+    : 100.)*XU*kb - ku*pow(CaTrpn, ntm/2.)*TmB;
   states[STATE_TmB] = dt*dTmB_dt + TmB;
-  const double dZetas_dt = 0.;
+  const double dZetas_dt = dLambda*As - Zetas*cs;
   states[STATE_Zetas] = dt*dZetas_dt + Zetas;
-  const double dZetaw_dt = 0.;
+  const double dZetaw_dt = dLambda*Aw - Zetaw*cw;
   states[STATE_Zetaw] = dt*dZetaw_dt + Zetaw;
-  const double dCd_dt = 0.;
+  const double C = -1. + lambda_min12;
+  const double dCd = -Cd + C;
+  const double eta = (dCd < 0. ? etas : etal);
+  const double dCd_dt = p_k*(-Cd + C)/eta;
   states[STATE_Cd] = dt*dCd_dt + Cd;
+  const double Bcai = 1.0/(1.0 + cmdnmax*kmcmdn*pow(kmcmdn + cai, -2.0));
+  const double J_TRPN = trpnmax*dCaTrpn_dt;
+  const double dcai_dt = (-J_TRPN + Jdiff*vss/vmyo - Jup*vnsr/vmyo +
+    0.5*(-ICab - IpCa - Isac_P_ns/3. + 2.0*INaCa_i)*Acap/(F*vmyo))*Bcai;
+  states[STATE_cai] = dt*dcai_dt + cai;
 }
 
-// Compute a forward step using the rush larsen algorithm to the ORdmm_Land ODE
+// Compute a forward step using the rush larsen algorithm to the
+// ORdmm_Land_em_coupling ODE
 void forward_rush_larsen(double *__restrict states, const double t, const
   double dt, const double *__restrict parameters)
 {
@@ -4074,7 +4469,6 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double nass = states[STATE_nass];
   const double ki = states[STATE_ki];
   const double kss = states[STATE_kss];
-  const double cai = states[STATE_cai];
   const double cass = states[STATE_cass];
   const double cansr = states[STATE_cansr];
   const double cajsr = states[STATE_cajsr];
@@ -4085,6 +4479,7 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double Zetas = states[STATE_Zetas];
   const double Zetaw = states[STATE_Zetaw];
   const double Cd = states[STATE_Cd];
+  const double cai = states[STATE_cai];
 
   // Assign parameters
   const double scale_ICaL = parameters[PARAM_scale_ICaL];
@@ -4111,6 +4506,26 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double tjca = parameters[PARAM_tjca];
   const double zca = parameters[PARAM_zca];
   const double bt = parameters[PARAM_bt];
+  const double Beta1 = parameters[PARAM_Beta1];
+  const double Tot_A = parameters[PARAM_Tot_A];
+  const double Trpn50 = parameters[PARAM_Trpn50];
+  const double cat50_ref = parameters[PARAM_cat50_ref];
+  const double dLambda = parameters[PARAM_dLambda];
+  const double etal = parameters[PARAM_etal];
+  const double etas = parameters[PARAM_etas];
+  const double gammas = parameters[PARAM_gammas];
+  const double gammaw = parameters[PARAM_gammaw];
+  const double ktrpn = parameters[PARAM_ktrpn];
+  const double ku = parameters[PARAM_ku];
+  const double kuw = parameters[PARAM_kuw];
+  const double kws = parameters[PARAM_kws];
+  const double lmbda = parameters[PARAM_lmbda];
+  const double ntm = parameters[PARAM_ntm];
+  const double ntrpn = parameters[PARAM_ntrpn];
+  const double p_k = parameters[PARAM_p_k];
+  const double phi = parameters[PARAM_phi];
+  const double rs = parameters[PARAM_rs];
+  const double rw = parameters[PARAM_rw];
   const double CaMKo = parameters[PARAM_CaMKo];
   const double KmCaM = parameters[PARAM_KmCaM];
   const double KmCaMK = parameters[PARAM_KmCaMK];
@@ -4167,7 +4582,6 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   const double csqnmax = parameters[PARAM_csqnmax];
   const double kmcmdn = parameters[PARAM_kmcmdn];
   const double kmcsqn = parameters[PARAM_kmcsqn];
-  const double kmtrpn = parameters[PARAM_kmtrpn];
   const double trpnmax = parameters[PARAM_trpnmax];
 
   // Expressions for the cell geometry component
@@ -5564,51 +5978,6 @@ void forward_rush_larsen(double *__restrict states, const double t, const
   states[STATE_kss] = (fabs(dkss_dt_linearized) > 1.0e-8 ? (-1.0 +
     exp(dt*dkss_dt_linearized))*dkss_dt/dkss_dt_linearized : dt*dkss_dt) +
     kss;
-  const double Bcai = 1.0/(1.0 + cmdnmax*kmcmdn*pow(kmcmdn + cai, -2.0) +
-    kmtrpn*trpnmax*pow(kmtrpn + cai, -2.0));
-  const double dcai_dt = (Jdiff*vss/vmyo - Jup*vnsr/vmyo + 0.5*(-ICab - IpCa
-    - Isac_P_ns/3. + 2.0*INaCa_i)*Acap/(F*vmyo))*Bcai;
-  const double dBcai_dcai = 1.0*(2.0*cmdnmax*kmcmdn*pow(kmcmdn + cai, -3.0) +
-    2.0*kmtrpn*trpnmax*pow(kmtrpn + cai, -3.0))/((1.0 +
-    cmdnmax*kmcmdn*pow(kmcmdn + cai, -2.0) + kmtrpn*trpnmax*pow(kmtrpn + cai,
-    -2.0))*(1.0 + cmdnmax*kmcmdn*pow(kmcmdn + cai, -2.0) +
-    kmtrpn*trpnmax*pow(kmtrpn + cai, -2.0)));
-  const double dICab_dcai = 4.0*PCab*exp(2.0*vfrt)*vffrt/(-1.0 +
-    exp(2.0*vfrt));
-  const double dINaCa_i_dallo_i = 0.8*Gncx*(zca*JncxCa_i + zna*JncxNa_i);
-  const double dIpCa_dcai = GpCa/(0.0005 + cai) - GpCa*cai/((0.0005 +
-    cai)*(0.0005 + cai));
-  const double dJup_dJupnp = 1.0 - fJupp;
-  const double dJupnp_dcai = 0.004375/(0.00092 + cai) -
-    0.004375*cai/((0.00092 + cai)*(0.00092 + cai));
-  const double dJupp_dcai = 0.01203125/(0.00075 + cai) -
-    0.01203125*cai/((0.00075 + cai)*(0.00075 + cai));
-  const double dallo_i_dcai = 2.0*pow(KmCaAct/cai, 2.0)/(((1.0 +
-    pow(KmCaAct/cai, 2.0))*(1.0 + pow(KmCaAct/cai, 2.0)))*cai);
-  const double dcai_dt_linearized = (-5.0*vss/vmyo - (dJup_dJupnp*dJupnp_dcai
-    + dJupp_dcai*fJupp)*vnsr/vmyo + 0.5*(-dICab_dcai - dIpCa_dcai +
-    2.0*((kcaon*dE2_i_dx2_i*dx2_i_dk6_i*h6_i +
-    kcaon*dE2_i_dx3_i*dx3_i_dk6_i*h6_i +
-    kcaon*dE2_i_dx1_i*h6_i*k2_i*k4_i)*k2_i -
-    (kcaon*dE1_i_dx2_i*dx2_i_dk6_i*h6_i + kcaon*dE1_i_dx3_i*dx3_i_dk6_i*h6_i
-    + kcaon*dE1_i_dx1_i*h6_i*k2_i*k4_i)*k1_i)*dINaCa_i_dJncxCa_i +
-    2.0*((kcaon*dE3_i_dx2_i*dx2_i_dk6_i*h6_i +
-    kcaon*dE3_i_dx3_i*dx3_i_dk6_i*h6_i +
-    kcaon*dE3_i_dx1_i*h6_i*k2_i*k4_i)*k4pp_i -
-    (kcaon*dE2_i_dx2_i*dx2_i_dk6_i*h6_i + kcaon*dE2_i_dx3_i*dx3_i_dk6_i*h6_i
-    + kcaon*dE2_i_dx1_i*h6_i*k2_i*k4_i)*k3pp_i +
-    3.0*(kcaon*dE4_i_dx2_i*dx2_i_dk6_i*h6_i +
-    kcaon*dE4_i_dx3_i*dx3_i_dk6_i*h6_i +
-    kcaon*dE4_i_dx1_i*h6_i*k2_i*k4_i)*k7_i -
-    3.0*(kcaon*dE1_i_dx2_i*dx2_i_dk6_i*h6_i +
-    kcaon*dE1_i_dx3_i*dx3_i_dk6_i*h6_i +
-    kcaon*dE1_i_dx1_i*h6_i*k2_i*k4_i)*k8_i)*dINaCa_i_dJncxNa_i +
-    2.0*dINaCa_i_dallo_i*dallo_i_dcai)*Acap/(F*vmyo))*Bcai + (Jdiff*vss/vmyo
-    - Jup*vnsr/vmyo + 0.5*(-ICab - IpCa - Isac_P_ns/3. +
-    2.0*INaCa_i)*Acap/(F*vmyo))*dBcai_dcai;
-  states[STATE_cai] = (fabs(dcai_dt_linearized) > 1.0e-8 ? (-1.0 +
-    exp(dt*dcai_dt_linearized))*dcai_dt/dcai_dt_linearized : dt*dcai_dt) +
-    cai;
   const double Bcass = 1.0/(1.0 + BSLmax*KmBSL*pow(KmBSL + cass, -2.0) +
     BSRmax*KmBSR*pow(KmBSR + cass, -2.0));
   const double dcass_dt = (-Jdiff + Jrel*vjsr/vss + 0.5*(-ICaL +
@@ -5670,18 +6039,99 @@ void forward_rush_larsen(double *__restrict states, const double t, const
     dt*dcajsr_dt) + cajsr;
 
   // Expressions for the mechanics component
-  const double dXS_dt = 0.;
-  states[STATE_XS] = dt*dXS_dt + XS;
-  const double dXW_dt = 0.;
-  states[STATE_XW] = dt*dXW_dt + XW;
-  const double dCaTrpn_dt = 0.;
-  states[STATE_CaTrpn] = dt*dCaTrpn_dt + CaTrpn;
-  const double dTmB_dt = 0.;
-  states[STATE_TmB] = dt*dTmB_dt + TmB;
-  const double dZetas_dt = 0.;
-  states[STATE_Zetas] = dt*dZetas_dt + Zetas;
-  const double dZetaw_dt = 0.;
-  states[STATE_Zetaw] = dt*dZetaw_dt + Zetaw;
-  const double dCd_dt = 0.;
-  states[STATE_Cd] = dt*dCd_dt + Cd;
+  const double kwu = -kws + kuw*(-1. + 1.0/rw);
+  const double ksu = kws*rw*(-1. + 1.0/rs);
+  const double Aw = Tot_A*rs/(rs + rw*(1. - rs));
+  const double As = Aw;
+  const double cw = kuw*phi*(1. - rw)/rw;
+  const double cs = kws*phi*rw*(1. - rs)/rs;
+  const double lambda_min12 = (lmbda < 1.2 ? lmbda : 1.2);
+  const double XU = 1. - TmB - XS - XW;
+  const double gammawu = gammaw*fabs(Zetaw);
+  const double gammasu = gammas*(Zetas*(Zetas > 0.) > (-1. - Zetas)*(Zetas <
+    -1.) ? Zetas*(Zetas > 0.) : (-1. - Zetas)*(Zetas < -1.));
+  const double dXS_dt = kws*XW - XS*gammasu - XS*ksu;
+  const double dXS_dt_linearized = -gammasu - ksu;
+  states[STATE_XS] = (fabs(dXS_dt_linearized) > 1.0e-8 ? (-1.0 +
+    exp(dt*dXS_dt_linearized))*dXS_dt/dXS_dt_linearized : dt*dXS_dt) + XS;
+  const double dXW_dt = kuw*XU - kws*XW - XW*gammawu - XW*kwu;
+  const double dXW_dt_linearized = -kuw - kws - gammawu - kwu;
+  states[STATE_XW] = (fabs(dXW_dt_linearized) > 1.0e-8 ? (-1.0 +
+    exp(dt*dXW_dt_linearized))*dXW_dt/dXW_dt_linearized : dt*dXW_dt) + XW;
+  const double cat50 = cat50_ref + Beta1*(-1. + lambda_min12);
+  const double dCaTrpn_dt = ktrpn*(-CaTrpn + pow(1000.*cai/cat50, ntrpn)*(1.
+    - CaTrpn));
+  const double dCaTrpn_dt_linearized = ktrpn*(-1. - pow(1000.*cai/cat50,
+    ntrpn));
+  states[STATE_CaTrpn] = CaTrpn + (fabs(dCaTrpn_dt_linearized) > 1.0e-8 ?
+    (-1.0 + exp(dt*dCaTrpn_dt_linearized))*dCaTrpn_dt/dCaTrpn_dt_linearized :
+    dt*dCaTrpn_dt);
+  const double kb = ku*pow(Trpn50, ntm)/(1. - rs - rw*(1. - rs));
+  const double dTmB_dt = (pow(CaTrpn, -ntm/2.) < 100. ? pow(CaTrpn, -ntm/2.)
+    : 100.)*XU*kb - ku*pow(CaTrpn, ntm/2.)*TmB;
+  const double dTmB_dt_linearized = -ku*pow(CaTrpn, ntm/2.) - (pow(CaTrpn,
+    -ntm/2.) < 100. ? pow(CaTrpn, -ntm/2.) : 100.)*kb;
+  states[STATE_TmB] = (fabs(dTmB_dt_linearized) > 1.0e-8 ? (-1.0 +
+    exp(dt*dTmB_dt_linearized))*dTmB_dt/dTmB_dt_linearized : dt*dTmB_dt) +
+    TmB;
+  const double dZetas_dt = dLambda*As - Zetas*cs;
+  const double dZetas_dt_linearized = -cs;
+  states[STATE_Zetas] = (fabs(dZetas_dt_linearized) > 1.0e-8 ? (-1.0 +
+    exp(dt*dZetas_dt_linearized))*dZetas_dt/dZetas_dt_linearized :
+    dt*dZetas_dt) + Zetas;
+  const double dZetaw_dt = dLambda*Aw - Zetaw*cw;
+  const double dZetaw_dt_linearized = -cw;
+  states[STATE_Zetaw] = (fabs(dZetaw_dt_linearized) > 1.0e-8 ? (-1.0 +
+    exp(dt*dZetaw_dt_linearized))*dZetaw_dt/dZetaw_dt_linearized :
+    dt*dZetaw_dt) + Zetaw;
+  const double C = -1. + lambda_min12;
+  const double dCd = -Cd + C;
+  const double eta = (dCd < 0. ? etas : etal);
+  const double dCd_dt = p_k*(-Cd + C)/eta;
+  const double dCd_dt_linearized = -p_k/eta;
+  states[STATE_Cd] = Cd + (fabs(dCd_dt_linearized) > 1.0e-8 ? (-1.0 +
+    exp(dt*dCd_dt_linearized))*dCd_dt/dCd_dt_linearized : dt*dCd_dt);
+  const double Bcai = 1.0/(1.0 + cmdnmax*kmcmdn*pow(kmcmdn + cai, -2.0));
+  const double J_TRPN = trpnmax*dCaTrpn_dt;
+  const double dcai_dt = (-J_TRPN + Jdiff*vss/vmyo - Jup*vnsr/vmyo +
+    0.5*(-ICab - IpCa - Isac_P_ns/3. + 2.0*INaCa_i)*Acap/(F*vmyo))*Bcai;
+  const double dBcai_dcai = 2.0*cmdnmax*kmcmdn*pow(kmcmdn + cai, -3.0)/((1.0 +
+    cmdnmax*kmcmdn*pow(kmcmdn + cai, -2.0))*(1.0 + cmdnmax*kmcmdn*pow(kmcmdn
+    + cai, -2.0)));
+  const double dICab_dcai = 4.0*PCab*exp(2.0*vfrt)*vffrt/(-1.0 +
+    exp(2.0*vfrt));
+  const double dINaCa_i_dallo_i = 0.8*Gncx*(zca*JncxCa_i + zna*JncxNa_i);
+  const double dIpCa_dcai = GpCa/(0.0005 + cai) - GpCa*cai/((0.0005 +
+    cai)*(0.0005 + cai));
+  const double dJup_dJupnp = 1.0 - fJupp;
+  const double dJupnp_dcai = 0.004375/(0.00092 + cai) -
+    0.004375*cai/((0.00092 + cai)*(0.00092 + cai));
+  const double dJupp_dcai = 0.01203125/(0.00075 + cai) -
+    0.01203125*cai/((0.00075 + cai)*(0.00075 + cai));
+  const double dallo_i_dcai = 2.0*pow(KmCaAct/cai, 2.0)/(((1.0 +
+    pow(KmCaAct/cai, 2.0))*(1.0 + pow(KmCaAct/cai, 2.0)))*cai);
+  const double dcai_dt_linearized = (-5.0*vss/vmyo - (dJup_dJupnp*dJupnp_dcai
+    + dJupp_dcai*fJupp)*vnsr/vmyo + 0.5*(-dICab_dcai - dIpCa_dcai +
+    2.0*((kcaon*dE2_i_dx2_i*dx2_i_dk6_i*h6_i +
+    kcaon*dE2_i_dx3_i*dx3_i_dk6_i*h6_i +
+    kcaon*dE2_i_dx1_i*h6_i*k2_i*k4_i)*k2_i -
+    (kcaon*dE1_i_dx2_i*dx2_i_dk6_i*h6_i + kcaon*dE1_i_dx3_i*dx3_i_dk6_i*h6_i
+    + kcaon*dE1_i_dx1_i*h6_i*k2_i*k4_i)*k1_i)*dINaCa_i_dJncxCa_i +
+    2.0*((kcaon*dE3_i_dx2_i*dx2_i_dk6_i*h6_i +
+    kcaon*dE3_i_dx3_i*dx3_i_dk6_i*h6_i +
+    kcaon*dE3_i_dx1_i*h6_i*k2_i*k4_i)*k4pp_i -
+    (kcaon*dE2_i_dx2_i*dx2_i_dk6_i*h6_i + kcaon*dE2_i_dx3_i*dx3_i_dk6_i*h6_i
+    + kcaon*dE2_i_dx1_i*h6_i*k2_i*k4_i)*k3pp_i +
+    3.0*(kcaon*dE4_i_dx2_i*dx2_i_dk6_i*h6_i +
+    kcaon*dE4_i_dx3_i*dx3_i_dk6_i*h6_i +
+    kcaon*dE4_i_dx1_i*h6_i*k2_i*k4_i)*k7_i -
+    3.0*(kcaon*dE1_i_dx2_i*dx2_i_dk6_i*h6_i +
+    kcaon*dE1_i_dx3_i*dx3_i_dk6_i*h6_i +
+    kcaon*dE1_i_dx1_i*h6_i*k2_i*k4_i)*k8_i)*dINaCa_i_dJncxNa_i +
+    2.0*dINaCa_i_dallo_i*dallo_i_dcai)*Acap/(F*vmyo))*Bcai + (-J_TRPN +
+    Jdiff*vss/vmyo - Jup*vnsr/vmyo + 0.5*(-ICab - IpCa - Isac_P_ns/3. +
+    2.0*INaCa_i)*Acap/(F*vmyo))*dBcai_dcai;
+  states[STATE_cai] = (fabs(dcai_dt_linearized) > 1.0e-8 ? (-1.0 +
+    exp(dt*dcai_dt_linearized))*dcai_dt/dcai_dt_linearized : dt*dcai_dt) +
+    cai;
 }

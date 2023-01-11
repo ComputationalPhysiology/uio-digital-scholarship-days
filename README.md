@@ -33,9 +33,9 @@ Now you can install the requirements using the command
 ```
 python3 -m pip install -r requirements.txt
 ```
-Now you should be able to run the jupyter notebooks locally by starting jupyter
+Now you should be able to run the jupyter notebooks locally by starting jupyter lab
 ```
-jupyter notebook
+jupyter-lab
 ```
 
 
