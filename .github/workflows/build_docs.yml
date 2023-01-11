@@ -40,9 +40,10 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install -r requirements.txt
-          python3 -m pip install https://github.com/executablebooks/jupyter-book.git
+          python3 -m pip install git+https://github.com/executablebooks/jupyter-book.git@master#egg=jupyter-book
+
       - name: Build docs
-        run: jupyter book build .
+        run: jupyter-book build .
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
