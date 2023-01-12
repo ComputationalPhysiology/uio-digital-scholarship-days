@@ -2,9 +2,9 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: "Bad luck, bad drug or bad heart: Computer models to the rescue"
-author: Henrik Finsberg
+author: Henrik Finsberg, Ilsbeth Gerarda Maria van Herck and Hermenegild Arevalo
 logo: "figures/logo.png"
-copyright: "2022"
+copyright: "Simula Research Laboratory 2023"
 only_build_toc_files: true
 
 # Force re-execution of notebooks on each build.
