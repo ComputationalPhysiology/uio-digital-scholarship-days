@@ -2,6 +2,9 @@ format: jb-book
 root: README
 
 parts:
+  - caption: Slides
+    chapters:
+    - file: "presentation"
   - caption: Single Cell
     chapters:
     - file: "single_cell/intro_single_cell"
