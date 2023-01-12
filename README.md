@@ -2,6 +2,7 @@
 > Workshop on Digital Scholarship Days at UiO Friday January 13th 2023
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ComputationalPhysiology/uio-digital-scholarship-days/HEAD)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7530780.svg)](https://doi.org/10.5281/zenodo.7530780)
 
 - Documentation: https://computationalphysiology.github.io/uio-digital-scholarship-days
 - Link to workshop: https://www.ub.uio.no/english/courses-events/events/all-libraries/2023/digital-scholarship-days/bad-luck-drug-heart.html
