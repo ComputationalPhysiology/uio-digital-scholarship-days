@@ -40,7 +40,7 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install -r requirements.txt
-          python3 -m pip install git+https://github.com/executablebooks/jupyter-book.git@master#egg=jupyter-book
+          python3 -m pip install jupyter-book
 
       - name: Build docs
         run: jupyter-book build .
